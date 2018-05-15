@@ -24,6 +24,7 @@ public class PitiTest extends TestBase {
 
         assertTrue(actualUser.isSuccess());
         token=actualUser.getResult().getAuth_token();
+        System.out.println(token);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class PitiTest extends TestBase {
 
     }
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class)
-    public void SingInSimplePassword(String email, String pass, String confPass, String errMessage){
+    public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
         ErrorRS actualAnswer = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -51,7 +52,15 @@ public class PitiTest extends TestBase {
                 .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
                 .thenReturn().as(ErrorRS.class);
         assertFalse(actualAnswer.isSuccess());
-        assertTrue(actualAnswer.getError().getMessage().getEmail().equals(errMessage));
+        switch (validation){
+            case "email":
+                assertTrue(actualAnswer.getError().getMessage().getEmail().equals(errMessage));
+                break;
+            case "password":
+                assertTrue(actualAnswer.getError().getMessage().getPassword().equals(errMessage));
+                break;
+        }
+
 
     }
 }
