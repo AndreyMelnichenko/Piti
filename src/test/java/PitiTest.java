@@ -59,6 +59,9 @@ public class PitiTest extends TestBase {
             case "password":
                 assertTrue(actualAnswer.getError().getMessage().getPassword().equals(errMessage));
                 break;
+            case "passwordConfirm":
+                assertTrue(actualAnswer.getError().getMessage().getPasswordConfirm().equals(errMessage));
+                break;
         }
 
 

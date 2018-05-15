@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class Message {
     private String email;
     private String password;
+    private String passwordConfirm;
 }
