@@ -6,42 +6,17 @@ import org.testng.annotations.Test;
 import utils.SingUpParser;
 
 import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class PitiTest extends TestBase {
     private static String token;
-    @Test
-    public void SingIn (){
-        UserRK expectedUserRK = new UserRK("test6@gmail.com","Q1234567q", "Q1234567q");
-        UserRS actualUser = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .spec(spec).body(expectedUserRK)
-                .expect().statusCode(200)
-                .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
-                .thenReturn().as(UserRS.class);
+    private static String uid = "49";
+    private static String email = "test7@gmail.com";
+    private static String password="Q1234567q";
 
-        assertTrue(actualUser.isSuccess());
-        token=actualUser.getResult().getAuth_token();
-        System.out.println(token);
-    }
-
-    @Test
-    public void SingInFailedEmail(){
-        UserRK faledUserRK = new UserRK("badEmail", "Q123qwert","Q123qwert");
-        ErrorRS actualUser = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .spec(spec).body(faledUserRK)
-                .expect().statusCode(400)
-                .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
-                .thenReturn().as(ErrorRS.class);
-        assertFalse(actualUser.isSuccess());
-        assertTrue(actualUser.getError().getMessage().getEmail().equals("Значение «Электронная почта» не является правильным email адресом."));
-
-    }
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class)
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1)
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
         ErrorRS actualAnswer = given()
@@ -63,7 +38,40 @@ public class PitiTest extends TestBase {
                 assertTrue(actualAnswer.getError().getMessage().getPasswordConfirm().equals(errMessage));
                 break;
         }
-
-
     }
+
+
+    //@Test (priority = 2)
+    public void SingIn (){
+        UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
+        UserRS actualUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(expectedUserRK)
+                .expect().statusCode(200)
+                .when()
+                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
+                .thenReturn().as(UserRS.class);
+
+        assertTrue(actualUser.isSuccess());
+        token=actualUser.getResult().getAuth_token();
+        uid=actualUser.getResult().getUid();
+        email=expectedUserRK.getEmail();
+        password=expectedUserRK.getPassword();
+    }
+
+    @Test (priority = 3)
+    public void SingUp(){
+        UserRK expectedUser = new UserRK(email,password,password);
+        UserRS actualUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(expectedUser)
+                .expect().statusCode(200)
+                .when()
+                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-in")
+                .thenReturn().as(UserRS.class);
+        assertTrue(actualUser.isSuccess());
+        assertEquals(uid, actualUser.getResult().getUid());
+        token=actualUser.getResult().getAuth_token();
+    }
+
 }
