@@ -16,7 +16,7 @@ public class PitiTest extends TestBase {
     private static String email = "test7@gmail.com";
     private static String password="Q1234567q";
 
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1)
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1, description = "Validation Sing-In")
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
         ErrorRS actualAnswer = given()
