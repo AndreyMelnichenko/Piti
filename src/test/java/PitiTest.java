@@ -11,7 +11,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-@Test
+
 public class PitiTest extends TestBase {
     private static String token;
     private static String uid = "49";
