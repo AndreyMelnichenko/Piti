@@ -2,10 +2,8 @@ import UserData.ErrorRS;
 import UserData.UserRK;
 import UserData.UserRS;
 import core.TestBase;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import utils.SingUpParser;
 
@@ -47,8 +45,9 @@ public class PitiTest extends TestBase {
         }
     }
 
-
+    @Ignore
     @Test (enabled = false)
+    @Flaky
     @Severity(SeverityLevel.CRITICAL)
     public void SingIn (){
         UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
