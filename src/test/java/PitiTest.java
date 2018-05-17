@@ -45,7 +45,7 @@ public class PitiTest extends TestBase {
         }
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void SingIn (){
         UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
