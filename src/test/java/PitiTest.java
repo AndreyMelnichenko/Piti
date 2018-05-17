@@ -44,7 +44,7 @@ public class PitiTest extends TestBase {
     }
 
 
-    @Test (enabled = false,priority = 2)
+    //@Test (enabled = false,priority = 2)
     public void SingIn (){
         UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
         UserRS actualUser = given()
