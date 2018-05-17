@@ -3,6 +3,9 @@ import UserData.UserRK;
 import UserData.UserRS;
 import core.TestBase;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 import utils.SingUpParser;
 
@@ -11,7 +14,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-
+@Epic("Log-in tests")
 public class PitiTest extends TestBase {
     private static String token;
     private static String uid = "49";
@@ -20,6 +23,7 @@ public class PitiTest extends TestBase {
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1)
     @Description ("Sing-In with wrong data")
+    @Severity(SeverityLevel.CRITICAL)
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
         ErrorRS actualAnswer = given()
@@ -44,7 +48,8 @@ public class PitiTest extends TestBase {
     }
 
 
-    //@Test (enabled = false,priority = 2)
+    @Test (enabled = false)
+    @Severity(SeverityLevel.CRITICAL)
     public void SingIn (){
         UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
         UserRS actualUser = given()
@@ -64,6 +69,7 @@ public class PitiTest extends TestBase {
 
     @Test (priority = 3)
     @Description("Sing-Up")
+    @Severity(SeverityLevel.CRITICAL)
     public void SingUp(){
         UserRK expectedUser = new UserRK(email,password,password);
         UserRS actualUser = given()
