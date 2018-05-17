@@ -2,6 +2,7 @@ import UserData.ErrorRS;
 import UserData.UserRK;
 import UserData.UserRS;
 import core.TestBase;
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import utils.SingUpParser;
 
@@ -16,7 +17,8 @@ public class PitiTest extends TestBase {
     private static String email = "test7@gmail.com";
     private static String password="Q1234567q";
 
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1, description = "Validation Sing-In")
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1)
+    @Description ("Sing-In with wrong data")
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
         ErrorRS actualAnswer = given()
@@ -60,6 +62,7 @@ public class PitiTest extends TestBase {
     }
 
     @Test (priority = 3)
+    @Description("Sing-Up")
     public void SingUp(){
         UserRK expectedUser = new UserRK(email,password,password);
         UserRS actualUser = given()
