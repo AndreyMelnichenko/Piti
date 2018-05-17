@@ -46,9 +46,7 @@ public class PitiTest extends TestBase {
     }
 
     @Ignore
-    @Test (enabled = false)
-    @Flaky
-    @Severity(SeverityLevel.CRITICAL)
+    @Test
     public void SingIn (){
         UserRK expectedUserRK = new UserRK("test7@gmail.com","Q1234567q", "Q1234567q");
         UserRS actualUser = given()
