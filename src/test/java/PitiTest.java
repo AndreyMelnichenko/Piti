@@ -17,8 +17,7 @@ import static utils.PropertiesCache.getProperty;
 public class PitiTest extends TestBase {
     private static String token, uid, email, password;
 
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1)
-    @Description ("Sing-In with wrong data")
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1, description = "Sing-In with wrong data")
     @Severity(SeverityLevel.CRITICAL)
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
