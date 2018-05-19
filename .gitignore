@@ -107,5 +107,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-.allure-results
+.allure-results/*
 #untracked folders
