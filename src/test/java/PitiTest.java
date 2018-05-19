@@ -1,3 +1,4 @@
+import ResponseMessages.RestoreRS;
 import UserData.ErrorRS;
 import UserData.UserRK;
 import UserData.UserRS;
@@ -76,6 +77,22 @@ public class PitiTest extends TestBase {
         assertTrue(actualUser.isSuccess());
         assertEquals(getProperty("user.id"), actualUser.getResult().getUid());
         token=actualUser.getResult().getAuth_token();
+    }
+
+    @Test (priority = 4)
+    @Description("Restore PASSWORD")
+    @Severity(SeverityLevel.CRITICAL)
+    public void PassRestore(){
+        UserRK userRK = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"));
+        RestoreRS actualAnswer = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(userRK)
+                .expect().statusCode(200)
+                .when()
+                .post("http://api.chis.kiev.ua/api/web/v1/users/restore-password")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(actualAnswer.isResult());
+        assertTrue(actualAnswer.isSuccess());
     }
 
 }
