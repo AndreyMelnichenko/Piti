@@ -7,6 +7,7 @@ import io.qameta.allure.*;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import utils.SingUpParser;
+import utils.dbClearUser;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
@@ -43,10 +44,9 @@ public class PitiTest extends TestBase {
         }
     }
 
-    @Ignore
-    @Test
+    @Test (priority = 2)
     public void SingIn (){
-        UserRK expectedUserRK = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"));
+        UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .spec(spec).body(expectedUserRK)
@@ -60,6 +60,7 @@ public class PitiTest extends TestBase {
         uid=actualUser.getResult().getUid();
         email=expectedUserRK.getEmail();
         password=expectedUserRK.getPassword();
+        dbClearUser.getClean();
     }
 
     @Test (priority = 3)

@@ -19,6 +19,7 @@
         <maven.surefire.plugin>2.20.1</maven.surefire.plugin>
         <aspectj.version>1.8.10</aspectj.version>
         <allure.testng>2.6.0</allure.testng>
+        <maria.db.client>2.2.3</maria.db.client>
     </properties>
 
     <dependencies>
@@ -52,6 +53,12 @@
             <artifactId>allure-testng</artifactId>
             <version>${allure.testng}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${maria.db.client}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
