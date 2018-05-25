@@ -8,7 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
 
-public class TestBase {
+public class ApiTestBase {
     protected RequestSpecification spec;
     private ObjectMapper objectMapper = new ObjectMapper();
 

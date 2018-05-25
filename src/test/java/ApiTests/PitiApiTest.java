@@ -1,10 +1,11 @@
+package ApiTests;
+
 import ResponseMessages.RestoreRS;
 import UserData.ErrorRS;
 import UserData.UserRK;
 import UserData.UserRS;
-import core.TestBase;
+import core.ApiTestBase;
 import io.qameta.allure.*;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import utils.SingUpParser;
 import utils.dbClearUser;
@@ -16,7 +17,7 @@ import static org.testng.Assert.assertTrue;
 import static utils.PropertiesCache.getProperty;
 
 @Epic("Log-in tests")
-public class PitiTest extends TestBase {
+public class PitiApiTest extends ApiTestBase {
     private static String token, uid, email, password;
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1, description = "Sing-In with wrong data")
@@ -33,13 +34,13 @@ public class PitiTest extends TestBase {
         assertFalse(actualAnswer.isSuccess());
         switch (validation){
             case "email":
-                assertTrue(actualAnswer.getError().getMessage().getEmail().equals(errMessage));
+                assertEquals(actualAnswer.getError().getMessage().getEmail(), errMessage);
                 break;
             case "password":
-                assertTrue(actualAnswer.getError().getMessage().getPassword().equals(errMessage));
+                assertEquals(actualAnswer.getError().getMessage().getPassword(), errMessage);
                 break;
             case "passwordConfirm":
-                assertTrue(actualAnswer.getError().getMessage().getPasswordConfirm().equals(errMessage));
+                assertEquals(actualAnswer.getError().getMessage().getPasswordConfirm(), errMessage);
                 break;
         }
     }

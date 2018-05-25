@@ -2,14 +2,15 @@ package utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-public class PropertiesCache {
-    private static PropertiesCache INSTANCE = new PropertiesCache();
+public class DataProperties {
+    private static DataProperties INSTANCE = new DataProperties();
     private final Properties configProp = new Properties();
-    private String fileName = "test.properties";
+    private String fileName = "data.properties";
 
-    private PropertiesCache() {
+    private DataProperties() {
         InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileName);
         try {
             configProp.load(in);
@@ -18,7 +19,7 @@ public class PropertiesCache {
         }
     }
 
-    public static String getProperty(String key) {
+    public static String dataProperty(String key) {
         return INSTANCE.configProp.getProperty(key);
     }
 }

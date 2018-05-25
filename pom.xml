@@ -20,9 +20,21 @@
         <aspectj.version>1.8.10</aspectj.version>
         <allure.testng>2.6.0</allure.testng>
         <maria.db.client>2.2.3</maria.db.client>
+        <webdrivermanager.version>2.1.0</webdrivermanager.version>
+        <selenide.version>4.10.01</selenide.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${selenide.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
