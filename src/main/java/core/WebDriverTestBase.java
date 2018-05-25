@@ -24,7 +24,7 @@ public class WebDriverTestBase {
             driver = new ChromeDriver();
             driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
             driver.manage().window().maximize();
-        }else {
+        } else {
             DesiredCapabilities browser = new DesiredCapabilities();
             browser.setBrowserName("chrome");
             browser.setVersion("64");
@@ -32,7 +32,6 @@ public class WebDriverTestBase {
             driver = new RemoteWebDriver(URI.create("http://18.197.43.132:4444/wd/hub").toURL(), browser);
             driver.manage().window().setSize(new Dimension(1920, 1080));
         }
-
     }
 
     @AfterClass
