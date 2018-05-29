@@ -8,7 +8,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverTestBase {
     protected RemoteWebDriver driver;
 
-    @Parameters({"browserName", "browserVersion"})
     @BeforeClass
     public void setUp(@Optional String browserName, @Optional String browserVersion) throws Exception{
         if (System.getProperty("user.name").equals("andrey")) {
@@ -33,12 +31,12 @@ public class WebDriverTestBase {
             driver.manage().window().setSize(new Dimension(1920, 1080));
         }
     }
-/*
+
     @AfterClass
     public void tearDown(){
         if (driver!=null){
             driver.quit();
             driver=null;
         }
-    }*/
+    }
 }

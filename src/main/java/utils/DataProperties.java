@@ -4,28 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static utils.PropList.propertiesFile;
-
 public class DataProperties {
-    private static DataProperties INSTANCE = new DataProperties();
-    private static Properties configProp = new Properties();
 
-    private DataProperties() {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(propertiesFile().get("local"));
+    public static String dataProperty(String file, String key) {
+    Properties configProp = new Properties();
+        InputStream in = DataProperties.class.getClassLoader().getResourceAsStream(file);
         try {
             configProp.load(in);
+            String value = new String(configProp.getProperty(key).getBytes("ISO8859-1"));
+            return value;
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Exception!!!";
         }
-    }
-
-    public static String dataProperty(String key) {
-        return INSTANCE.configProp.getProperty(key);
-    }
-
-    public static void main(String[] args) {
-        DataProperties dataProperties = new DataProperties();
-        InputStream in = dataProperties.getClass().getClassLoader().getResourceAsStream("test.properties");
-
     }
 }

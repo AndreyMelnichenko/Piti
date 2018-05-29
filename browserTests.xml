@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="UI-tests" verbose="1" >
+<suite name="UI-tests">
     <test name="BrowserTests" >
         <classes>
             <class name="BrowsersTests.PitiUiTest" />

@@ -10,6 +10,7 @@ import core.WebDriverTestBase;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
+import utils.DataProperties;
 import utils.dbClearUser;
 
 import static org.testng.Assert.assertTrue;
@@ -26,7 +27,7 @@ public class PitiUiTest extends WebDriverTestBase {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         assertTrue(loginPage.isLogoExists());
-        assertEquals("Войти в аккаунт",loginPage.getTitleText());
+        assertEquals(DataProperties.dataProperty("data.properties","login.page.title"),loginPage.getTitleText());
         assertTrue(loginPage.getEmail().isDisplayed());
         assertTrue(loginPage.getPass().isDisplayed());
     }
@@ -38,8 +39,8 @@ public class PitiUiTest extends WebDriverTestBase {
         loginPage.getEmail().sendKeys("user@user.com");
         loginPage.getPass().sendKeys("password");
         loginPage.getInputButton().click();
-        assertEquals(loginPage.getLoginErrorMessage().getText(), "Неверный логин или пароль");
-        assertEquals(loginPage.getPasswordErrorMessage().getText(), "Неверный логин или пароль");
+        assertEquals(loginPage.getLoginErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.email"));
+        assertEquals(loginPage.getPasswordErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.password"));
     }
 
     @Test
