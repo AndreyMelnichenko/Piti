@@ -16,7 +16,7 @@ public class WebDriverTestBase {
     protected RemoteWebDriver driver;
 
     @BeforeClass
-    public void setUp(@Optional String browserName, @Optional String browserVersion) throws Exception{
+    public void setUp() throws Exception{
         if (System.getProperty("user.name").equals("andrey")) {
             ChromeDriverManager.getInstance().setup();
             driver = new ChromeDriver();
