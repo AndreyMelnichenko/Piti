@@ -1,9 +1,10 @@
 package ApiTests;
 
+import ResponseMessages.ErrorRS;
+import ResponseMessages.InviteRS;
 import ResponseMessages.RestoreRS;
-import UserData.ErrorRS;
-import UserData.UserRK;
-import UserData.UserRS;
+import ResponseMessages.UserRS;
+import UserData.*;
 import core.ApiTestBase;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
@@ -68,7 +69,7 @@ public class PitiApiTest extends ApiTestBase {
     @Description("Sing-Up")
     @Severity(SeverityLevel.CRITICAL)
     public void SingUp(){
-        UserRK expectedUser = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"));
+        UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .spec(spec).body(expectedUser)
@@ -81,7 +82,22 @@ public class PitiApiTest extends ApiTestBase {
         token=actualUser.getResult().getAuth_token();
     }
 
-    @Test (priority = 4)
+    @Test(priority = 4, dependsOnMethods = {"SingUp"})
+    @Description("Invite sending")
+    public void Invite(){
+        InviteRK inviteRK = new InviteRK("test111dde@gm3434ail.com","Invite messages", "1");
+        InviteRS inviteRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(inviteRK)
+                .expect().statusCode(200)
+                .when()
+                .post("http://api.chis.kiev.ua/api/web/v1/users/invite")
+                .thenReturn().as(InviteRS.class);
+        assertTrue(inviteRS.isSuccess());
+    }
+
+    @Test (priority = 5)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void PassRestore(){
@@ -96,5 +112,6 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isResult());
         assertTrue(actualAnswer.isSuccess());
     }
+
 
 }

@@ -33,12 +33,12 @@ public class WebDriverTestBase {
             driver.manage().window().setSize(new Dimension(1920, 1080));
         }
     }
-
+/*
     @AfterClass
     public void tearDown(){
         if (driver!=null){
             driver.quit();
             driver=null;
         }
-    }
+    }*/
 }

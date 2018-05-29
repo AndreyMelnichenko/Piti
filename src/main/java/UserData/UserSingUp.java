@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorRS {
-    private boolean success;
-    private ErrorMessage error;
+public class UserSingUp {
+    private String email;
+    private String password;
 }

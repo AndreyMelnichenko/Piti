@@ -24,6 +24,12 @@ public class LoginPage extends Util {
     private WebElement inputButton;
     @FindBy (how = How.XPATH, using = "//button[@class='demo']")
     private WebElement demoButton;
+    @FindBy (how = How.XPATH, using = "(//span[@class='err'])[1]")
+    private WebElement loginErrorMessage;
+    @FindBy (how = How.XPATH, using = "(//span[@class='err'])[2]")
+    private WebElement passwordErrorMessage;
+    @FindBy(how = How.XPATH, using = "//a[@href='/register']")
+    private WebElement registrationLink;
 
     public boolean isLogoExists(){
         WebElement pitLogo = waitFor(ExpectedConditions.visibilityOf(logo));
@@ -35,21 +41,32 @@ public class LoginPage extends Util {
     }
 
     public WebElement getEmail(){
-        return email;
+        WebElement field = waitFor(ExpectedConditions.visibilityOf(email));
+        return field;
     }
 
     public WebElement getPass (){
-        return pass;
+        WebElement field = waitFor(ExpectedConditions.visibilityOf(pass));
+        return field;
     }
 
     public WebElement getInputButton(){
-        return inputButton;
+        WebElement field = waitFor(ExpectedConditions.elementToBeClickable(inputButton));
+        return field;
     }
 
     public WebElement getDemoButton(){
         return demoButton;
     }
 
+    public WebElement getLoginErrorMessage() { return loginErrorMessage;}
 
+    public WebElement getPasswordErrorMessage(){
+        return passwordErrorMessage;
+    }
+
+    public WebElement getRegistrationLink(){
+        return registrationLink;
+    }
 
 }
