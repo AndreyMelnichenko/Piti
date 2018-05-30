@@ -11,10 +11,11 @@ import org.testng.annotations.BeforeClass;
 public class ApiTestBase {
     protected RequestSpecification spec;
     private ObjectMapper objectMapper = new ObjectMapper();
+    protected String baseURL = "http://api.chis.kiev.ua/api/web/v1/";
 
     @BeforeClass
     public void setUp(){
-        String baseURL = "https://reqres.in/api/users/4";
+
         spec = new RequestSpecBuilder()
                 .setBaseUri(baseURL)
                 //.setContentType(ContentType.XML)

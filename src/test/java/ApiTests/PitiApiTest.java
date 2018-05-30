@@ -30,7 +30,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(faledUserRK)
                 .expect().statusCode(400)
                 .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
+                .post(baseURL+"users/sign-up")
                 .thenReturn().as(ErrorRS.class);
         assertFalse(actualAnswer.isSuccess());
         switch (validation){
@@ -54,7 +54,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(expectedUserRK)
                 .expect().statusCode(200)
                 .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-up")
+                .post(baseURL+"users/sign-up")
                 .thenReturn().as(UserRS.class);
 
         assertTrue(actualUser.isSuccess());
@@ -75,7 +75,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(expectedUser)
                 .expect().statusCode(200)
                 .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/sign-in")
+                .post(baseURL+"users/sign-in")
                 .thenReturn().as(UserRS.class);
         assertTrue(actualUser.isSuccess());
         assertEquals(getProperty("user.id"), actualUser.getResult().getUid());
@@ -85,16 +85,17 @@ public class PitiApiTest extends ApiTestBase {
     @Test(priority = 4, dependsOnMethods = {"SingUp"})
     @Description("Invite sending")
     public void Invite(){
-        InviteRK inviteRK = new InviteRK("test111dde@gm3434ail.com","Invite messages", "1");
+        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
         InviteRS inviteRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .header("Authorization", "Bearer "+token)
                 .spec(spec).body(inviteRK)
                 .expect().statusCode(200)
                 .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/invite")
+                .post(baseURL+"users/invite")
                 .thenReturn().as(InviteRS.class);
         assertTrue(inviteRS.isSuccess());
+        //dbClearUser.getClean();
     }
 
     @Test (priority = 5)
@@ -107,7 +108,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(userRK)
                 .expect().statusCode(200)
                 .when()
-                .post("http://api.chis.kiev.ua/api/web/v1/users/restore-password")
+                .post(baseURL+"users/restore-password")
                 .thenReturn().as(RestoreRS.class);
         assertTrue(actualAnswer.isResult());
         assertTrue(actualAnswer.isSuccess());

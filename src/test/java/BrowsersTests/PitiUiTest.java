@@ -7,7 +7,6 @@ import Pages.LoginPage;
 import Pages.RegistrationPage;
 import Pages.UserHomePage;
 import core.WebDriverTestBase;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
 import utils.DataProperties;
@@ -70,7 +69,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test
-    public void EmailCheck(){
+    public void EmailCleaner(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
         mailLoginPage.getEmailInput().sendKeys(getProperty("user.gmail"));
@@ -79,9 +78,7 @@ public class PitiUiTest extends WebDriverTestBase {
         passwordPage.getPasswordField().sendKeys(getProperty("password.gmail"));
         passwordPage.getNextButton().click();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        JavascriptExecutor executor = driver;
-        executor.executeScript("arguments[0].click();", mailMainPage.getChooseAll());
-        JavascriptExecutor executor2 = driver;
-        executor2.executeScript("arguments[0].click();", mailMainPage.getDeleteAll());
+        mailMainPage.getChooseAll().click();
+        mailMainPage.getDeleteAll(driver).click();
     }
 }
