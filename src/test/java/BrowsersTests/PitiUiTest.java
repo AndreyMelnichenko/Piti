@@ -3,6 +3,7 @@ package BrowsersTests;
 import Mail.MailLoginPage;
 import Mail.MailMainPage;
 import Mail.PasswordPage;
+import Pages.AccountSettingsPage;
 import Pages.LoginPage;
 import Pages.RegistrationPage;
 import Pages.UserHomePage;
@@ -14,14 +15,13 @@ import utils.dbClearUser;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
-import static utils.PropertiesCache.getProperty;
 
 public class PitiUiTest extends WebDriverTestBase {
 
     private final String baseUrl = "http://ang.chis.kiev.ua";
     private final String gmail = "https://mail.google.com";
 
-    @Test
+    @Test (priority = 0)
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -31,72 +31,72 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.getPass().isDisplayed());
     }
 
-    @Test
+    @Test (priority = 1)
     public void SingUpErr(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.getEmail().sendKeys("user@user.com");
-        loginPage.getPass().sendKeys("password");
-        loginPage.getInputButton().click();
+        loginPage.goPersonalCabinetWithBadAccess();
         assertEquals(loginPage.getLoginErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.email"));
         assertEquals(loginPage.getPasswordErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.password"));
     }
 
-    @Test
-    public void SingUp(){
-        driver.get(baseUrl);
-        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.getEmail().sendKeys(getProperty("user.email"));
-        loginPage.getPass().sendKeys(getProperty("user.password"));
-        loginPage.getInputButton().click();
-        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
-        assertTrue(userHomePage.isMap());
-        userHomePage.userMenuClick();
-        userHomePage.exitHomePage();
-        loginPage.isLogoExists();
-    }
-
-    @Test
+    @Test (priority = 2)
     public void Registration(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.getRegistrationLink().click();
         RegistrationPage registrationPage = PageFactory.initElements(driver, RegistrationPage.class);
-        registrationPage.getEmailField().sendKeys(getProperty("new.user.email"));
-        registrationPage.getPasswordField().sendKeys(getProperty("new.user.password"));
-        registrationPage.getPasswordConfirm().sendKeys(getProperty("new.user.password"));
-        registrationPage.getButtonCreate().click();
+        registrationPage.goRegistration();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         assertTrue(userHomePage.isMap());
         dbClearUser.getClean();
     }
 
-    @Test
-    public void EmailInviteCheker(){
-        driver.get(gmail);
-        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        mailLoginPage.getEmailInput().sendKeys(getProperty("user.gmail"));
-        mailLoginPage.getNextButton().click();
-        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
-        passwordPage.getPasswordField().sendKeys(getProperty("password.gmail"));
-        passwordPage.getNextButton().click();
-        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        assertTrue(mailMainPage.getEmailTitle());
-        mailMainPage.getChooseAll().click();
-        mailMainPage.getDeleteAll().click();
+    @Test (priority = 3)
+    public void SingUp(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        assertTrue(userHomePage.isMap());
+        userHomePage.userMenuClick();
+        userHomePage.exitHomePage();
+        assertTrue(loginPage.isLogoExists());
     }
 
-    @Test(dependsOnMethods = {"EmailCheker"})
+    @Test (priority = 4, dependsOnMethods = "SingUp")
+    public void SendInvite(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        userHomePage.userMenuClick();
+        userHomePage.accountSettingsClick();
+        AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
+        settingsPage.sendInvite();
+        dbClearUser.getClean();
+    }
+
+    @Test (priority = 5, dependsOnMethods = "SendInvite")
+    public void EmailInviteChecker(){
+        driver.get(gmail);
+        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
+        mailLoginPage.goEmail();
+        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
+        passwordPage.goPassword();
+        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
+        assertTrue(mailMainPage.getEmailTitle());
+        //mailMainPage.cleanEmailList();
+    }
+
+    @Test( priority = 6, dependsOnMethods = "EmailInviteChecker")
     public void EmailCleaner(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        mailLoginPage.getEmailInput().sendKeys(getProperty("user.gmail"));
-        mailLoginPage.getNextButton().click();
+        mailLoginPage.goEmail();
         PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
-        passwordPage.getPasswordField().sendKeys(getProperty("password.gmail"));
-        passwordPage.getNextButton().click();
+        passwordPage.goPassword();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        mailMainPage.getChooseAll().click();
-        mailMainPage.getDeleteAll().click();
+        mailMainPage.cleanEmailList();
     }
 }

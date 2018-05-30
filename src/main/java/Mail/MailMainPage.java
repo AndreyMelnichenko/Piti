@@ -41,4 +41,9 @@ public class MailMainPage extends Util {
         }}
         return isTextFound;
     }
+
+    public void cleanEmailList(){
+        getChooseAll().click();
+        getDeleteAll().click();
+    }
 }

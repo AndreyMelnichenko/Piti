@@ -7,6 +7,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Util;
 
+import static utils.PropertiesCache.getProperty;
+
 public class MailLoginPage extends Util {
     public MailLoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -23,5 +25,10 @@ public class MailLoginPage extends Util {
     }
     public WebElement getNextButton(){
         return nextButton;
+    }
+
+    public void goEmail(){
+        getEmailInput().sendKeys(getProperty("user.gmail"));
+        getNextButton().click();
     }
 }

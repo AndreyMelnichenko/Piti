@@ -7,6 +7,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Util;
 
+import static utils.PropertiesCache.getProperty;
+
 public class LoginPage extends Util {
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -55,10 +57,6 @@ public class LoginPage extends Util {
         return field;
     }
 
-    public WebElement getDemoButton(){
-        return demoButton;
-    }
-
     public WebElement getLoginErrorMessage() { return loginErrorMessage;}
 
     public WebElement getPasswordErrorMessage(){
@@ -67,6 +65,18 @@ public class LoginPage extends Util {
 
     public WebElement getRegistrationLink(){
         return registrationLink;
+    }
+
+    public void goPersonalCabinetWithBadAccess(){
+        getEmail().sendKeys("user@user.com");
+        getPass().sendKeys("password");
+        getInputButton().click();
+    }
+
+    public void goPersonalCabinet(){
+        getEmail().sendKeys(getProperty("user.email"));
+        getPass().sendKeys(getProperty("user.password"));
+        getInputButton().click();
     }
 
 }

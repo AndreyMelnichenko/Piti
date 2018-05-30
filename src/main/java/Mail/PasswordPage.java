@@ -7,6 +7,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Util;
 
+import static utils.PropertiesCache.getProperty;
+
 public class PasswordPage extends Util {
     public PasswordPage(WebDriver webDriver) {
         super(webDriver);
@@ -23,5 +25,9 @@ public class PasswordPage extends Util {
     }
     public WebElement getNextButton(){
         return nextButton;
+    }
+    public void goPassword(){
+        getPasswordField().sendKeys(getProperty("password.gmail"));
+        getNextButton().click();
     }
 }

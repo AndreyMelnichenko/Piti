@@ -7,6 +7,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Util;
 
+import java.rmi.server.ExportException;
+
 public class UserHomePage extends Util {
     public UserHomePage(WebDriver webDriver) {
         super(webDriver);
@@ -18,6 +20,9 @@ public class UserHomePage extends Util {
     private WebElement userMenu;
     @FindBy (how = How.XPATH, using = "(//div[@class='menu_item-label'])[last()]")
     private WebElement exitButton;
+    @FindBy (how = How.XPATH, using = "(//div[@class='menu_item-label'])[2]")
+    private WebElement accountSettings;
+
 
     public boolean isMap(){
         WebElement waitMap = waitFor(ExpectedConditions.visibilityOf(map));
@@ -32,4 +37,11 @@ public class UserHomePage extends Util {
         WebElement element=waitFor(ExpectedConditions.visibilityOf(exitButton));
         element.click();
     }
+
+    public void accountSettingsClick(){
+        WebElement element = waitFor(ExpectedConditions.visibilityOf(accountSettings));
+        element.click();
+    }
+
+
 }
