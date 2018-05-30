@@ -2,6 +2,7 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,6 +25,10 @@ public class AccountSettingsPage extends Util {
     private WebElement simpleUserRole;
     @FindBy(how = How.XPATH, using = "(//button[@class='inviteUser_accept'])[2]")
     private WebElement acceptSendInvite;
+    @FindBy(how = How.XPATH, using = "//div[@class='menuBtn_box']")
+    private WebElement menuButton;
+    @FindBy(how = How.XPATH, using = "//div[@class='menu_item']")
+    private WebElement exitButton;
 
 
     public WebElement sendInviteButton(){
@@ -48,16 +53,34 @@ public class AccountSettingsPage extends Util {
 
     public WebElement getAcceptSendInvite(){
         WebElement element = waitFor(ExpectedConditions.visibilityOf(acceptSendInvite));
+        element.submit();
         return element;
     }
 
-    public void sendInvite(){
+    public WebElement getMenuButton(){
+        WebElement element = waitFor(ExpectedConditions.visibilityOf(menuButton));
+        return element;
+    }
+
+    public WebElement getExitButton(){
+        WebElement element = waitFor(ExpectedConditions.visibilityOf(exitButton));
+        return element;
+    }
+
+    public void sendInvite(WebDriver driver){
         sendInviteButton().click();
         getInvitedEmail().click();
         getInvitedEmail().sendKeys(getProperty("user.gmail"));
         getTextMessage().click();
         getTextMessage().sendKeys("Welcome to PIT Service");
         getSimpleUserRole().click();
+        Actions action = new Actions(driver);
+        action.moveToElement(getAcceptSendInvite()).build().perform();
         getAcceptSendInvite().click();
+    }
+
+    public void goExit(){
+        getMenuButton().click();
+        //getExitButton().click();
     }
 }

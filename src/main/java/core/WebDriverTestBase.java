@@ -7,7 +7,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
 
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -32,11 +31,11 @@ public class WebDriverTestBase {
         }
     }
 
-    @AfterClass
+/*    @AfterClass
     public void tearDown(){
         if (driver!=null){
             driver.quit();
             driver=null;
         }
-    }
+    }*/
 }

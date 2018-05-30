@@ -50,6 +50,10 @@ public class PitiUiTest extends WebDriverTestBase {
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         assertTrue(userHomePage.isMap());
         dbClearUser.getClean();
+        userHomePage.userMenuClick();
+        userHomePage.exitHomePage();
+        assertTrue(loginPage.isLogoExists());
+
     }
 
     @Test (priority = 3)
@@ -64,7 +68,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test (priority = 4, dependsOnMethods = "SingUp")
+    @Test (priority = 4)
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -73,11 +77,12 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
         AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
-        settingsPage.sendInvite();
+        settingsPage.sendInvite(driver);
         dbClearUser.getClean();
+        settingsPage.goExit();
     }
 
-    @Test (priority = 5, dependsOnMethods = "SendInvite")
+    @Test (priority = 5)
     public void EmailInviteChecker(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
@@ -86,10 +91,10 @@ public class PitiUiTest extends WebDriverTestBase {
         passwordPage.goPassword();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
         assertTrue(mailMainPage.getEmailTitle());
-        //mailMainPage.cleanEmailList();
+        mailMainPage.cleanEmailList();
     }
 
-    @Test( priority = 6, dependsOnMethods = "EmailInviteChecker")
+    @Test(priority = 6)
     public void EmailCleaner(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
