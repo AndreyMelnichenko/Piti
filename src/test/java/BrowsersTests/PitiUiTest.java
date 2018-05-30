@@ -19,7 +19,7 @@ import static utils.PropertiesCache.getProperty;
 public class PitiUiTest extends WebDriverTestBase {
 
     private final String baseUrl = "http://ang.chis.kiev.ua";
-    private final String gmail = "https://gmail.com";
+    private final String gmail = "https://mail.google.com";
 
     @Test
     public void OpenSingUp() {
@@ -51,6 +51,9 @@ public class PitiUiTest extends WebDriverTestBase {
         loginPage.getInputButton().click();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         assertTrue(userHomePage.isMap());
+        userHomePage.userMenuClick();
+        userHomePage.exitHomePage();
+        loginPage.isLogoExists();
     }
 
     @Test
@@ -69,6 +72,21 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test
+    public void EmailInviteCheker(){
+        driver.get(gmail);
+        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
+        mailLoginPage.getEmailInput().sendKeys(getProperty("user.gmail"));
+        mailLoginPage.getNextButton().click();
+        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
+        passwordPage.getPasswordField().sendKeys(getProperty("password.gmail"));
+        passwordPage.getNextButton().click();
+        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
+        assertTrue(mailMainPage.getEmailTitle());
+        mailMainPage.getChooseAll().click();
+        mailMainPage.getDeleteAll().click();
+    }
+
+    @Test(dependsOnMethods = {"EmailCheker"})
     public void EmailCleaner(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
@@ -79,6 +97,6 @@ public class PitiUiTest extends WebDriverTestBase {
         passwordPage.getNextButton().click();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
         mailMainPage.getChooseAll().click();
-        mailMainPage.getDeleteAll(driver).click();
+        mailMainPage.getDeleteAll().click();
     }
 }

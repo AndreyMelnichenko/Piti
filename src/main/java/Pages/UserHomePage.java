@@ -14,9 +14,22 @@ public class UserHomePage extends Util {
 
     @FindBy(how = How.XPATH, using = "//div[@class='map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom']")
     private WebElement map;
+    @FindBy(how = How.XPATH, using = "//div[@class='menuBtn']")
+    private WebElement userMenu;
+    @FindBy (how = How.XPATH, using = "(//div[@class='menu_item-label'])[last()]")
+    private WebElement exitButton;
 
     public boolean isMap(){
         WebElement waitMap = waitFor(ExpectedConditions.visibilityOf(map));
         return waitMap.isDisplayed();
+    }
+
+    public void userMenuClick(){
+        userMenu.click();
+    }
+
+    public void exitHomePage(){
+        WebElement element=waitFor(ExpectedConditions.visibilityOf(exitButton));
+        element.click();
     }
 }

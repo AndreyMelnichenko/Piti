@@ -47,6 +47,8 @@ public class PitiApiTest extends ApiTestBase {
     }
 
     @Test (priority = 2)
+    @Description("Sing-In")
+    @Severity(SeverityLevel.CRITICAL)
     public void SingIn (){
         UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"));
         UserRS actualUser = given()
@@ -95,7 +97,7 @@ public class PitiApiTest extends ApiTestBase {
                 .post(baseURL+"users/invite")
                 .thenReturn().as(InviteRS.class);
         assertTrue(inviteRS.isSuccess());
-        //dbClearUser.getClean();
+        dbClearUser.getClean();
     }
 
     @Test (priority = 5)
