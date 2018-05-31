@@ -46,7 +46,6 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.userMenuClick();
         userHomePage.exitHomePage();
         assertTrue(loginPage.isLogoExists());
-
     }
 
     @Test (priority = 3)
