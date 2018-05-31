@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverTestBase {
-    protected RemoteWebDriver driver;
+    public RemoteWebDriver driver;
 
     @BeforeClass
     public void setUp() throws Exception{

@@ -77,7 +77,7 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
         AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
-        settingsPage.sendInvite(driver);
+        settingsPage.sendInvite();
         dbClearUser.getClean();
         settingsPage.goExit();
     }
@@ -91,7 +91,7 @@ public class PitiUiTest extends WebDriverTestBase {
         passwordPage.goPassword();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
         assertTrue(mailMainPage.getEmailTitle());
-        mailMainPage.cleanEmailList();
+        //mailMainPage.cleanEmailList();
     }
 
     @Test(priority = 6)

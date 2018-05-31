@@ -2,7 +2,6 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,8 +51,7 @@ public class AccountSettingsPage extends Util {
     }
 
     public WebElement getAcceptSendInvite(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(acceptSendInvite));
-        element.submit();
+        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(acceptSendInvite));
         return element;
     }
 
@@ -67,20 +65,18 @@ public class AccountSettingsPage extends Util {
         return element;
     }
 
-    public void sendInvite(WebDriver driver){
+    public void sendInvite(){
         sendInviteButton().click();
         getInvitedEmail().click();
         getInvitedEmail().sendKeys(getProperty("user.gmail"));
         getTextMessage().click();
         getTextMessage().sendKeys("Welcome to PIT Service");
         getSimpleUserRole().click();
-        Actions action = new Actions(driver);
-        action.moveToElement(getAcceptSendInvite()).build().perform();
         getAcceptSendInvite().click();
     }
 
     public void goExit(){
         getMenuButton().click();
-        //getExitButton().click();
+        getExitButton().click();
     }
 }

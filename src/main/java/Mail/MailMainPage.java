@@ -2,6 +2,7 @@ package Mail;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,6 +10,7 @@ import utils.DataProperties;
 import utils.Util;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MailMainPage extends Util {
     public MailMainPage(WebDriver webDriver) {
@@ -19,7 +21,7 @@ public class MailMainPage extends Util {
     private WebElement chooseAll;
     @FindBy(how = How.XPATH, using = "//div[@aria-label='Удалить']")
     private WebElement deleteAll;
-    @FindBy (how = How.XPATH, using = "//span[@class='bog']/b")
+    @FindAll(@FindBy(how = How.XPATH, using = "//span[@class='bog']/b"))
     private List<WebElement> emailTitle;
 
     public WebElement getChooseAll(){
@@ -34,12 +36,12 @@ public class MailMainPage extends Util {
     }
 
     public boolean getEmailTitle(){
-        boolean isTextFound=false;
-        for(WebElement element:emailTitle){
-        if (element.getText().equals(DataProperties.dataProperty("data.properties","email.invite"))){
-            isTextFound=true;
-        }}
-        return isTextFound;
+        Optional<WebElement> element = emailTitle.stream()
+                .filter(e->e.getText().equals(DataProperties.dataProperty("data.properties","email.invite")))
+                .findFirst();
+        if(DataProperties.dataProperty("data.properties","email.invite").equals(element.get().getText())){
+            return true;
+        }else {return false;}
     }
 
     public void cleanEmailList(){
