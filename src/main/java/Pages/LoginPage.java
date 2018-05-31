@@ -32,6 +32,8 @@ public class LoginPage extends Util {
     private WebElement passwordErrorMessage;
     @FindBy(how = How.XPATH, using = "//a[@href='/register']")
     private WebElement registrationLink;
+    @FindBy(how = How.XPATH, using = "//a[@class='forget']")
+    private WebElement forgetLink;
 
     public boolean isLogoExists(){
         WebElement pitLogo = waitFor(ExpectedConditions.visibilityOf(logo));
@@ -67,6 +69,10 @@ public class LoginPage extends Util {
         return registrationLink;
     }
 
+    public WebElement getForgetLink(){
+        return waitFor(ExpectedConditions.visibilityOf(forgetLink));
+    }
+
     public void goPersonalCabinetWithBadAccess(){
         getEmail().sendKeys("user@user.com");
         getPass().sendKeys("password");
@@ -77,6 +83,10 @@ public class LoginPage extends Util {
         getEmail().sendKeys(getProperty("user.email"));
         getPass().sendKeys(getProperty("user.password"));
         getInputButton().click();
+    }
+
+    public void goForgetPage(){
+        getForgetLink().click();
     }
 
 }

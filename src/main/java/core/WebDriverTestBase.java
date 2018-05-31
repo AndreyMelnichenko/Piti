@@ -37,7 +37,7 @@ public class WebDriverTestBase {
     public void tearDown(){
         //if (driver!=null){
             driver.quit();
-       /*     driver=null;
-        }*/
-    }
+            driver=null;
+        }
+
 }

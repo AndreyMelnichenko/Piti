@@ -85,4 +85,17 @@ public class PitiUiTest extends WebDriverTestBase {
         assertEquals(errorPage.checkGoMainPageLinkResponseCode(),200);
         assertEquals(errorPage.getTitleText(), "404");
     }
+
+    @Test (priority = 8)
+    public void RecoveryPass(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goForgetPage();
+        RecoverPass recoverPass = PageFactory.initElements(driver, RecoverPass.class);
+        assertTrue(recoverPass.isTextTitle());
+        recoverPass.inputEmailToRecover();
+        recoverPass.clickButton();
+        RecoverSuccess recoverSuccess = PageFactory.initElements(driver, RecoverSuccess.class);
+        assertTrue(recoverSuccess.checkRecoveredEmail());
+    }
 }
