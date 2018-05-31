@@ -29,6 +29,8 @@ public class AccountSettingsPage extends Util {
     private WebElement menuButton;
     @FindBy(how = How.XPATH, using = "//div[@class='menu_item']")
     private WebElement exitButton;
+    @FindBy(how = How.XPATH, using = "(//div[@class='user_info-mail'])[2]")
+    private WebElement newUserEmail;
 
 
     public WebElement sendInviteButton(){
@@ -65,6 +67,9 @@ public class AccountSettingsPage extends Util {
         WebElement element = waitFor(ExpectedConditions.elementToBeClickable(exitButton));
         return element;
     }
+    private WebElement getNewUserEmail(){
+        return waitFor(ExpectedConditions.visibilityOf(newUserEmail));
+    }
 
     public void sendInvite(WebDriver driver){
         sendInviteButton().click();
@@ -83,6 +88,10 @@ public class AccountSettingsPage extends Util {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean checkNewUser(){
+        return getNewUserEmail().getText().equals(getProperty("user.gmail"));
     }
 
     public void goExit(){

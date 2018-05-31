@@ -71,6 +71,7 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.accountSettingsClick();
         AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
         settingsPage.sendInvite(driver);
+        assertTrue(settingsPage.checkNewUser());
         dbClearUser.getClean();
         settingsPage.goExit();
     }
