@@ -75,6 +75,22 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
+    @Test(priority = 5)
+    public void CreateUser(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        userHomePage.userMenuClick();
+        userHomePage.accountSettingsClick();
+        AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
+        settingsPage.createNewUser();
+        assertTrue(settingsPage.getCreatedEmail());
+        assertTrue(settingsPage.getCreatedName());
+        assertTrue(settingsPage.getCreatedPhone());
+        dbClearUser.getClean();
+    }
+
     @Test(priority = 7)
     public void ErrorPageCheck(){
         driver.get(baseUrl);

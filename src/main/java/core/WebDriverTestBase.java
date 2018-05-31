@@ -21,7 +21,7 @@ public class WebDriverTestBase {
         if (System.getProperty("user.name").equals("andrey")) {
             ChromeDriverManager.getInstance().setup();
             driver = new ChromeDriver();
-            driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } else {
             DesiredCapabilities browser = new DesiredCapabilities();

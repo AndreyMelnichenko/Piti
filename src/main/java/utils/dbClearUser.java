@@ -1,7 +1,5 @@
 package utils;
 
-import UserData.Result;
-
 import java.sql.*;
 
 import static utils.PropertiesCache.getProperty;
@@ -65,4 +63,8 @@ public class dbClearUser {
         }
         System.out.println("Current USER was DELTED! Goodbye!");
     }
+
+/*    public static void main(String[] args) {
+        getClean();
+    }*/
 }

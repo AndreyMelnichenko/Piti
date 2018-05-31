@@ -18,66 +18,119 @@ public class AccountSettingsPage extends Util {
     @FindBy(how = How.XPATH, using = "(//div[@class='bottom'])/div[1]")
     private WebElement sendInvite;
     @FindBy(how = How.XPATH, using = "(//input[@name='email'])[1]")
-    private WebElement invitedEmail;
+    private WebElement inviteEmail;
     @FindBy(how = How.XPATH, using = "//textarea")
-    private WebElement textMessage;
+    private WebElement inviteTextMessage;
     @FindBy(how = How.XPATH, using = "(//span[@class='checkmark'])[3]")
-    private WebElement simpleUserRole;
+    private WebElement inviteSimpleUserRole;
     @FindBy(how = How.XPATH, using = "(//button[@class='inviteUser_accept'])[2]")
     private WebElement acceptSendInvite;
     @FindBy(how = How.XPATH, using = "//div[@class='menuBtn_box']")
     private WebElement menuButton;
     @FindBy(how = How.XPATH, using = "//div[@class='menu_item']")
     private WebElement exitButton;
+    //------------------
     @FindBy(how = How.XPATH, using = "(//div[@class='user_info-mail'])[2]")
-    private WebElement newUserEmail;
+    private WebElement newUserEmail; //second user position
+    @FindBy(how = How.XPATH, using = "(//div[@class='user_info-name'])[2]")
+    private WebElement newUserName;
+    @FindBy(how = How.XPATH, using = "(//div[@class='user_info-phone'])[2]")
+    private WebElement newUserPhone;
+    //------------------
+    @FindBy(how = How.XPATH, using = "(//input[@name='email'])[2]")
+    private WebElement createNewUserEmail;
+    @FindBy(how = How.XPATH, using = "(//div[@class='bottom'])/div[2]")
+    private WebElement createNewUserButton;
+    @FindBy(how = How.XPATH, using = "(//span[@class='checkmark'])[6]")
+    private WebElement createNewUserSimpleRole;
+    @FindBy(how = How.XPATH, using = "(//input[@name='name'])[1]")
+    private WebElement createNewUserName;
+    @FindBy(how = How.XPATH, using = "(//input[@name='password'])[1]")
+    private WebElement createNewUserPass;
+    @FindBy(how = How.XPATH, using = "(//input[@name='passwordConfirm'])[1]")
+    private WebElement createNewUserConfirm;
+    @FindBy(how = How.XPATH, using = "(//input[@name='phone'])[1]")
+    private WebElement createNewUserPhone;
+    @FindBy(how = How.XPATH, using = "(//button[@class='addUser_accept'])[2]")
+    private WebElement createNewUserAccept;
 
-
-    public WebElement sendInviteButton(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(sendInvite));
-        return element;
+    private WebElement getCreateNewUserButton(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserButton));
     }
 
-    public WebElement getInvitedEmail(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(invitedEmail));
-        return element;
+    private WebElement getCreateNewUserAccept(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserAccept));
     }
 
-    public WebElement getTextMessage(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(textMessage));
-        return element;
+    private WebElement getCreateNewUserPhone(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserPhone));
     }
 
-    public WebElement getSimpleUserRole(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(simpleUserRole));
-        return element;
+    private WebElement getCreateNewUserConfirm(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserConfirm));
     }
 
-    public WebElement getAcceptSendInvite(){
-        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(acceptSendInvite));
-        return element;
+    private WebElement getCreateNewUserPass(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserPass));
     }
 
-    public WebElement getMenuButton(){
-        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(menuButton));
-        return element;
+    private WebElement getCreateNewUserName(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserName));
     }
 
-    public WebElement getExitButton(){
-        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(exitButton));
-        return element;
+    private WebElement getCreateNewUserSimpleRole(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserSimpleRole));
     }
+
+    private WebElement getCreateNewUserEmail(){
+        return waitFor(ExpectedConditions.visibilityOf(createNewUserEmail));
+    }
+
+    private WebElement sendInviteButton(){
+        return waitFor(ExpectedConditions.visibilityOf(sendInvite));
+    }
+
+    private WebElement getInviteEmail(){
+        return waitFor(ExpectedConditions.visibilityOf(inviteEmail));
+    }
+
+    private WebElement getInviteTextMessage(){
+        return waitFor(ExpectedConditions.visibilityOf(inviteTextMessage));
+    }
+
+    private WebElement getInviteSimpleUserRole(){
+        return waitFor(ExpectedConditions.visibilityOf(inviteSimpleUserRole));
+    }
+
+    private WebElement getAcceptSendInvite(){
+        return waitFor(ExpectedConditions.elementToBeClickable(acceptSendInvite));
+    }
+
+    private WebElement getMenuButton(){
+        return waitFor(ExpectedConditions.elementToBeClickable(menuButton));
+    }
+
+    private WebElement getExitButton(){
+        return waitFor(ExpectedConditions.elementToBeClickable(exitButton));
+    }
+
     private WebElement getNewUserEmail(){
         return waitFor(ExpectedConditions.visibilityOf(newUserEmail));
+    }
+    private WebElement getNewUserName(){
+        return waitFor(ExpectedConditions.visibilityOf(newUserName));
+    }
+    private WebElement getNewUserPhone(){
+        return waitFor(ExpectedConditions.visibilityOf(newUserPhone));
     }
 
     public void sendInvite(WebDriver driver){
         sendInviteButton().click();
-        getInvitedEmail().click();
-        getInvitedEmail().sendKeys(getProperty("user.gmail"));
-        getTextMessage().click();
-        getTextMessage().sendKeys("Welcome to PIT Service");
-        getSimpleUserRole().click();
+        getInviteEmail().click();
+        getInviteEmail().sendKeys(getProperty("user.gmail"));
+        getInviteTextMessage().click();
+        getInviteTextMessage().sendKeys("Welcome to PIT Service");
+        getInviteSimpleUserRole().click();
         System.out.println(getAcceptSendInvite().getText());
         Actions action = new Actions(driver);
         action.moveToElement(getAcceptSendInvite()).perform();
@@ -102,5 +155,25 @@ public class AccountSettingsPage extends Util {
         }
         getMenuButton().click();
         getExitButton().click();
+    }
+
+    public void createNewUser(){
+        getCreateNewUserButton().click();
+        getCreateNewUserEmail().sendKeys(getProperty("new.user.email"));
+        getCreateNewUserName().sendKeys(getProperty("new.user.fio"));
+        getCreateNewUserPass().sendKeys(getProperty("new.user.password"));
+        getCreateNewUserConfirm().sendKeys(getProperty("new.user.password"));
+        getCreateNewUserPhone().sendKeys(getProperty("new.user.phone"));
+        getCreateNewUserSimpleRole().click();
+        getCreateNewUserAccept().click();
+    }
+    public boolean getCreatedEmail(){
+        return getProperty("new.user.email").equals(getNewUserEmail().getText());
+    }
+    public boolean getCreatedName(){
+        return getProperty("new.user.fio").equals(getNewUserName().getText());
+    }
+    public boolean getCreatedPhone(){
+        return getProperty("new.user.phone").equals(getNewUserPhone().getText());
     }
 }
