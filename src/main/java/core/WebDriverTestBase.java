@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WebDriverTestBase {
     public RemoteWebDriver driver;
+    protected final String baseUrl = "http://ang.chis.kiev.ua";
+    protected final String gmail = "https://mail.google.com";
 
     @BeforeClass
     public void setUp() throws Exception{
@@ -33,9 +35,9 @@ public class WebDriverTestBase {
 
     @AfterClass
     public void tearDown(){
-        if (driver!=null){
+        //if (driver!=null){
             driver.quit();
-            driver=null;
-        }
+       /*     driver=null;
+        }*/
     }
 }

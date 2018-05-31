@@ -1,8 +1,5 @@
 package BrowsersTests;
 
-import Mail.MailLoginPage;
-import Mail.MailMainPage;
-import Mail.PasswordPage;
 import Pages.*;
 import core.WebDriverTestBase;
 import org.openqa.selenium.support.PageFactory;
@@ -15,8 +12,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class PitiUiTest extends WebDriverTestBase {
 
-    private final String baseUrl = "http://ang.chis.kiev.ua";
-    private final String gmail = "https://mail.google.com";
+
 
     @Test (priority = 0)
     public void OpenSingUp() {
@@ -77,29 +73,6 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.sendInvite();
         dbClearUser.getClean();
         settingsPage.goExit();
-    }
-
-    @Test (priority = 5)
-    public void EmailInviteChecker(){
-        driver.get(gmail);
-        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        mailLoginPage.goEmail();
-        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
-        passwordPage.goPassword();
-        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        assertTrue(mailMainPage.getEmailTitle());
-        //mailMainPage.cleanEmailList();
-    }
-
-    @Test(priority = 6)
-    public void EmailCleaner(){
-        driver.get(gmail);
-        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        mailLoginPage.goEmail();
-        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
-        passwordPage.goPassword();
-        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        mailMainPage.cleanEmailList();
     }
 
     @Test(priority = 7)

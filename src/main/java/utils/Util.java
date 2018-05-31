@@ -11,7 +11,7 @@ public abstract class Util {
 
     public Util(WebDriver webDriver) {
         this.webDriver = webDriver;
-        webDriverWait = new WebDriverWait(this.webDriver, 10);
+        webDriverWait = new WebDriverWait(this.webDriver, 5);
     }
     public WebElement waitFor(ExpectedCondition<WebElement> expectedCondition){
         return webDriverWait.until(expectedCondition);
