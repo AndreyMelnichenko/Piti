@@ -3,10 +3,7 @@ package BrowsersTests;
 import Mail.MailLoginPage;
 import Mail.MailMainPage;
 import Mail.PasswordPage;
-import Pages.AccountSettingsPage;
-import Pages.LoginPage;
-import Pages.RegistrationPage;
-import Pages.UserHomePage;
+import Pages.*;
 import core.WebDriverTestBase;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
@@ -103,5 +100,16 @@ public class PitiUiTest extends WebDriverTestBase {
         passwordPage.goPassword();
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
         mailMainPage.cleanEmailList();
+    }
+
+    @Test(priority = 7)
+    public void ErrorPageCheck(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        driver.get(baseUrl+"/sfosfosifjsod");
+        ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
+        assertEquals(errorPage.checkGoMainPageLinkResponseCode(),200);
+        assertEquals(errorPage.getTitleText(), "404");
     }
 }

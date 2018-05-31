@@ -56,12 +56,12 @@ public class AccountSettingsPage extends Util {
     }
 
     public WebElement getMenuButton(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(menuButton));
+        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(menuButton));
         return element;
     }
 
     public WebElement getExitButton(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(exitButton));
+        WebElement element = waitFor(ExpectedConditions.elementToBeClickable(exitButton));
         return element;
     }
 

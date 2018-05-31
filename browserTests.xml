@@ -2,7 +2,11 @@
 <suite name="UI-tests">
     <test name="BrowserTests" >
         <classes>
-            <class name="BrowsersTests.PitiUiTest" />
+            <class name="BrowsersTests.PitiUiTest" >
+                <methods>
+                    <include name="SendInvite" />
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
