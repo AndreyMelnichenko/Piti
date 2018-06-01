@@ -1,11 +1,13 @@
 package Mail;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.DataProperties;
 import utils.Util;
 
@@ -47,5 +49,16 @@ public class MailMainPage extends Util {
     public void cleanEmailList(){
         getChooseAll().click();
         getDeleteAll().click();
+    }
+
+    public void alertHndle(WebDriver driver){
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+            wait.until(ExpectedConditions.alertIsPresent());
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        } catch (Exception e) {
+            //exception handling
+        }
     }
 }

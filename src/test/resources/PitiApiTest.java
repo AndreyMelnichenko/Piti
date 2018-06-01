@@ -1,5 +1,3 @@
-package ApiTests;
-
 import ResponseMessages.ErrorRS;
 import ResponseMessages.InviteRS;
 import ResponseMessages.RestoreRS;
@@ -84,7 +82,7 @@ public class PitiApiTest extends ApiTestBase {
         token=actualUser.getResult().getAuth_token();
     }
 
-    @Test(priority = 4, dependsOnMethods = {"SingUp"})
+    @Test(priority = 4)
     @Description("Invite sending")
     public void Invite(){
         InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
@@ -116,6 +114,4 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isResult());
         assertTrue(actualAnswer.isSuccess());
     }
-
-
 }

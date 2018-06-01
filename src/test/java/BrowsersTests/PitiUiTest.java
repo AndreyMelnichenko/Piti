@@ -15,11 +15,8 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class PitiUiTest extends WebDriverTestBase {
 
-    @Test(priority = 0)
+    @Test(priority = 10)
     public void ErrorPageCheck(){
-/*        driver.get(baseUrl);
-        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();*/
         driver.get(baseUrl+"/sfosfosifjsod");
         ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
         assertEquals(errorPage.checkGoMainPageLinkResponseCode(),200);
@@ -126,5 +123,6 @@ public class PitiUiTest extends WebDriverTestBase {
         MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
         assertTrue(mailMainPage.getEmailTitle());
         mailMainPage.cleanEmailList();
+        mailMainPage.alertHndle(driver);
     }
 }

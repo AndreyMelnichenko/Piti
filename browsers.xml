@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Mobox" verbose="1" >
+    <test name="Functionsl Tests">
+        <classes>
+            <class name="BrowsersTests.PitiUiTest"/>
+        </classes>
+    </test>
+</suite>
