@@ -33,11 +33,11 @@ public class WebDriverTestBase {
         }
     }
 
-/*    @AfterClass
+    @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
             driver = null;
         }
-    }*/
+    }
 }
