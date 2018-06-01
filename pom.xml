@@ -80,14 +80,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin}</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>browserTests.xml</suiteXmlFile>
-                        <suiteXmlFile>apiTests.xml</suiteXmlFile>
-                    </suiteXmlFiles>
+                    <!--<suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/browsersTests.xml</suiteXmlFile>
+                    </suiteXmlFiles>-->
                 </configuration>
                 <dependencies>
                     <dependency>

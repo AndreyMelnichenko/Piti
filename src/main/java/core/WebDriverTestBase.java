@@ -16,7 +16,7 @@ public class WebDriverTestBase {
     protected final String baseUrl = "http://ang.chis.kiev.ua";
     protected final String gmail = "https://mail.google.com";
 
-    @BeforeClass
+    @BeforeClass(groups = "first")
     public void setUp() throws Exception{
         if (System.getProperty("user.name").equals("andrey")) {
             ChromeDriverManager.getInstance().setup();
@@ -33,11 +33,11 @@ public class WebDriverTestBase {
         }
     }
 
-    @AfterClass
-    public void tearDown(){
-        //if (driver!=null){
+    @AfterClass (groups = "first")
+    public void tearDown() {
+        if (driver != null) {
             driver.quit();
-            driver=null;
+            driver = null;
         }
-
+    }
 }

@@ -5,7 +5,7 @@ import java.sql.*;
 import static utils.PropertiesCache.getProperty;
 
 public class dbClearUser {
-    static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+    private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
     private static final String url = getProperty("db.url");
     private static final String user = getProperty("db.user");
     private static final String password = getProperty("db.pass");
@@ -15,9 +15,7 @@ public class dbClearUser {
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
-            conn = DriverManager.getConnection(
-                    url, user, password);
+            conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected database successfully...");
             System.out.println("Executing a query...");
             stmt = conn.createStatement();

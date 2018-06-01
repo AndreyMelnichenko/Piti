@@ -97,6 +97,7 @@ public class PitiApiTest extends ApiTestBase {
                 .post(baseURL+"users/invite")
                 .thenReturn().as(InviteRS.class);
         assertTrue(inviteRS.isSuccess());
+        assertEquals(inviteRS.getResult().getEmail(),getProperty("user.gmail"));
         dbClearUser.getClean();
     }
 
