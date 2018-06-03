@@ -28,8 +28,8 @@ public class WebDriverTestBase {
             browser.setBrowserName("chrome");
             browser.setVersion("67");
             browser.setCapability("enableVNC", true);
-            //browser.setCapability("enableVideo", true);
-            driver = new RemoteWebDriver(URI.create("http://http://18.237.253.181:4444/wd/hub").toURL(), browser);
+            browser.setCapability("enableVideo", true);
+            driver = new RemoteWebDriver(URI.create("http://18.237.253.181:4444/wd/hub").toURL(), browser);
             driver.manage().window().setSize(new Dimension(1920, 1080));
         }
     }
