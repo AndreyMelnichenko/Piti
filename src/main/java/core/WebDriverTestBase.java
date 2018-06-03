@@ -26,7 +26,7 @@ public class WebDriverTestBase {
         } else {
             DesiredCapabilities browser = new DesiredCapabilities();
             browser.setBrowserName("chrome");
-            browser.setVersion("64");
+            browser.setVersion("67");
             browser.setCapability("enableVNC", true);
             browser.setCapability("enableVideo", true);
             driver = new RemoteWebDriver(URI.create("http://http://18.237.253.181:4444/wd/hub").toURL(), browser);
