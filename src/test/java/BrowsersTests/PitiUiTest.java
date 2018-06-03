@@ -15,7 +15,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class PitiUiTest extends WebDriverTestBase {
 
-    @Test (priority = 1)
+    @Test
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -25,7 +25,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.getPass().isDisplayed());
     }
 
-    @Test (priority = 2)
+    @Test
     public void Registration(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -40,7 +40,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test (priority = 3)
+    @Test
     public void SingUp(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -52,7 +52,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test (priority = 4)
+    @Test
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -67,7 +67,7 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
-    @Test(priority = 5)
+    @Test
     public void CreateUser(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
