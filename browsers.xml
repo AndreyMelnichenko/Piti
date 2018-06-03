@@ -3,7 +3,9 @@
 <suite name="Mobox" verbose="1" >
     <test name="Functionsl Tests">
         <classes>
+            <class name="BrowsersTests.ErrorMessageTest"/>
             <class name="BrowsersTests.PitiUiTest"/>
+           <class name="BrowsersTests.EmailTest"/>
         </classes>
     </test>
 </suite>

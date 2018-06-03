@@ -25,11 +25,18 @@ public class MailMainPage extends Util {
     private WebElement deleteAll;
     @FindAll(@FindBy(how = How.XPATH, using = "//span[@class='bog']/b"))
     private List<WebElement> emailTitle;
+    @FindBy (how = How.XPATH, using = "//div[@aria-label='Закрыть.']")
+    private WebElement closeMessage;
+
+    private WebElement getCloseMessage(){
+        return waitFor(ExpectedConditions.visibilityOf(closeMessage));
+    }
 
     public WebElement getChooseAll(){
         WebElement element = waitFor(ExpectedConditions.elementToBeClickable(chooseAll));
         return element;
     }
+
     public WebElement getDeleteAll(){
         //Actions action = new Actions(driver);
         WebElement element = waitFor(ExpectedConditions.visibilityOf(deleteAll));
@@ -59,6 +66,12 @@ public class MailMainPage extends Util {
             alert.accept();
         } catch (Exception e) {
             //exception handling
+        }
+    }
+
+    public void closeAttentionMessage(){
+        if (getCloseMessage().isDisplayed()){
+            getCloseMessage().click();
         }
     }
 }

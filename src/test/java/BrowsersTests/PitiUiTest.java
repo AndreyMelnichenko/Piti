@@ -1,9 +1,9 @@
 package BrowsersTests;
 
-import Mail.MailLoginPage;
-import Mail.MailMainPage;
-import Mail.PasswordPage;
-import Pages.*;
+import Pages.AccountSettingsPage;
+import Pages.LoginPage;
+import Pages.RegistrationPage;
+import Pages.UserHomePage;
 import core.WebDriverTestBase;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
@@ -15,16 +15,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class PitiUiTest extends WebDriverTestBase {
 
-    @Test(priority = 1)
-    public void waitForWatcher(){
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test (priority = 2)
+    @Test (priority = 1)
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -34,16 +25,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.getPass().isDisplayed());
     }
 
-    @Test (priority = 3)
-    public void SingUpErr(){
-        driver.get(baseUrl);
-        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinetWithBadAccess();
-        assertEquals(loginPage.getLoginErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.email"));
-        assertEquals(loginPage.getPasswordErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.password"));
-    }
-
-    @Test (priority = 4)
+    @Test (priority = 2)
     public void Registration(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -58,7 +40,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test (priority = 5)
+    @Test (priority = 3)
     public void SingUp(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -70,7 +52,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test (priority = 6)
+    @Test (priority = 4)
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -85,7 +67,7 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
-    @Test(priority = 7)
+    @Test(priority = 5)
     public void CreateUser(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -100,38 +82,5 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(settingsPage.getCreatedPhone());
         dbClearUser.getClean();
         settingsPage.goExit();
-    }
-
-    @Test (priority = 8)
-    public void RecoveryPass(){
-        driver.get(baseUrl);
-        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goForgetPage();
-        RecoverPass recoverPass = PageFactory.initElements(driver, RecoverPass.class);
-        assertTrue(recoverPass.isTextTitle());
-        recoverPass.inputEmailToRecover();
-        recoverPass.clickButton();
-        RecoverSuccess recoverSuccess = PageFactory.initElements(driver, RecoverSuccess.class);
-        assertTrue(recoverSuccess.checkRecoveredEmail());
-    }
-    @Test(priority = 9)
-    public void EmailInviteChecker(){
-        driver.get(gmail);
-        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        mailLoginPage.goEmail();
-        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
-        passwordPage.goPassword();
-        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
-        assertTrue(mailMainPage.getEmailTitle());
-        mailMainPage.cleanEmailList();
-        mailMainPage.alertHndle(driver);
-    }
-
-    @Test(priority = 10)
-    public void ErrorPageCheck(){
-        driver.get(baseUrl+"/sfosfosifjsod");
-        ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
-        assertEquals(errorPage.checkGoMainPageLinkResponseCode(),200);
-        assertEquals(errorPage.getTitleText(), "404");
     }
 }

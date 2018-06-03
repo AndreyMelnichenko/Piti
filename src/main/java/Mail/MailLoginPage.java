@@ -18,6 +18,12 @@ public class MailLoginPage extends Util {
     private WebElement emailInput;
     @FindBy(how = How.XPATH, using = "(//span[@class='RveJvd snByac'])[3]")
     private WebElement nextButton;
+    @FindBy(how = How.XPATH, using = "//a[@data-g-label='Sign in']")
+    private WebElement singIn;
+
+    private WebElement getSingIn(){
+        return waitFor(ExpectedConditions.visibilityOf(singIn));
+    }
 
     public WebElement getEmailInput(){
         WebElement element = waitFor(ExpectedConditions.visibilityOf(emailInput));
@@ -30,5 +36,11 @@ public class MailLoginPage extends Util {
     public void goEmail(){
         getEmailInput().sendKeys(getProperty("user.gmail"));
         getNextButton().click();
+    }
+
+    public void handleSingIn(WebDriver driver, String gmail){
+        if (!(driver.getCurrentUrl().equals(gmail))){
+            getSingIn().click();
+        }
     }
 }
