@@ -18,12 +18,12 @@ public class WebDriverTestBase {
 
     @BeforeClass
     public void setUp() throws Exception{
-        if (System.getProperty("user.name").equals("andrey")) {
+        /*if (System.getProperty("user.name").equals("andrey")) {
             ChromeDriverManager.getInstance().setup();
             driver = new ChromeDriver();
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             driver.manage().window().maximize();
-        } else {
+        } else {*/
             DesiredCapabilities browser = new DesiredCapabilities();
             browser.setBrowserName("chrome");
             browser.setVersion("67");
@@ -32,7 +32,7 @@ public class WebDriverTestBase {
             driver = new RemoteWebDriver(URI.create("http://18.237.253.181:4444/wd/hub").toURL(), browser);
             driver.manage().window().setSize(new Dimension(1920, 1080));
         }
-    }
+    //}
 
     @AfterClass
     public void tearDown() {
