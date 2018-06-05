@@ -37,9 +37,7 @@ public class MailLoginPage extends Util {
         getNextButton().click();
     }
 
-    public void handleSingIn(WebDriver driver, String gmail){
-        if (!(driver.getCurrentUrl().equals(gmail))){
-            getSingIn().click();
-        }
+    public void handleSingIn(){
+        getSingIn().click();
     }
 }

@@ -15,7 +15,7 @@ public class EmailTest extends WebDriverTestBase {
     public void EmailInviteChecker(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
-        //mailLoginPage.handleSingIn(driver,gmail);
+        mailLoginPage.handleSingIn();
         mailLoginPage.goEmail();
         PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
         passwordPage.goPassword();

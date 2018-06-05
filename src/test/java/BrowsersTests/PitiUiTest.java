@@ -1,9 +1,6 @@
 package BrowsersTests;
 
-import Pages.AccountSettingsPage;
-import Pages.LoginPage;
-import Pages.RegistrationPage;
-import Pages.UserHomePage;
+import Pages.*;
 import core.WebDriverTestBase;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
@@ -96,5 +93,21 @@ public class PitiUiTest extends WebDriverTestBase {
         AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
         assertFalse(settingsPage.changeUserData());
         settingsPage.goExit();
+    }
+
+    @Test
+    public void AddDevice(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        userHomePage.userMenuClick();
+        userHomePage.accountSettingsClick();
+        AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
+        settingsPage.goDevices();
+        AccountDevices accountDevices = PageFactory.initElements(driver, AccountDevices.class);
+        accountDevices.clickAddDevice();
+        assertTrue(accountDevices.isNewDeviceCreated());
+        assertTrue(accountDevices.isNewDeviceRemoved());
     }
 }

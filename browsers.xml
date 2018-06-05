@@ -5,9 +5,4 @@
             <class name="ApiTests.PitiApiTest"/>
         </classes>
     </test>
-    <test name="UI Tests" parallel="false" preserve-order="false">
-        <classes>
-            <class name="BrowsersTests.PitiUiTest"/>
-        </classes>
-    </test>
 </suite>

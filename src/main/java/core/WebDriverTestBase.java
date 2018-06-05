@@ -6,18 +6,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverTestBase {
     public RemoteWebDriver driver;
-    protected final String baseUrl = "http://ang.chis.kiev.ua";
-    //protected final String baseUrl = "http://185.156.41.135";
-    protected final String gmail = "https://mail.google.com";
+    //protected final String baseUrl = "http://ang.chis.kiev.ua";
+    protected final String baseUrl = "http://185.156.41.135/login";
+    protected final String gmail = "https://www.google.com/intl/ru/gmail/about/";
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp() throws Exception{
         if (System.getProperty("user.name").equals("andrey")) {
             ChromeDriverManager.getInstance().setup();
@@ -35,11 +37,11 @@ public class WebDriverTestBase {
         }
     }
 
-/*    @AfterClass
+    @AfterMethod
     public void tearDown() {
         if (driver != null) {
             driver.quit();
             driver = null;
         }
-    }*/
+    }
 }

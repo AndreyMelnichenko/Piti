@@ -13,7 +13,6 @@ import utils.Util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static org.testng.Assert.assertFalse;
 import static utils.PropertiesCache.getProperty;
 
 public class AccountSettingsPage extends Util {
@@ -87,7 +86,14 @@ public class AccountSettingsPage extends Util {
     @FindBy(how = How.XPATH, using = "//option[@value='+2']")
     private WebElement secondTimeZone;
 
+    @FindBy(how = How.XPATH, using = "//div[@class='menu_item-label' and contains(text(),'Устройства')]")
+    private WebElement devices;
+
     //-----------------
+    private WebElement getDevices(){
+        return waitFor(ExpectedConditions.visibilityOf(devices));
+    }
+
     private WebElement getReSetUpUserAccept(){
         return waitFor(ExpectedConditions.visibilityOf(reSetUpUserAccept));
     }
@@ -205,11 +211,9 @@ public class AccountSettingsPage extends Util {
         getInviteTextMessage().click();
         getInviteTextMessage().sendKeys("Welcome to PIT Service");
         getInviteSimpleUserRole().click();
-        System.out.println(getAcceptSendInvite().getText());
         Actions action = new Actions(driver);
         action.moveToElement(getAcceptSendInvite()).perform();
         action.moveToElement(getAcceptSendInvite()).click().perform();
-        //getAcceptSendInvite().click();
         CustomWait.getTwoSecondWait();
     }
 
@@ -259,5 +263,9 @@ public class AccountSettingsPage extends Util {
         getReSetUpUserAccept().click();
         CustomWait.getOneSecondWait();
         return name.equals(getFirstUserName().getText());
+    }
+
+    public void goDevices(){
+        getDevices().click();
     }
 }
