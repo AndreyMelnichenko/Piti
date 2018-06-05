@@ -1,6 +1,8 @@
 package utils;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static utils.PropertiesCache.getProperty;
 
@@ -62,7 +64,7 @@ public class dbClearUser {
         System.out.println("Current USER was DELTED! Goodbye!");
     }
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         getClean();
-    }*/
+    }
 }

@@ -1,11 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
 <suite name="Mobox" verbose="2" parallel="tests">
-    <test name="Functionsl Tests" parallel="false" preserve-order="false">
+    <test name="API Tests" parallel="false" preserve-order="false">
         <classes>
-            <class name="BrowsersTests.ErrorMessageTest"/>
+            <class name="ApiTests.PitiApiTest"/>
+        </classes>
+    </test>
+    <test name="UI Tests" parallel="false" preserve-order="false">
+        <classes>
             <class name="BrowsersTests.PitiUiTest"/>
-            <class name="BrowsersTests.EmailTest"/>
         </classes>
     </test>
 </suite>

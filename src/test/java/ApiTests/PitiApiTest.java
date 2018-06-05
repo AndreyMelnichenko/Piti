@@ -1,3 +1,5 @@
+package ApiTests;
+
 import ResponseMessages.ErrorRS;
 import ResponseMessages.InviteRS;
 import ResponseMessages.RestoreRS;
@@ -19,7 +21,7 @@ import static utils.PropertiesCache.getProperty;
 public class PitiApiTest extends ApiTestBase {
     private static String token, uid, email, password;
 
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, priority=1, description = "Sing-In with wrong data")
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-In with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
     public void SingInSimplePassword(String email, String pass, String confPass,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass);
@@ -44,7 +46,7 @@ public class PitiApiTest extends ApiTestBase {
         }
     }
 
-    @Test (priority = 2)
+    @Test(priority = 2)
     @Description("Sing-In")
     @Severity(SeverityLevel.CRITICAL)
     public void SingIn (){
@@ -65,7 +67,7 @@ public class PitiApiTest extends ApiTestBase {
         dbClearUser.getClean();
     }
 
-    @Test (priority = 3)
+    @Test(priority = 3)
     @Description("Sing-Up")
     @Severity(SeverityLevel.CRITICAL)
     public void SingUp(){
@@ -82,7 +84,7 @@ public class PitiApiTest extends ApiTestBase {
         token=actualUser.getResult().getAuth_token();
     }
 
-    @Test(priority = 4)
+    @Test(dependsOnMethods = "SingUp", priority = 4)
     @Description("Invite sending")
     public void Invite(){
         InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
@@ -99,7 +101,7 @@ public class PitiApiTest extends ApiTestBase {
         dbClearUser.getClean();
     }
 
-    @Test (priority = 5)
+    @Test (dependsOnMethods = "SingUp", priority = 5)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void PassRestore(){

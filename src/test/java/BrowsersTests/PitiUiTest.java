@@ -12,6 +12,7 @@ import utils.dbClearUser;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 public class PitiUiTest extends WebDriverTestBase {
 
@@ -81,6 +82,19 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(settingsPage.getCreatedName());
         assertTrue(settingsPage.getCreatedPhone());
         dbClearUser.getClean();
+        settingsPage.goExit();
+    }
+
+    @Test
+    public void UserChageInfo(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet();
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        userHomePage.userMenuClick();
+        userHomePage.accountSettingsClick();
+        AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
+        assertFalse(settingsPage.changeUserData());
         settingsPage.goExit();
     }
 }

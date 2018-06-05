@@ -25,12 +25,11 @@ public class MailLoginPage extends Util {
         return waitFor(ExpectedConditions.visibilityOf(singIn));
     }
 
-    public WebElement getEmailInput(){
-        WebElement element = waitFor(ExpectedConditions.visibilityOf(emailInput));
-        return element;
+    private WebElement getEmailInput(){
+        return waitFor(ExpectedConditions.visibilityOf(emailInput));
     }
-    public WebElement getNextButton(){
-        return nextButton;
+    private WebElement getNextButton(){
+        return waitFor(ExpectedConditions.visibilityOf(nextButton));
     }
 
     public void goEmail(){

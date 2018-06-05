@@ -1,3 +1,3 @@
 email@gmail.com;123123;123123;password;Пароль слишком слабый или содержит недопустимые символы! Разрешено использовать цифры верхний и нижний регистр букв латинского алфавита.
-badEmail;Q123Ww222;Q123Ww222;email;Значение «Электронная почта» не является правильным email адресом.
+badEmail;Q123Ww222;Q123Ww222;email;Электронная почта is not a valid email address.
 email@gmail.com;Q123we123;Q123we123test;passwordConfirm;Пароли не совпадают

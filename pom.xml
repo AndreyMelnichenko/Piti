@@ -12,7 +12,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!--<java.version>1.8</java.version>-->
-        <testng.version>6.13.1</testng.version>
+        <testng.version>6.11</testng.version>
         <resetassured.version>3.0.7</resetassured.version>
         <jackson.version>2.8.8</jackson.version>
         <lombok.version>1.16.20</lombok.version>
@@ -84,9 +84,6 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-                    <!--<suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/browsersTests.xml</suiteXmlFile>
-                    </suiteXmlFiles>-->
                 </configuration>
                 <dependencies>
                     <dependency>
