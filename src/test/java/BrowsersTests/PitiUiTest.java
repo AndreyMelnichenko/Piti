@@ -6,6 +6,7 @@ import Mail.PasswordPage;
 import Pages.*;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
 import utils.CustomWait;
@@ -16,11 +17,12 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
+@Epic("UI tests")
 public class PitiUiTest extends WebDriverTestBase {
 
     @Test (priority = 1)
     @Description("Stat UI Tests")
-    public void waitForWatcher(){
+    public void WaitForWatcher(){
         driver.get(baseUrl);
         try {
             Thread.sleep(5000);
@@ -31,7 +33,7 @@ public class PitiUiTest extends WebDriverTestBase {
 
     @Test (priority = 2)
     @Description("Sing-Up Error Message Validation")
-    public void SingUpErr(){
+    public void UiSingUpErr(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinetWithBadAccess();
@@ -133,7 +135,6 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(settingsPage.getCreatedEmail());
         assertTrue(settingsPage.getCreatedName());
         assertTrue(settingsPage.getCreatedPhone());
-        dbClearUser.getClean();
         settingsPage.goExit();
     }
 
