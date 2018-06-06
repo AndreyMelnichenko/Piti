@@ -21,7 +21,7 @@
         <allure.testng>2.6.0</allure.testng>
         <maria.db.client>2.2.3</maria.db.client>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
-        <selenide.version>4.10.01</selenide.version>
+        <selenide.version>4.12.0</selenide.version>
     </properties>
 
     <dependencies>

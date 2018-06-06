@@ -1,9 +1,13 @@
 package BrowsersTests;
 
+import Mail.MailLoginPage;
+import Mail.MailMainPage;
+import Mail.PasswordPage;
 import Pages.*;
 import core.WebDriverTestBase;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
+import utils.CustomWait;
 import utils.DataProperties;
 import utils.dbClearUser;
 
@@ -13,7 +17,47 @@ import static org.testng.AssertJUnit.assertFalse;
 
 public class PitiUiTest extends WebDriverTestBase {
 
-    @Test
+    @Test (priority = 1)
+    public void waitForWatcher(){
+        driver.get(baseUrl);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test (priority = 2)
+    public void SingUpErr(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinetWithBadAccess();
+        assertEquals(loginPage.getLoginErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.email"));
+        assertEquals(loginPage.getPasswordErrorMessage().getText(), DataProperties.dataProperty("data.properties","login.wrong.password"));
+    }
+
+    @Test (priority = 3)
+    public void ErrorPageCheck(){
+        driver.get(baseUrl+"/sfosfosifjsod");
+        ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
+        assertEquals(errorPage.checkGoMainPageLinkResponseCode(),200);
+        assertEquals(errorPage.getTitleText(), "404");
+    }
+
+    @Test (priority = 4)
+    public void RecoveryPass(){
+        driver.get(baseUrl);
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goForgetPage();
+        RecoverPass recoverPass = PageFactory.initElements(driver, RecoverPass.class);
+        assertTrue(recoverPass.isTextTitle());
+        recoverPass.inputEmailToRecover();
+        recoverPass.clickButton();
+        RecoverSuccess recoverSuccess = PageFactory.initElements(driver, RecoverSuccess.class);
+        assertTrue(recoverSuccess.checkRecoveredEmail());
+    }
+
+    @Test (priority = 5)
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -23,7 +67,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.getPass().isDisplayed());
     }
 
-    @Test
+    @Test (priority = 6)
     public void Registration(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -32,13 +76,13 @@ public class PitiUiTest extends WebDriverTestBase {
         registrationPage.goRegistration();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         assertTrue(userHomePage.isMap());
-        dbClearUser.getClean();
         userHomePage.userMenuClick();
         userHomePage.exitHomePage();
         assertTrue(loginPage.isLogoExists());
+        dbClearUser.getClean();
     }
 
-    @Test
+    @Test (priority = 7)
     public void SingUp(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -50,7 +94,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(loginPage.isLogoExists());
     }
 
-    @Test
+    @Test(priority = 8)
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -65,9 +109,10 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
-    @Test
+    @Test(priority = 9)
     public void CreateUser(){
         driver.get(baseUrl);
+        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
@@ -82,9 +127,10 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
-    @Test
+    @Test(priority = 10)
     public void UserChageInfo(){
         driver.get(baseUrl);
+        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
@@ -95,9 +141,10 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.goExit();
     }
 
-    @Test
+    @Test(priority = 11)
     public void AddDevice(){
         driver.get(baseUrl);
+        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet();
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
@@ -108,6 +155,21 @@ public class PitiUiTest extends WebDriverTestBase {
         AccountDevices accountDevices = PageFactory.initElements(driver, AccountDevices.class);
         accountDevices.clickAddDevice();
         assertTrue(accountDevices.isNewDeviceCreated());
-        assertTrue(accountDevices.isNewDeviceRemoved());
+        accountDevices.isNewDeviceRemoved();
+    }
+
+    @Test(priority = 12)
+    public void EmailInviteChecker(){
+        driver.get(gmail);
+        MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
+        mailLoginPage.handleSingIn();
+        mailLoginPage.goEmail();
+        PasswordPage passwordPage = PageFactory.initElements(driver, PasswordPage.class);
+        passwordPage.goPassword();
+        MailMainPage mailMainPage = PageFactory.initElements(driver, MailMainPage.class);
+        mailMainPage.closeAttentionMessage();
+        assertTrue(mailMainPage.getEmailTitle());
+        mailMainPage.cleanEmailList();
+        mailMainPage.alertHndle(driver);
     }
 }

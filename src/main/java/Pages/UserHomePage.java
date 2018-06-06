@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,12 +24,13 @@ public class UserHomePage extends Util {
 
 
     public boolean isMap(){
-        WebElement waitMap = waitFor(ExpectedConditions.visibilityOf(map));
+        WebElement waitMap = waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom']")));
         return waitMap.isDisplayed();
     }
 
     public void userMenuClick(){
-        userMenu.click();
+        WebElement element = waitFor(ExpectedConditions.visibilityOf(userMenu));
+        element.click();
     }
 
     public void exitHomePage(){

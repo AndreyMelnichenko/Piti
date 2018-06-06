@@ -45,31 +45,28 @@ public class LoginPage extends Util {
     }
 
     public WebElement getEmail(){
-        WebElement field = waitFor(ExpectedConditions.visibilityOf(email));
-        return field;
+        return waitFor(ExpectedConditions.visibilityOf(email));
     }
 
     public WebElement getPass (){
-        WebElement field = waitFor(ExpectedConditions.visibilityOf(pass));
-        return field;
+        return waitFor(ExpectedConditions.visibilityOf(pass));
     }
 
-    public WebElement getInputButton(){
-        WebElement field = waitFor(ExpectedConditions.elementToBeClickable(inputButton));
-        return field;
+    private WebElement getInputButton(){
+        return waitFor(ExpectedConditions.elementToBeClickable(inputButton));
     }
 
-    public WebElement getLoginErrorMessage() { return loginErrorMessage;}
+    public WebElement getLoginErrorMessage() { return waitFor(ExpectedConditions.visibilityOf(loginErrorMessage));}
 
     public WebElement getPasswordErrorMessage(){
-        return passwordErrorMessage;
+        return waitFor(ExpectedConditions.visibilityOf(passwordErrorMessage));
     }
 
     public WebElement getRegistrationLink(){
-        return registrationLink;
+        return waitFor(ExpectedConditions.visibilityOf(registrationLink));
     }
 
-    public WebElement getForgetLink(){
+    private WebElement getForgetLink(){
         return waitFor(ExpectedConditions.visibilityOf(forgetLink));
     }
 
@@ -80,6 +77,7 @@ public class LoginPage extends Util {
     }
 
     public void goPersonalCabinet(){
+        System.out.println("email to enter cabinet");
         getEmail().sendKeys(getProperty("user.email"));
         getPass().sendKeys(getProperty("user.password"));
         getInputButton().click();

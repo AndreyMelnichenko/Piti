@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Util;
 
 import static utils.PropertiesCache.getProperty;
@@ -23,20 +24,20 @@ public class RegistrationPage extends Util {
     @FindBy(how = How.XPATH, using = "//button[@type='submit']")
     private WebElement buttonCreate;
 
-    public WebElement getEmailField(){
-        return email;
+    private WebElement getEmailField(){
+        return waitFor(ExpectedConditions.visibilityOf(email));
     }
 
-    public WebElement getPasswordField (){
-        return password;
+    private WebElement getPasswordField (){
+        return waitFor(ExpectedConditions.visibilityOf(password));
     }
 
-    public WebElement getPasswordConfirm(){
-        return passwordConfirm;
+    private WebElement getPasswordConfirm(){
+        return waitFor(ExpectedConditions.visibilityOf(passwordConfirm));
     }
 
-    public WebElement getButtonCreate(){
-        return buttonCreate;
+    private WebElement getButtonCreate(){
+        return waitFor(ExpectedConditions.visibilityOf(buttonCreate));
     }
 
     public void goRegistration(){

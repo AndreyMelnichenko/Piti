@@ -1,8 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Mobox" verbose="2" parallel="tests">
-    <test name="API Tests" parallel="false" preserve-order="false">
+<suite name="Mobox" verbose="1">
+    <test name="API Tests" preserve-order="false">
         <classes>
             <class name="ApiTests.PitiApiTest"/>
+            <class name="BrowsersTests.PitiUiTest"/>
         </classes>
     </test>
+    <listeners>
+        <listener class-name="utils.RetryListener"/>
+    </listeners>
 </suite>

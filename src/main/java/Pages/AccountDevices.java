@@ -6,11 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import utils.CustomWait;
 import utils.DataProperties;
 import utils.Util;
-
-import static org.testng.Assert.assertTrue;
 
 public class AccountDevices extends Util {
     public AccountDevices(WebDriver webDriver) {
@@ -115,11 +112,10 @@ public class AccountDevices extends Util {
         return getCreatedDevice().isDisplayed();
     }
 
-    public boolean isNewDeviceRemoved(){
+    public void isNewDeviceRemoved(){
         getThreeDotsButton().click();
         getDropDownDelete().click();
         getConfirmRemoveDevice().click();
-        return getCreatedDevice().isDisplayed();
     }
 
 }
