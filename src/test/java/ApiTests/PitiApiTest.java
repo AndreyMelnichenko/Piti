@@ -17,7 +17,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static utils.PropertiesCache.getProperty;
 
-@Epic("Log-in tests")
+@Epic("API tests")
 public class PitiApiTest extends ApiTestBase {
     private static String token, uid, email, password;
 

@@ -5,6 +5,7 @@ import Mail.MailMainPage;
 import Mail.PasswordPage;
 import Pages.*;
 import core.WebDriverTestBase;
+import io.qameta.allure.Description;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
 import utils.CustomWait;
@@ -18,6 +19,7 @@ import static org.testng.AssertJUnit.assertFalse;
 public class PitiUiTest extends WebDriverTestBase {
 
     @Test (priority = 1)
+    @Description("Stat UI Tests")
     public void waitForWatcher(){
         driver.get(baseUrl);
         try {
@@ -28,6 +30,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 2)
+    @Description("Sing-Up Error Message Validation")
     public void SingUpErr(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -37,6 +40,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 3)
+    @Description("404 page")
     public void ErrorPageCheck(){
         driver.get(baseUrl+"/sfosfosifjsod");
         ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
@@ -45,6 +49,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 4)
+    @Description("Recovery password")
     public void RecoveryPass(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -58,6 +63,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 5)
+    @Description("Sing-In Page")
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -68,6 +74,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 6)
+    @Description("Registration")
     public void Registration(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -83,6 +90,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test (priority = 7)
+    @Description("Sing-Up")
     public void SingUp(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -95,6 +103,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 8)
+    @Description("Send invite antother User")
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -110,6 +119,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 9)
+    @Description("Create New User")
     public void CreateUser(){
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
@@ -128,6 +138,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 10)
+    @Description("Change user info")
     public void UserChageInfo(){
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
@@ -142,6 +153,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 11)
+    @Description("Add new device to user")
     public void AddDevice(){
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
@@ -159,6 +171,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 12)
+    @Description("Chek email notification")
     public void EmailInviteChecker(){
         driver.get(gmail);
         MailLoginPage mailLoginPage = PageFactory.initElements(driver, MailLoginPage.class);
