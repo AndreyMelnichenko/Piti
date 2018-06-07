@@ -2,6 +2,7 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -40,7 +41,11 @@ public class AccountDevices extends Util {
     private WebElement dropDownDelete;
     @FindBy(how = How.XPATH, using = "//button[contains(text(),'ПОДТВЕРДИТЬ')]")
     private WebElement confirmRemoveDevice;
-
+    //-----------
+    @FindBy(how = How.XPATH, using = "//div[@class='menuBtn_box']")
+    private WebElement menuButton;
+    @FindBy(how = How.XPATH, using = "//div[@class='menu_item']")
+    private WebElement exitButton;
     //-----------
     private WebElement getConfirmRemoveDevice(){
         return waitFor(ExpectedConditions.visibilityOf(confirmRemoveDevice));
@@ -115,6 +120,11 @@ public class AccountDevices extends Util {
         getThreeDotsButton().click();
         getDropDownDelete().click();
         getConfirmRemoveDevice().click();
+    }
+    public void goExitApp(WebDriver driver){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(menuButton).click().perform();
+        builder.moveToElement(exitButton).click().perform();
     }
 
 }

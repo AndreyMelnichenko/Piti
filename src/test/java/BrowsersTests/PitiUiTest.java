@@ -7,7 +7,6 @@ import Pages.*;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
 import utils.CustomWait;
@@ -20,6 +19,7 @@ import static org.testng.AssertJUnit.assertFalse;
 
 @Epic("UI tests")
 public class PitiUiTest extends WebDriverTestBase {
+
     private static String user1="user.email";
     private static String pass1="user.password";
     private static String user2="user2.email";
@@ -131,7 +131,6 @@ public class PitiUiTest extends WebDriverTestBase {
     @Description("Create New User")
     public void CreateUser(){
         driver.get(baseUrl);
-        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
@@ -149,7 +148,6 @@ public class PitiUiTest extends WebDriverTestBase {
     @Description("Change user info")
     public void UserChageInfo(){
         driver.get(baseUrl);
-        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
@@ -175,10 +173,10 @@ public class PitiUiTest extends WebDriverTestBase {
         accountDevices.clickAddDevice();
         assertTrue(accountDevices.isNewDeviceCreated());
         accountDevices.isNewDeviceRemoved();
+        accountDevices.goExitApp(driver);
         CustomWait.getOneSecondWait();
     }
 
-    @Ignore
     @Test(priority = 12)
     @Description("Add new device GT3101 to user")
     public void AddDeviceAnotheUser(){
@@ -187,8 +185,12 @@ public class PitiUiTest extends WebDriverTestBase {
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet(user2,pass2);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
-        userHomePage.clickAddNewDevice();
-        userHomePage.fillFormGt3101();
+        //userHomePage.clickAddNewDevice();
+        //userHomePage.fillFormGt3101();
+        userHomePage.checkDeviceItem(driver);
+        userHomePage.checkCarOnMap(driver);
+        userHomePage.checkWiget(driver);
+        userHomePage.setPeriodCalendar(driver);
     }
 
     @Test(priority = 13)
