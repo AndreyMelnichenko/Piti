@@ -124,7 +124,7 @@ public class PitiUiTest extends WebDriverTestBase {
         settingsPage.sendInvite(driver);
         assertTrue(settingsPage.checkNewUser());
         dbClearUser.getClean();
-        settingsPage.goExit();
+        settingsPage.goExit(driver);
     }
 
     @Test(priority = 9)
@@ -141,7 +141,7 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(settingsPage.getCreatedEmail());
         assertTrue(settingsPage.getCreatedName());
         assertTrue(settingsPage.getCreatedPhone());
-        settingsPage.goExit();
+        settingsPage.goExit(driver);
     }
 
     @Test(priority = 10)
@@ -155,13 +155,14 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.accountSettingsClick();
         AccountSettingsPage settingsPage = PageFactory.initElements(driver, AccountSettingsPage.class);
         assertFalse(settingsPage.changeUserData());
-        settingsPage.goExit();
+        settingsPage.goExit(driver);
     }
 
     @Test(priority = 11)
     @Description("Add new device TK-116 to user")
     public void AddDevice(){
         driver.get(baseUrl);
+        CustomWait.getHalfSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);

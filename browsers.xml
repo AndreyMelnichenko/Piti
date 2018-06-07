@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Mobox" verbose="1">
-    <test name="API Tests" preserve-order="false">
+<suite name="Mobox">
+    <test name="API Tests" preserve-order="false" verbose="1">
         <classes>
             <class name="ApiTests.PitiApiTest"/>
             <class name="BrowsersTests.PitiUiTest"/>

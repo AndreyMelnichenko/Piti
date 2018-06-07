@@ -221,10 +221,12 @@ public class AccountSettingsPage extends Util {
         return getNewUserEmail().getText().equals(getProperty("user.gmail"));
     }
 
-    public void goExit(){
-        CustomWait.getOneSecondWait();
-        getMenuButton().click();
-        getExitButton().click();
+    public void goExit(WebDriver driver){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(menuButton).click().perform();
+        builder.moveToElement(exitButton).click().perform();
+        /*getMenuButton().click();
+        getExitButton().click();*/
     }
 
     public void createNewUser(){
