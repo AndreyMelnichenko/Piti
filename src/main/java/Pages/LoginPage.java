@@ -76,10 +76,9 @@ public class LoginPage extends Util {
         getInputButton().click();
     }
 
-    public void goPersonalCabinet(){
-        System.out.println("email to enter cabinet");
-        getEmail().sendKeys(getProperty("user.email"));
-        getPass().sendKeys(getProperty("user.password"));
+    public void goPersonalCabinet(String user, String pass){
+        getEmail().sendKeys(getProperty(user));
+        getPass().sendKeys(getProperty(pass));
         getInputButton().click();
     }
 

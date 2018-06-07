@@ -41,13 +41,14 @@ public class WebDriverTestBase {
     @BeforeMethod
     public void clearDb(){
         dbClearUser.getClean();
+        driver.manage().deleteAllCookies();
     }
 
-    @AfterClass
+/*    @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
             driver = null;
         }
-    }
+    }*/
 }

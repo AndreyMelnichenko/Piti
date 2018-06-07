@@ -7,6 +7,7 @@ import Pages.*;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
 import utils.CustomWait;
@@ -19,6 +20,11 @@ import static org.testng.AssertJUnit.assertFalse;
 
 @Epic("UI tests")
 public class PitiUiTest extends WebDriverTestBase {
+    private static String user1="user.email";
+    private static String pass1="user.password";
+    private static String user2="user2.email";
+    private static String pass2="user2.password";
+
 
     @Test (priority = 1)
     @Description("Stat UI Tests")
@@ -97,7 +103,7 @@ public class PitiUiTest extends WebDriverTestBase {
     public void SingUp(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();
+        loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         assertTrue(userHomePage.isMap());
         userHomePage.userMenuClick();
@@ -110,7 +116,7 @@ public class PitiUiTest extends WebDriverTestBase {
     public void SendInvite(){
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();
+        loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
@@ -127,7 +133,7 @@ public class PitiUiTest extends WebDriverTestBase {
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();
+        loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
@@ -145,7 +151,7 @@ public class PitiUiTest extends WebDriverTestBase {
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();
+        loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
@@ -155,12 +161,11 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 11)
-    @Description("Add new device to user")
+    @Description("Add new device TK-116 to user")
     public void AddDevice(){
         driver.get(baseUrl);
-        CustomWait.getOneSecondWait();
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.goPersonalCabinet();
+        loginPage.goPersonalCabinet(user1,pass1);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         userHomePage.userMenuClick();
         userHomePage.accountSettingsClick();
@@ -170,9 +175,23 @@ public class PitiUiTest extends WebDriverTestBase {
         accountDevices.clickAddDevice();
         assertTrue(accountDevices.isNewDeviceCreated());
         accountDevices.isNewDeviceRemoved();
+        CustomWait.getOneSecondWait();
     }
 
+    @Ignore
     @Test(priority = 12)
+    @Description("Add new device GT3101 to user")
+    public void AddDeviceAnotheUser(){
+        driver.get(baseUrl);
+        CustomWait.getOneSecondWait();
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.goPersonalCabinet(user2,pass2);
+        UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
+        userHomePage.clickAddNewDevice();
+        userHomePage.fillFormGt3101();
+    }
+
+    @Test(priority = 13)
     @Description("Chek email notification")
     public void EmailInviteChecker(){
         driver.get(gmail);

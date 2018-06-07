@@ -13,7 +13,6 @@ public class AccountDevices extends Util {
     public AccountDevices(WebDriver webDriver) {
         super(webDriver);
     }
-    private static String createdDeviceName = DataProperties.dataProperty("data.properties","device.names");
 
     @FindBy(how = How.XPATH, using = "//div[contains(text(),'ДОБАВИТЬ УСТРОЙСТВО')]")
     private WebElement addelementButton;
@@ -100,14 +99,14 @@ public class AccountDevices extends Util {
     }
 
     public boolean isNewDeviceCreated(){
-        getDeviceName().sendKeys(createdDeviceName);
-        getDeviceImei().sendKeys(DataProperties.dataProperty("data.properties","device.imei"));
+        getDeviceName().sendKeys(DataProperties.dataProperty("data.properties","TK116.name"));
+        getDeviceImei().sendKeys(DataProperties.dataProperty("data.properties","TK116.imei"));
         Select selectDevice = new Select(getDeviceType());
-        selectDevice.selectByVisibleText(DataProperties.dataProperty("data.properties","device.types"));
-        getDevicePhone().sendKeys(DataProperties.dataProperty("data.properties","device.sim"));
-        getDeviceAccess().sendKeys(DataProperties.dataProperty("data.properties","device.pass"));
+        selectDevice.selectByVisibleText(DataProperties.dataProperty("data.properties","TK116.types"));
+        getDevicePhone().sendKeys(DataProperties.dataProperty("data.properties","TK116.sim"));
+        getDeviceAccess().sendKeys(DataProperties.dataProperty("data.properties","TK116.pass"));
         getShowPass().click();
-        getDeviceApn().sendKeys(DataProperties.dataProperty("data.properties","device.apn"));
+        getDeviceApn().sendKeys(DataProperties.dataProperty("data.properties","TK116.apn"));
         getSubmitForm().click();
         return getCreatedDevice().isDisplayed();
     }
