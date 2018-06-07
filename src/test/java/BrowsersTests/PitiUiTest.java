@@ -87,8 +87,9 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(userHomePage.isMap());
         userHomePage.userMenuClick();
         userHomePage.exitHomePage();
-        assertTrue(loginPage.isLogoExists());
         dbClearUser.getClean();
+        CustomWait.getOneSecondWait();
+        assertTrue(loginPage.isLogoExists());
     }
 
     @Test (priority = 7)
