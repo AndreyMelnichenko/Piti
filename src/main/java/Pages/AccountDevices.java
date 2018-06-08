@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import utils.CustomWait;
 import utils.DataProperties;
 import utils.Util;
 
@@ -125,6 +126,7 @@ public class AccountDevices extends Util {
         Actions builder = new Actions(driver);
         builder.moveToElement(menuButton).click().perform();
         builder.moveToElement(exitButton).click().perform();
+        CustomWait.getOneSecondWait();
     }
 
 }

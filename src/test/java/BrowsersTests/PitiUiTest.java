@@ -175,7 +175,6 @@ public class PitiUiTest extends WebDriverTestBase {
         assertTrue(accountDevices.isNewDeviceCreated());
         accountDevices.isNewDeviceRemoved();
         accountDevices.goExitApp(driver);
-        CustomWait.getOneSecondWait();
     }
 
     @Test(priority = 12)
