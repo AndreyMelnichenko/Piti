@@ -19,7 +19,7 @@ public class WebDriverTestBase {
     public RemoteWebDriver driver;
     protected final String baseUrl = "http://185.156.41.135/login";
     protected final String gmail = "https://www.google.com/intl/ru/gmail/about/";
-    private String runType = "debug";
+    private String runType = "prod";
 
     @BeforeClass
     public void setUp() throws Exception {
