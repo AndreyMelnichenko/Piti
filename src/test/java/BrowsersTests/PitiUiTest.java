@@ -193,7 +193,7 @@ public class PitiUiTest extends WebDriverTestBase {
         userHomePage.exitHomePage();
     }
 
-    @Test(priority = 13)
+/*    @Test(priority = 13)
     public void WigetBorder() {
         driver.get(baseUrl);
         CustomWait.getOneSecondWait();
@@ -201,7 +201,7 @@ public class PitiUiTest extends WebDriverTestBase {
         loginPage.goPersonalCabinet(user2, pass2);
         UserHomePage userHomePage = PageFactory.initElements(driver, UserHomePage.class);
         userHomePage.leftWigetBorder(driver);
-    }
+    }*/
 
 /*    @Test(priority = 13)
     @Description("Chek email notification")
