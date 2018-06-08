@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -81,7 +82,7 @@ public class UserHomePage extends Util {
     private WebElement applyPeriod;
     @FindBy(how = How.XPATH, using = "//app-sub-menu/span")
     private WebElement choosedDate;
-    //--------------------------------Wget
+    //--------------------------------Right Wiget
     @FindBy(how = How.XPATH, using = "(//div[@class='mapWiget_filter-item'])[1]")
     private WebElement periodicalData;
     @FindBy(how = How.XPATH, using = "(//div[@class='mapWiget_filter-item'])[2]")
@@ -96,6 +97,21 @@ public class UserHomePage extends Util {
     private WebElement notify;
     @FindBy(how = How.XPATH, using = "(//div[@class='mapWiget_filter-item'])[7]")
     private WebElement ballance;
+    //--------------------------------Left Wiget
+    @FindBy(how = How.XPATH, using = "//div[@class='leftWiget_btn']")
+    private WebElement leftBordet;
+    @FindBy(how = How.XPATH, using = "//button[@class='devices_btns-addCategory']")
+    private WebElement addGroupButton;
+    @FindBy(how = How.XPATH, using = "//input[@id='creatCategoryName']")
+    private WebElement groupName;
+    @FindBy(how = How.XPATH, using = "(//button[contains(text(),'ПОДТВЕРДИТЬ')])[1]")
+    private WebElement acceptNewGroup;
+    @FindBy(how = How.XPATH, using = "(//div[@class='devicesCategory_content'])[2]")
+    private WebElement emptyArea;
+
+    private WebElement getGroupName(){
+        return waitFor(ExpectedConditions.visibilityOf(groupName));
+    }
 
     private WebElement getAllarmPic(){
         return waitFor(ExpectedConditions.visibilityOf(allarmPic));
@@ -146,6 +162,7 @@ public class UserHomePage extends Util {
     }
 
     public boolean isMap(){
+        CustomWait.getHalfSecondWait();
         WebElement waitMap = waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom']")));
         return waitMap.isDisplayed();
     }
@@ -227,5 +244,25 @@ public class UserHomePage extends Util {
         builder.moveToElement(applyPeriod).click().perform();
         System.out.println(choosedDate.getText());
         assertFalse(currentText.equals(choosedDate.getText()));
+    }
+
+    public void leftWigetBorder(WebDriver driver){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(leftBordet).click().perform();
+        CustomWait.getMinWait();
+        builder.moveToElement(leftBordet).click().perform();
+        CustomWait.getMinWait();
+        builder.moveToElement(addGroupButton).click().perform();
+        getGroupName().click();
+        getGroupName().sendKeys("My TEST Group");
+        builder.moveToElement(acceptNewGroup).click().perform();
+        Actions device = new Actions(driver);
+        Action drug = device.dragAndDropBy(firstDevice, 1930,500)
+                //.moveByOffset(1930, 500)
+                //.release()
+                .build();
+        drug.perform();
+        builder.moveToElement(emptyArea).click().perform();
+        CustomWait.getTwoSecondWait();
     }
 }

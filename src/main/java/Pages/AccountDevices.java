@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import utils.CustomWait;
 import utils.DataProperties;
 import utils.Util;
 
@@ -103,7 +104,7 @@ public class AccountDevices extends Util {
         getAddelementButton().click();
     }
 
-    public boolean isNewDeviceCreated(){
+    public void CreateDevice(){
         getDeviceName().sendKeys(DataProperties.dataProperty("data.properties","TK116.name"));
         getDeviceImei().sendKeys(DataProperties.dataProperty("data.properties","TK116.imei"));
         Select selectDevice = new Select(getDeviceType());
@@ -113,17 +114,26 @@ public class AccountDevices extends Util {
         getShowPass().click();
         getDeviceApn().sendKeys(DataProperties.dataProperty("data.properties","TK116.apn"));
         getSubmitForm().click();
+        CustomWait.getHalfSecondWait();
+    }
+
+    public boolean isNewDeviceCreated(){
         return getCreatedDevice().isDisplayed();
     }
 
-    public void isNewDeviceRemoved(){
-        getThreeDotsButton().click();
-        getDropDownDelete().click();
-        getConfirmRemoveDevice().click();
+    public void isNewDeviceRemoved(WebDriver driver){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(threeDotsButton).click().perform();
+        CustomWait.getMinWait();
+        builder.moveToElement(dropDownDelete).click().perform();
+        CustomWait.getMinWait();
+        builder.moveToElement(confirmRemoveDevice).click().perform();
     }
     public void goExitApp(WebDriver driver){
         Actions builder = new Actions(driver);
+        CustomWait.getMinWait();
         builder.moveToElement(menuButton).click().perform();
+        CustomWait.getMinWait();
         builder.moveToElement(exitButton).click().perform();
     }
 
