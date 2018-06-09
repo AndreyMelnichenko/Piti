@@ -21,7 +21,7 @@ public class WebDriverTestBase {
     protected final String gmail = "https://www.google.com/intl/ru/gmail/about/";
     private String runType = "prod";
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp() throws Exception {
         switch (runType) {
             case ("debug"):
@@ -32,6 +32,8 @@ public class WebDriverTestBase {
                 driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
                 driver.manage().window().setPosition(point);
                 driver.manage().window().maximize();
+                driver.manage().deleteAllCookies();
+                dbClearUser.getClean();
                 break;
             case ("prod"):
                 DesiredCapabilities browser = new DesiredCapabilities();
@@ -42,16 +44,14 @@ public class WebDriverTestBase {
                 //driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(), browser);
                 driver = new RemoteWebDriver(URI.create("http://18.197.43.132:4444/wd/hub").toURL(), browser);
                 driver.manage().window().setSize(new Dimension(1920, 1080));
+                driver.manage().deleteAllCookies();
+                dbClearUser.getClean();
+                break;
         }
     }
 
-    @BeforeMethod
-    public void clearDb() {
-        dbClearUser.getClean();
-        driver.manage().deleteAllCookies();
-    }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown() {
         switch (runType) {
             case ("debug"):
