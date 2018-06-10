@@ -3,7 +3,6 @@ package Selenide;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -31,6 +30,7 @@ public class SelenideAngularTest {
     private SelenideHomePage homePage = new SelenideHomePage();
     private SelenideErrPage errPage = new SelenideErrPage();
     private SelenideRecovery recovery = new SelenideRecovery();
+    private SelenideRegistration registration = new SelenideRegistration();
     private String runType = "local";
 
     @BeforeClass
@@ -69,8 +69,6 @@ public class SelenideAngularTest {
     @Test
     public void logo() {
         open(baseUrl);
-        CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();
         login.logo().shouldBe(Condition.visible);
         assertEquals(login.title().getText(),DataProperties.dataProperty("data.properties", "login.page.title"));
 
@@ -89,10 +87,26 @@ public class SelenideAngularTest {
         login.recoverPass().shouldBe(Condition.visible).click();
         recovery.title().should(Condition.matchesText(DataProperties.dataProperty("data.properties","recovery.page.title")));
         recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
+        recovery.recoveryButton().shouldBe(Condition.visible).click();
 
     }
 
-    @Test (dependsOnMethods = "recoveryPassword")
+    @Test(dependsOnMethods = "recoveryPassword")
+    public void registration(){
+        open(baseUrl);
+        login.registration().shouldBe(Condition.visible).click();
+        registration.emailField().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
+        registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        registration.buttonCreate().shouldBe(Condition.visible).click();
+        homePage.map().shouldBe(Condition.visible);
+        homePage.menu().shouldBe(Condition.visible).click();
+        homePage.exit().shouldBe(Condition.visible).click();
+        CustomWait.getOneSecondWait();
+        login.logo().shouldBe(Condition.visible);
+    }
+
+    @Test (dependsOnMethods = "registration")
     public void enterPersonalCabinet(){
         open(baseUrl);
         login.login().setValue(getProperty("user.email"));
@@ -100,6 +114,8 @@ public class SelenideAngularTest {
         login.enter().click();
         homePage.map().shouldBe(Condition.visible);
     }
+
+
 
     @Test(dependsOnMethods = "enterPersonalCabinet")
     public void errorPage(){

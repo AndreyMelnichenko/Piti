@@ -23,4 +23,5 @@ public class SelenideLogin {
         return $(By.xpath("//button[@class='login']"));
     }
     public SelenideElement recoverPass(){return $(By.xpath("//a[@class='forget']"));}
+    public SelenideElement registration(){return $(By.xpath("//a[@href='/register']"));}
 }

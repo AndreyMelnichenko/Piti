@@ -57,7 +57,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 4)
-    @Description("Recovery password")
+    @Description("Recovery password")//selenide
     public void RecoveryPass() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
