@@ -71,7 +71,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 5)
-    @Description("Sing-In Page")
+    @Description("Sing-In Page")//selenide
     public void OpenSingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -82,7 +82,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 6)
-    @Description("Registration")
+    @Description("Registration")//selenide
     public void Registration() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -99,7 +99,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 7)
-    @Description("Sing-Up")
+    @Description("Sing-Up")//selenide
     public void SingUp() {
         driver.get(baseUrl);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
