@@ -31,6 +31,7 @@ public class SelenideAngularTest {
     private SelenideErrPage errPage = new SelenideErrPage();
     private SelenideRecovery recovery = new SelenideRecovery();
     private SelenideRegistration registration = new SelenideRegistration();
+    private SelenideAccountSettings accountSettings = new SelenideAccountSettings();
     private String runType = "local";
 
     @BeforeClass
@@ -91,7 +92,7 @@ public class SelenideAngularTest {
 
     }
 
-    @Test(dependsOnMethods = "recoveryPassword")
+    @Test(enabled=false,dependsOnMethods = "recoveryPassword")
     public void registration(){
         open(baseUrl);
         login.registration().shouldBe(Condition.visible).click();
@@ -102,11 +103,11 @@ public class SelenideAngularTest {
         homePage.map().shouldBe(Condition.visible);
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.exit().shouldBe(Condition.visible).click();
-        CustomWait.getOneSecondWait();
+        CustomWait.getTwoSecondWait();
         login.logo().shouldBe(Condition.visible);
     }
 
-    @Test (dependsOnMethods = "registration")
+    @Test (dependsOnMethods = "recoveryPassword")
     public void enterPersonalCabinet(){
         open(baseUrl);
         login.login().setValue(getProperty("user.email"));
@@ -129,6 +130,14 @@ public class SelenideAngularTest {
     public void addUser(){
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.accountSettings().shouldBe(Condition.visible).click();
+        accountSettings.createNewUserButton().shouldBe(Condition.visible).click();
+        accountSettings.emailNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
+        accountSettings.nameNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.fio"));
+        accountSettings.passNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        accountSettings.passNewUserConfirm().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
+        accountSettings.roleNewUser().shouldBe(Condition.visible).click();
+        accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
     }
 
     @Test(enabled=false, dependsOnMethods = "addUser")
