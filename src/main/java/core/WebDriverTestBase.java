@@ -39,8 +39,8 @@ public class WebDriverTestBase {
                 browser.setVersion("64");
                 browser.setCapability("enableVNC", true);
                 //browser.setCapability("enableVideo", true);
-                //driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(), browser);
-                driver = new RemoteWebDriver(URI.create("http://18.197.43.132:4444/wd/hub").toURL(), browser);
+                driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(), browser);
+                //driver = new RemoteWebDriver(URI.create("http://18.197.43.132:4444/wd/hub").toURL(), browser);
                 driver.manage().window().setSize(new Dimension(1920, 1080));
                 driver.manage().deleteAllCookies();
                 dbClearUser.getClean();

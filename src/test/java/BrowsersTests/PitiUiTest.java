@@ -27,7 +27,7 @@ public class PitiUiTest extends WebDriverTestBase {
 
 
     @Test(priority = 1)
-    @Description("Stat UI Tests")
+    @Description("Stat UI Tests")//selenide
     public void WaitForWatcher() {
         driver.get(baseUrl);
         try {
@@ -37,7 +37,7 @@ public class PitiUiTest extends WebDriverTestBase {
         }
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2)//selenide
     @Description("Sing-Up Error Message Validation")
     public void UiSingUpErr() {
         driver.get(baseUrl);
@@ -48,7 +48,7 @@ public class PitiUiTest extends WebDriverTestBase {
     }
 
     @Test(priority = 3)
-    @Description("404 page")
+    @Description("404 page")//selenide
     public void ErrorPageCheck() {
         driver.get(baseUrl + "/sfosfosifjsod");
         ErrorPage errorPage = PageFactory.initElements(driver, ErrorPage.class);
