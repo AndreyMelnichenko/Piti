@@ -215,7 +215,7 @@ public class SelenideAngularTest {
         accountSettings.newDeviceShowPass().click();
         accountSettings.newDeviceApn().setValue(DataProperties.dataProperty("data.properties","TK116.apn"));
         accountSettings.newDeviceAccept().should(Condition.visible).click();
-        CustomWait.getOneSecondWait();
+        CustomWait.getTwoSecondWait();
         Selenide.refresh();
         accountSettings.newDeviceItem().waitUntil(Condition.visible,5000);
     }
