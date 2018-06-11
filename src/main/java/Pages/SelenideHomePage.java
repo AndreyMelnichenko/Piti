@@ -1,21 +1,21 @@
-package Selenide;
+package Pages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-class SelenideHomePage {
-    SelenideElement map(){
+public class SelenideHomePage {
+    public SelenideElement map(){
         return $(By.xpath("//div[@class='map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom']"));
     }
-    SelenideElement menu(){
+    public SelenideElement menu(){
         return $(By.xpath("//div[@class='menuBtn']"));
     }
-    SelenideElement exit(){
+    public SelenideElement exit(){
         return $(By.xpath("(//div[@class='menu_item-label'])[last()]"));
     }
-    SelenideElement accountSettings(){
+    public SelenideElement accountSettings(){
         return $(By.xpath("(//div[@class='menu_item-label'])[2]"));
     }
 

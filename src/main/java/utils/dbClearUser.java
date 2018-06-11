@@ -26,19 +26,19 @@ public class dbClearUser {
                     "(select id from users where email='"+getProperty("new.user.email")+"')";
             String usersDelete = "delete from users where email='"+getProperty("new.user.email")+"'";
             String checkUserDelete = "select count(id) as result from users where email='"+getProperty("new.user.email")+"'";
-            String iviteDelete = "delete from invites where email='"+getProperty("user.gmail")+"'";
+            String inviteDelete = "delete from invites where email='"+getProperty("user.gmail")+"'";
 
             stmt.executeUpdate(sessionDelete);
             stmt.executeUpdate(checkSessionDelete);
             stmt.executeUpdate(usersDelete);
             stmt.executeUpdate(checkUserDelete);
-            stmt.executeUpdate(iviteDelete);
+            stmt.executeUpdate(inviteDelete);
 
             ResultSet sessionDel = stmt.executeQuery(sessionDelete);
             ResultSet resultSessionDelete = stmt.executeQuery(checkSessionDelete);
             ResultSet userDel = stmt.executeQuery(usersDelete);
             ResultSet rresultUserDelete = stmt.executeQuery(checkUserDelete);
-            ResultSet deleteIvite = stmt.executeQuery(iviteDelete);
+            ResultSet deleteIvite = stmt.executeQuery(inviteDelete);
 
         } catch (SQLException se) {
             se.printStackTrace();
