@@ -166,6 +166,7 @@ public class SelenideAngularTest {
 
     @Test(dependsOnMethods = "addUser")
     public void checkCreatedUser(){
+        accountSettings.mainArea().waitUntil(Condition.visible,5000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
