@@ -90,121 +90,123 @@ public class AccountSettingsPage extends Util {
     private WebElement devices;
 
     //-----------------
-    private WebElement getDevices(){
+    private WebElement getDevices() {
         return waitFor(ExpectedConditions.visibilityOf(devices));
     }
 
-    private WebElement getReSetUpUserAccept(){
+    private WebElement getReSetUpUserAccept() {
         return waitFor(ExpectedConditions.visibilityOf(reSetUpUserAccept));
     }
 
-    private WebElement getFirstUserName(){
+    private WebElement getFirstUserName() {
         return waitFor(ExpectedConditions.visibilityOf(firstUserName));
     }
 
-    private WebElement getTimezone(){
+    private WebElement getTimezone() {
         return waitFor(ExpectedConditions.visibilityOf(timezone));
     }
 
-    private WebElement getReSetUpUserPhone(){
+    private WebElement getReSetUpUserPhone() {
         return waitFor(ExpectedConditions.visibilityOf(reSetUpUserPhone));
     }
 
-    private WebElement getReSetUpUserName(){
+    private WebElement getReSetUpUserName() {
         return waitFor(ExpectedConditions.visibilityOf(reSetUpUserName));
     }
 
-    private WebElement getReSetUpUserEmail(){
+    private WebElement getReSetUpUserEmail() {
         return waitFor(ExpectedConditions.visibilityOf(reSetUpUserEmail));
     }
 
-    private WebElement getDropDownSetUp(){
+    private WebElement getDropDownSetUp() {
         return waitFor(ExpectedConditions.visibilityOf(dropDownSetUp));
     }
 
-    private WebElement getThreeDotsButton(){
+    private WebElement getThreeDotsButton() {
         return waitFor(ExpectedConditions.visibilityOf(threeDotsButton));
     }
 
-    private WebElement getFirstUserEmail(){
+    private WebElement getFirstUserEmail() {
         return waitFor(ExpectedConditions.visibilityOf(firstUserEmail));
     }
 
-    private WebElement getFirstUserPhone(){
+    private WebElement getFirstUserPhone() {
         return waitFor(ExpectedConditions.visibilityOf(firstUserPhone));
     }
 
-    private WebElement getCreateNewUserButton(){
+    private WebElement getCreateNewUserButton() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserButton));
     }
 
-    private WebElement getCreateNewUserAccept(){
+    private WebElement getCreateNewUserAccept() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserAccept));
     }
 
-    private WebElement getCreateNewUserPhone(){
+    private WebElement getCreateNewUserPhone() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserPhone));
     }
 
-    private WebElement getCreateNewUserConfirm(){
+    private WebElement getCreateNewUserConfirm() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserConfirm));
     }
 
-    private WebElement getCreateNewUserPass(){
+    private WebElement getCreateNewUserPass() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserPass));
     }
 
-    private WebElement getCreateNewUserName(){
+    private WebElement getCreateNewUserName() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserName));
     }
 
-    private WebElement getCreateNewUserSimpleRole(){
+    private WebElement getCreateNewUserSimpleRole() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserSimpleRole));
     }
 
-    private WebElement getCreateNewUserEmail(){
+    private WebElement getCreateNewUserEmail() {
         return waitFor(ExpectedConditions.visibilityOf(createNewUserEmail));
     }
 
-    private WebElement sendInviteButton(){
+    private WebElement sendInviteButton() {
         return waitFor(ExpectedConditions.visibilityOf(sendInvite));
     }
 
-    private WebElement getInviteEmail(){
+    private WebElement getInviteEmail() {
         return waitFor(ExpectedConditions.visibilityOf(inviteEmail));
     }
 
-    private WebElement getInviteTextMessage(){
+    private WebElement getInviteTextMessage() {
         return waitFor(ExpectedConditions.visibilityOf(inviteTextMessage));
     }
 
-    private WebElement getInviteSimpleUserRole(){
+    private WebElement getInviteSimpleUserRole() {
         return waitFor(ExpectedConditions.visibilityOf(inviteSimpleUserRole));
     }
 
-    private WebElement getAcceptSendInvite(){
+    private WebElement getAcceptSendInvite() {
         return waitFor(ExpectedConditions.elementToBeClickable(acceptSendInvite));
     }
 
-    private WebElement getMenuButton(){
+    private WebElement getMenuButton() {
         return waitFor(ExpectedConditions.elementToBeClickable(menuButton));
     }
 
-    private WebElement getExitButton(){
+    private WebElement getExitButton() {
         return waitFor(ExpectedConditions.elementToBeClickable(exitButton));
     }
 
-    private WebElement getNewUserEmail(){
+    private WebElement getNewUserEmail() {
         return waitFor(ExpectedConditions.visibilityOf(newUserEmail));
     }
-    private WebElement getNewUserName(){
+
+    private WebElement getNewUserName() {
         return waitFor(ExpectedConditions.visibilityOf(newUserName));
     }
-    private WebElement getNewUserPhone(){
+
+    private WebElement getNewUserPhone() {
         return waitFor(ExpectedConditions.visibilityOf(newUserPhone));
     }
 
-    public void sendInvite(WebDriver driver){
+    public void sendInvite(WebDriver driver) {
         sendInviteButton().click();
         getInviteEmail().click();
         getInviteEmail().sendKeys(getProperty("user.gmail"));
@@ -217,19 +219,19 @@ public class AccountSettingsPage extends Util {
         CustomWait.getTwoSecondWait();
     }
 
-    public boolean checkNewUser(){
+    public boolean checkNewUser() {
         return getNewUserEmail().getText().equals(getProperty("user.gmail"));
     }
 
-    public void goExit(WebDriver driver){
+    public void goExit(WebDriver driver) {
         Actions builder = new Actions(driver);
         builder.moveToElement(menuButton).click().perform();
+        CustomWait.getMinWait();
         builder.moveToElement(exitButton).click().perform();
-        /*getMenuButton().click();
-        getExitButton().click();*/
+        CustomWait.getMinWait();
     }
 
-    public void createNewUser(){
+    public void createNewUser() {
         getCreateNewUserButton().click();
         getCreateNewUserEmail().sendKeys(getProperty("new.user.email"));
         getCreateNewUserName().sendKeys(getProperty("new.user.fio"));
@@ -239,24 +241,27 @@ public class AccountSettingsPage extends Util {
         getCreateNewUserSimpleRole().click();
         getCreateNewUserAccept().click();
     }
-    public boolean getCreatedEmail(){
-        return getProperty("new.user.email").equals(getNewUserEmail().getText());
-    }
-    public boolean getCreatedName(){
-        return getProperty("new.user.fio").equals(getNewUserName().getText());
-    }
-    public boolean getCreatedPhone(){
-        return getProperty("new.user.phone").equals(getNewUserPhone().getText());
+
+    public boolean isNewUserCreated() {
+        if (
+                (getProperty("new.user.email").equals(getNewUserEmail().getText())) &&
+                        (getProperty("new.user.fio").equals(getNewUserName().getText())) &&
+                        (getProperty("new.user.phone").equals(getNewUserPhone().getText()))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public boolean changeUserData(){
-        name=getFirstUserName().getText();
+
+    public boolean changeUserData() {
+        name = getFirstUserName().getText();
         getThreeDotsButton().click();
         getDropDownSetUp().click();
         getReSetUpUserEmail().clear();
         getReSetUpUserEmail().sendKeys(getProperty("user.email"));
         getReSetUpUserName().clear();
-        String newName = "Dima"+new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
+        String newName = "Dima" + new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
         getReSetUpUserName().sendKeys(newName);
         getReSetUpUserPhone().clear();
         getReSetUpUserPhone().sendKeys(getProperty("new.user.phone"));
@@ -267,7 +272,7 @@ public class AccountSettingsPage extends Util {
         return name.equals(getFirstUserName().getText());
     }
 
-    public void goDevices(){
+    public void goDevices() {
         getDevices().click();
     }
 }

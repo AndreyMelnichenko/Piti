@@ -70,7 +70,6 @@
             <artifactId>mariadb-java-client</artifactId>
             <version>${maria.db.client}</version>
         </dependency>
-
     </dependencies>
 
     <build>
