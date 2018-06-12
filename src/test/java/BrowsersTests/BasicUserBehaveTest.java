@@ -4,6 +4,8 @@ import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -29,6 +31,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.PropertiesCache.getProperty;
 
+@Epic("UI tests")
 public class BasicUserBehaveTest {
 
     private final String baseUrl = "http://185.156.41.135/login";
@@ -76,6 +79,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test
+    @Description("Login page")
     public void logo() {
         open(baseUrl);
         login.logo().shouldBe(Condition.visible);
@@ -83,7 +87,8 @@ public class BasicUserBehaveTest {
 
     }
     @Test(dependsOnMethods = "logo")
-    public void SingInErrMessages(){
+    @Description("Sing-Up Error Message Validation")
+    public void SingUnErrMessages(){
         login.login().setValue("qatest@email.my");
         login.password().setValue("123qwwedsa");
         login.enter().click();
@@ -92,6 +97,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "SingInErrMessages")
+    @Description("Recovery Password")
     public void recoveryPassword(){
         login.recoverPass().shouldBe(Condition.visible).click();
         recovery.title().should(Condition.matchesText(DataProperties.dataProperty("data.properties","recovery.page.title")));
@@ -100,6 +106,7 @@ public class BasicUserBehaveTest {
 
     }
     @Test(dependsOnMethods = "recoveryPassword")
+    @Description("Re-SingIn")
     public void badRegistration(){
         open(baseUrl);
         login.registration().shouldBe(Condition.visible).click();
@@ -111,6 +118,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(enabled=false,dependsOnMethods = "badRegistration")
+    @Description("Sing In")
     public void registration(){
         open(baseUrl);
         login.registration().shouldBe(Condition.visible).click();
@@ -126,6 +134,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test (dependsOnMethods = "recoveryPassword")
+    @Description("Sing-Up")
     public void enterPersonalCabinet(){
         open(baseUrl);
         login.login().setValue(getProperty("user.email"));
@@ -137,6 +146,7 @@ public class BasicUserBehaveTest {
 
 
     @Test(dependsOnMethods = "enterPersonalCabinet")
+    @Description("404 page")
     public void errorPage(){
         open(baseUrl+"/eeuheirf");
         AssertJUnit.assertEquals(errPage.errTitle().getText(), "404");
@@ -145,6 +155,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "errorPage")
+    @Description("Add New User")
     public void addUser(){
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.accountSettings().shouldBe(Condition.visible).click();
@@ -166,13 +177,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "addUser")
-    public void checkCreatedUser(){
-        accountSettings.mainArea().waitUntil(Condition.visible,5000);
-
-    }
-
-
-    @Test(dependsOnMethods = "checkCreatedUser")
+    @Description("Send Invite")
     public void invitetoUser(){
         accountSettings.inviteButton().shouldBe(Condition.visible).click();
         accountSettings.emailForImvite().shouldBe(Condition.visible).setValue(getProperty("user.gmail"));
@@ -185,6 +190,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "invitetoUser")
+    @Description("User change info")
     public void userChangeInfo(){
         String oldName = accountSettings.firstUserName().getText();
         accountSettings.firstUserThreeDots().shouldBe(Condition.visible).click();
@@ -203,6 +209,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "userChangeInfo")
+    @Description("Add new Device TK-116")
     public void addDevice(){
         accountSettings.devicesButton().should(Condition.visible).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
@@ -222,6 +229,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "addDevice")
+    @Description("Remove device")
     public void removeDevice(){
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         accountSettings.removeNewDevice().waitUntil(Condition.visible,2000).click();
@@ -233,6 +241,7 @@ public class BasicUserBehaveTest {
     }
 
     @Test(dependsOnMethods = "removeDevice")
+    @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
         accountSettings.exitButton().shouldBe(Condition.visible).click();
