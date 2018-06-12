@@ -2,81 +2,35 @@ package BrowsersTests;
 
 import Pages.*;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.CustomWait;
 import utils.DataProperties;
-import utils.dbClearUser;
 
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.PropertiesCache.getProperty;
 
 @Epic("UI tests")
-public class BasicUserBehaveTest {
+public class BasicUserBehaveTest extends WebDriverTestBase {
 
-    private final String baseUrl = "http://185.156.41.135/login";
-    private RemoteWebDriver driver;
     private Login login = new Login();
     private HomePage homePage = new HomePage();
     private ErrPage errPage = new ErrPage();
     private Recovery recovery = new Recovery();
     private Registration registration = new Registration();
     private AccountSettings accountSettings = new AccountSettings();
-    private String runType = "docker";
-
-    @BeforeClass
-    public void setup() throws MalformedURLException {
-        switch (runType){
-            case("local"):
-                Configuration.browser = "chrome";
-                Configuration.browserPosition="1921x0";
-                Configuration.browserSize="1800x1000";
-                break;
-            case("docker"):
-                Configuration.browser = "chrome";
-                DesiredCapabilities browser = new DesiredCapabilities();
-                browser.setBrowserName("chrome");
-                browser.setVersion("66");
-                browser.setCapability("enableVNC", true);
-                driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(),browser);
-                setWebDriver(driver);
-                driver.manage().window().setSize(new Dimension(1920, 1080));
-                break;
-        }
-
-    }
-
-    @BeforeMethod
-    public void dbCleaner(){
-        dbClearUser.getClean();
-    }
-    @AfterClass
-    public void tearDown(){
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
-    }
 
     @Test (description = "Loginka")
     @Description("Login page")
@@ -96,7 +50,7 @@ public class BasicUserBehaveTest {
         AssertJUnit.assertEquals(login.errorPassword().getText(), DataProperties.dataProperty("data.properties", "login.wrong.password"));
     }
 
-    @Test(dependsOnMethods = "SingInErrMessages")
+    @Test(dependsOnMethods = "SingUnErrMessages")
     @Description("Recovery Password")
     public void recoveryPassword(){
         login.recoverPass().shouldBe(Condition.visible).click();

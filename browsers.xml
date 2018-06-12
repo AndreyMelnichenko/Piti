@@ -1,12 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Mobox">
+<listeners>
+<listener class-name="utils.RetryListener"/>
+<listener class-name="utils.TestListener"/>
+</listeners>
     <test name="API Tests" preserve-order="false" verbose="1">
         <classes>
-            <class name="ApiTests.PitiApiTest"/>
-            <class name="BrowsersTests.PitiUiTest"/>
+            <class name="BrowsersTests.BasicUserBehaveTest"/>
         </classes>
     </test>
-    <listeners>
-        <listener class-name="utils.RetryListener"/>
-    </listeners>
+    <packages>
+        <package name="ApiTests.PitiApiTest">
+            <exclude name="*"/>
+        </package>
+    </packages>
 </suite>
