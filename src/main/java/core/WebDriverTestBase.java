@@ -13,6 +13,7 @@ import utils.dbClearUser;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 
@@ -29,6 +30,8 @@ public class WebDriverTestBase {
                 Configuration.browser = "chrome";
                 Configuration.browserPosition="1921x0";
                 Configuration.browserSize="1800x1000";
+                Configuration.reportsFolder = "src/main/java/screen";
+                Configuration.savePageSource=false;
                 break;
             case("docker"):
                 Configuration.browser = "chrome";
@@ -38,6 +41,7 @@ public class WebDriverTestBase {
                 browser.setCapability("enableVNC", true);
                 driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(),browser);
                 setWebDriver(driver);
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
                 driver.manage().window().setSize(new Dimension(1920, 1080));
                 break;
         }

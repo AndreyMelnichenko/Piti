@@ -70,7 +70,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.errorMessage().shouldBe(Condition.visible).should(Condition.matchesText("Электронная почта \"dima.laktionov5@gmail.com\" has already been taken."));
     }
 
-    @Test(dependsOnMethods = "badRegistration", description = "Re-SingIn")
+    @Test(dependsOnMethods = "badRegistration", description = "SingIn")
     @Description("Sing In")
     public void registration(){
         open(baseUrl);
@@ -79,14 +79,15 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        homePage.map().shouldBe(Condition.visible);
+        CustomWait.getTwoSecondWait();
+        CustomWait.getTwoSecondWait();
+        homePage.map().waitUntil(Condition.visible,5000);
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.exit().shouldBe(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
         login.logo().waitUntil(Condition.visible, 6000);//shouldBe(Condition.visible);
     }
 
-    @Test (dependsOnMethods = "recoveryPassword", description = "Sing Up")
+    @Test (dependsOnMethods = "registration", description = "Sing Up")
     @Description("Sing-Up")
     public void enterPersonalCabinet(){
         open(baseUrl);
