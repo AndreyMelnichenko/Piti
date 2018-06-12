@@ -19,6 +19,7 @@ import java.util.Calendar;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.fail;
 import static utils.PropertiesCache.getProperty;
 
 @Epic("UI tests")
@@ -122,7 +123,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.roleNewUser().shouldBe(Condition.visible).click();
         accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
         CustomWait.getTwoSecondWait();
-        CustomWait.getOneSecondWait();
+        CustomWait.getTwoSecondWait();
         Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,5000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
@@ -191,10 +192,50 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.removeNewDeviceConfirm().waitUntil(Condition.visible,2000).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         Selenide.refresh();
+        System.out.println(accountSettings.contentField().parent());
         accountSettings.contentField().should(Condition.matchesText(""));
+        open(baseUrl);
+        homePage.map().should(Condition.visible);
+        homePage.menu().should(Condition.visible).click();
+        homePage.exit().should(Condition.visible).click();
     }
 
-    @Test(dependsOnMethods = "removeDevice", description = "Exit from personal cabinet")
+    @Test(/*dependsOnMethods = "removeDevice",*/ description = "Check device GT3101")
+    @Description("Check device GT3101")
+    public void checkDevice(){
+        open(baseUrl);
+        login.login().should(Condition.visible).setValue(getProperty("user2.email"));
+        login.password().should(Condition.visible).setValue(getProperty("user2.password"));
+        login.enter().should(Condition.visible).click();
+        CustomWait.getTwoSecondWait();
+        homePage.menu().waitUntil(Condition.visible,5000);
+        Selenide.refresh();
+        homePage.firstDeviceItem().should(Condition.visible).click();
+        CustomWait.getMinWait();
+        homePage.firstDeviceItem().should(Condition.visible).click();
+        homePage.allarmPic().should(Condition.visible).hover();
+        CustomWait.getMinWait();
+        homePage.lockPic().should(Condition.visible).hover();
+        CustomWait.getMinWait();
+        homePage.speedPic().should(Condition.visible).hover();
+        CustomWait.getMinWait();
+        homePage.infoPic().should(Condition.visible).hover();
+        CustomWait.getMinWait();
+        homePage.showInMap().should(Condition.visible).click();
+        CustomWait.getTwoSecondWait();
+    }
+
+    @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
+    @Description("Check right widget")
+    public void checkRightWidget(){
+        for(int i=0; i<7;i++) {
+            homePage.firstDeviceItem().should(Condition.visible).hover();
+            CustomWait.getMinWait();
+            homePage.firstDeviceItem().should(Condition.visible).hover();
+        }
+    }
+
+    @Test(dependsOnMethods = "checkDevice", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
