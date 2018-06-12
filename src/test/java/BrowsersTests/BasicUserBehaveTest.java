@@ -18,7 +18,6 @@ import java.util.Calendar;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.PropertiesCache.getProperty;
 
@@ -32,7 +31,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private Registration registration = new Registration();
     private AccountSettings accountSettings = new AccountSettings();
 
-    @Test (description = "Loginka")
+    @Test (description = "Login page")
     @Description("Login page")
     public void logo() {
         open(baseUrl);
@@ -40,8 +39,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         AssertJUnit.assertEquals(login.title().getText(),DataProperties.dataProperty("data.properties", "login.page.title"));
 
     }
-    @Test(dependsOnMethods = "logo")
-    @Description("Sing-Up Error Message Validation")
+    @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
+    @Description("Sing-Up Error Messages Validation")
     public void SingUnErrMessages(){
         login.login().setValue("qatest@email.my");
         login.password().setValue("123qwwedsa");
@@ -50,7 +49,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         AssertJUnit.assertEquals(login.errorPassword().getText(), DataProperties.dataProperty("data.properties", "login.wrong.password"));
     }
 
-    @Test(dependsOnMethods = "SingUnErrMessages")
+    @Test(dependsOnMethods = "SingUnErrMessages", description = "Recovery Password")
     @Description("Recovery Password")
     public void recoveryPassword(){
         login.recoverPass().shouldBe(Condition.visible).click();
@@ -59,7 +58,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         recovery.recoveryButton().shouldBe(Condition.visible).click();
 
     }
-    @Test(dependsOnMethods = "recoveryPassword")
+    @Test(dependsOnMethods = "recoveryPassword", description = "Re-SingIn")
     @Description("Re-SingIn")
     public void badRegistration(){
         open(baseUrl);
@@ -71,7 +70,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.errorMessage().shouldBe(Condition.visible).should(Condition.matchesText("Электронная почта \"dima.laktionov5@gmail.com\" has already been taken."));
     }
 
-    @Test(enabled=false,dependsOnMethods = "badRegistration")
+    @Test(dependsOnMethods = "badRegistration", description = "Re-SingIn")
     @Description("Sing In")
     public void registration(){
         open(baseUrl);
@@ -87,7 +86,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.logo().waitUntil(Condition.visible, 6000);//shouldBe(Condition.visible);
     }
 
-    @Test (dependsOnMethods = "recoveryPassword")
+    @Test (dependsOnMethods = "recoveryPassword", description = "Sing Up")
     @Description("Sing-Up")
     public void enterPersonalCabinet(){
         open(baseUrl);
@@ -99,7 +98,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
 
 
-    @Test(dependsOnMethods = "enterPersonalCabinet")
+    @Test(dependsOnMethods = "enterPersonalCabinet", description = "404 page")
     @Description("404 page")
     public void errorPage(){
         open(baseUrl+"/eeuheirf");
@@ -108,7 +107,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.map().shouldBe(Condition.visible);
     }
 
-    @Test(dependsOnMethods = "errorPage")
+    @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
     public void addUser(){
         homePage.menu().shouldBe(Condition.visible).click();
@@ -130,7 +129,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
     }
 
-    @Test(dependsOnMethods = "addUser")
+    @Test(dependsOnMethods = "addUser", description = "Send Invite")
     @Description("Send Invite")
     public void invitetoUser(){
         accountSettings.inviteButton().shouldBe(Condition.visible).click();
@@ -143,7 +142,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.mainArea().waitUntil(Condition.visible,2000);
     }
 
-    @Test(dependsOnMethods = "invitetoUser")
+    @Test(dependsOnMethods = "invitetoUser", description = "User change info")
     @Description("User change info")
     public void userChangeInfo(){
         String oldName = accountSettings.firstUserName().getText();
@@ -162,7 +161,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     }
 
-    @Test(dependsOnMethods = "userChangeInfo")
+    @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
     public void addDevice(){
         accountSettings.devicesButton().should(Condition.visible).click();
@@ -182,7 +181,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.newDeviceItem().waitUntil(Condition.visible,5000);
     }
 
-    @Test(dependsOnMethods = "addDevice")
+    @Test(dependsOnMethods = "addDevice", description = "Remove device")
     @Description("Remove device")
     public void removeDevice(){
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
@@ -194,7 +193,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.contentField().should(Condition.matchesText(""));
     }
 
-    @Test(dependsOnMethods = "removeDevice")
+    @Test(dependsOnMethods = "removeDevice", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
