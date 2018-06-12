@@ -78,7 +78,7 @@ public class BasicUserBehaveTest {
         }
     }
 
-    @Test
+    @Test (description = "Loginka")
     @Description("Login page")
     public void logo() {
         open(baseUrl);
