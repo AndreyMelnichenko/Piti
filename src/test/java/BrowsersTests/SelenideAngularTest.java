@@ -162,14 +162,15 @@ public class SelenideAngularTest {
         CustomWait.getOneSecondWait();
         Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,5000);
+        accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
+        accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
+        accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
     }
 
     @Test(dependsOnMethods = "addUser")
     public void checkCreatedUser(){
         accountSettings.mainArea().waitUntil(Condition.visible,5000);
-        accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
-        accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
-        accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
+
     }
 
 
@@ -217,16 +218,16 @@ public class SelenideAngularTest {
         accountSettings.newDeviceApn().setValue(DataProperties.dataProperty("data.properties","TK116.apn"));
         accountSettings.newDeviceAccept().should(Condition.visible).click();
         CustomWait.getTwoSecondWait();
-        CustomWait.getOneSecondWait();
-        Selenide.refresh();
+        CustomWait.getTwoSecondWait();
+        //Selenide.refresh();
         accountSettings.newDeviceItem().waitUntil(Condition.visible,5000);
     }
 
     @Test(dependsOnMethods = "addDevice")
     public void removeDevice(){
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
-        accountSettings.removeNewDevice().should(Condition.visible).click();
-        accountSettings.removeNewDeviceButton().should(Condition.visible).click();
+        accountSettings.removeNewDevice().waitUntil(Condition.visible,2000).click();
+        accountSettings.removeNewDeviceButton().waitUntil(Condition.visible,2000).click();
         accountSettings.removeNewDeviceConfirm().waitUntil(Condition.visible,2000).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         Selenide.refresh();
