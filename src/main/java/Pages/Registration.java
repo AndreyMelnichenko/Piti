@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class SelenideRegistration {
+public class Registration {
     public SelenideElement emailField(){return $(By.xpath("//input[@name='email']"));}
     public SelenideElement passwordField(){return $(By.xpath("//input[@name='password']"));}
     public SelenideElement passwordConfirmField(){return $(By.xpath("//input[@name='passwordConfirm']"));}

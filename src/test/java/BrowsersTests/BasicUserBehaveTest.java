@@ -4,7 +4,6 @@ import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -27,20 +26,19 @@ import java.util.Calendar;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.PropertiesCache.getProperty;
 
-public class SelenideAngularTest {
+public class BasicUserBehaveTest {
 
     private final String baseUrl = "http://185.156.41.135/login";
     private RemoteWebDriver driver;
-    private SelenideLogin login = new SelenideLogin();
-    private SelenideHomePage homePage = new SelenideHomePage();
-    private SelenideErrPage errPage = new SelenideErrPage();
-    private SelenideRecovery recovery = new SelenideRecovery();
-    private SelenideRegistration registration = new SelenideRegistration();
-    private SelenideAccountSettings accountSettings = new SelenideAccountSettings();
+    private Login login = new Login();
+    private HomePage homePage = new HomePage();
+    private ErrPage errPage = new ErrPage();
+    private Recovery recovery = new Recovery();
+    private Registration registration = new Registration();
+    private AccountSettings accountSettings = new AccountSettings();
     private String runType = "docker";
 
     @BeforeClass
@@ -219,7 +217,7 @@ public class SelenideAngularTest {
         accountSettings.newDeviceAccept().should(Condition.visible).click();
         CustomWait.getTwoSecondWait();
         CustomWait.getTwoSecondWait();
-        //Selenide.refresh();
+        Selenide.refresh();
         accountSettings.newDeviceItem().waitUntil(Condition.visible,5000);
     }
 

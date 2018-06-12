@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class SelenideLogin {
+public class Login {
 
     public SelenideElement errorLogin(){return $(By.xpath("(//span[@class='err'])[1]"));}
     public SelenideElement errorPassword(){return $(By.xpath("(//span[@class='err'])[2]"));}

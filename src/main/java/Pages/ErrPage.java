@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class SelenideErrPage {
+public class ErrPage {
     public SelenideElement errTitle(){
         return $(By.xpath("//div[@class='head']"));
     }

@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class SelenideAccountSettings {
+public class AccountSettings {
     //---------Main Area
     public SelenideElement mainArea(){return $(By.xpath("//div[@class='content']"));}
     //---------Create User Button
