@@ -155,7 +155,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.firstUserOldName().should(Condition.visible).setValue(newName);
         accountSettings.firstUserOldPhone().should(Condition.visible).setValue(getProperty("new.user.phone"));
         accountSettings.firstUserTimeZone().should(Condition.visible).click();
-        CustomWait.getMinWait();
+        Selenide.sleep(200);
         accountSettings.firstUserTimeZone().should(Condition.visible).click();
         accountSettings.firstUserAcceptNewInfo().should(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
@@ -207,21 +207,19 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.login().should(Condition.visible).setValue(getProperty("user2.email"));
         login.password().should(Condition.visible).setValue(getProperty("user2.password"));
         login.enter().should(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
+        Selenide.sleep(200);
         homePage.menu().waitUntil(Condition.visible,5000);
-        for(int i=0; i<3;i++) {
-        homePage.firstDeviceItem().should(Condition.visible).click();
-        CustomWait.getMinWait();}
+        for(int i=0; i<3;i++) {homePage.firstDeviceItem().should(Condition.visible).click();Selenide.sleep(200);}
         homePage.allarmPic().should(Condition.visible).hover();
-        CustomWait.getMinWait();
+        Selenide.sleep(200);
         homePage.lockPic().should(Condition.visible).hover();
-        CustomWait.getMinWait();
+        Selenide.sleep(200);
         homePage.speedPic().should(Condition.visible).hover();
-        CustomWait.getMinWait();
+        Selenide.sleep(200);
         homePage.infoPic().should(Condition.visible).hover();
-        CustomWait.getMinWait();
+        Selenide.sleep(200);
         homePage.showInMap().should(Condition.visible).click();
-        //CustomWait.getTwoSecondWait();
+        Selenide.sleep(2000);
     }
 
     @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
@@ -229,7 +227,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void checkRightWidget(){
         for(int i=0; i<7;i++) {
             homePage.firstActiveFilterRightWidget().waitWhile(Condition.visible,5000).click();
-            CustomWait.getMinWait();
+            Selenide.sleep(200);
         }
     }
 
