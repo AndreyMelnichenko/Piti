@@ -3,6 +3,7 @@ package BrowsersTests;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -149,6 +150,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void userChangeInfo(){
         String oldName = accountSettings.firstUserName().getText();
         accountSettings.firstUserThreeDots().shouldBe(Condition.visible).click();
+        Selenide.sleep(200);
         accountSettings.firstUserEdit().shouldBe(Condition.visible).click();
         accountSettings.fitstUserOldEmail().should(Condition.visible).setValue(getProperty("user.email"));
         String newName = "Dima" + new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
@@ -265,6 +267,31 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.applyPeriod().shouldBe(Condition.visible).click();
         homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(Condition.exactText(""));
     }
+
+/*    @Test(enabled = false)
+    public void addGroup(){
+        open(baseUrl);
+        login.login().should(Condition.visible).setValue(getProperty("user2.email"));
+        login.password().should(Condition.visible).setValue(getProperty("user2.password"));
+        login.enter().should(Condition.visible).click();
+        Selenide.sleep(200);
+        homePage.menu().waitUntil(Condition.visible,5000);
+        *//*homePage.createDeviceGroup().shouldBe(Condition.visible).click();
+        homePage.addGroupPopUpTitle().shouldBe(Condition.visible).shouldBe(Condition.matchesText("Добавить группу"));
+        homePage.groupName().shouldBe(Condition.visible).setValue("Test Group");
+        homePage.acceptCreateGroup().shouldBe(Condition.visible).click();*//*
+        //Selenide.refresh();
+        homePage.editGroup().click();
+        homePage.inputNewGroupName().setValue("My Group");
+        homePage.acceptNewGroupName().shouldBe(Condition.visible).click();
+        homePage.deviceCssItem().dragAndDropTo(homePage.dragArea()).click();
+        *//*homePage.editGroup().click();
+        homePage.deleteNewGroupName().click();
+        homePage.deleteNewGroupPopUpTitle().shouldBe(Condition.matchesText("Удалить группу?"));
+        homePage.acceptDeleteNewGroup().shouldBe(Condition.visible).click();*//*
+        Selenide.sleep(4000);
+
+    }*/
 
     @Test(dependsOnMethods = "calendar", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")

@@ -1,5 +1,6 @@
 package Pages;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
@@ -41,4 +42,19 @@ public class HomePage {
     public SelenideElement calendarHeadSecond(){return $(By.xpath("(//div[@class='calendar_head'])[2]"));}
     public SelenideElement applyPeriod(){return $(By.xpath("(//button[@class='applyBtn btn btn-sm btn-success'])"));}
     public SelenideElement chosedPeriod(){return $(By.xpath("//app-sub-menu/span"));}
+    public SelenideElement createDeviceGroup(){return $(By.xpath("//button[@class='devices_btns-addCategory']"));}
+    //---------Create Group
+    public SelenideElement addGroupPopUpTitle(){return $(By.xpath("//span[contains(text(),'Добавить группу')]"));}
+    public SelenideElement groupName(){return $(By.xpath("//input[@id='creatCategoryName']"));}
+    public SelenideElement acceptCreateGroup(){return $(By.xpath("//button[@type='submit' and contains(text(),'ПОДТВЕРДИТЬ')]"));}
+    public SelenideElement editGroup(){return $(By.xpath("//div[@class='label_group']/button[@type='button']"));}
+    public SelenideElement inputNewGroupName(){return $(By.xpath("//input[@class='ng-untouched ng-pristine ng-valid']"));}
+    public SelenideElement acceptNewGroupName(){return $(By.xpath("//div[@class='editBtns']/button[1]"));}
+    public SelenideElement deleteNewGroupName(){return $(By.xpath("//div[@class='editBtns']/button[2]"));}
+    public SelenideElement deleteNewGroupPopUpTitle(){return $(By.xpath("//div[@class='creatCategory_top']/span[contains(text(),'Удалить группу?')]"));}
+    public SelenideElement acceptDeleteNewGroup(){return $(By.xpath("(//button[@class='creatCategory_accept' and contains(text(),'ПОДТВЕРДИТЬ')])[2]"));}
+    //--------CSS
+    public SelenideElement deviceCssItem(){return $(By.cssSelector("div[class='item-box selected']"));}
+    public SelenideElement dragArea(){return $(By.cssSelector("div[class='devicesCategory_content']"));}
+
 }
