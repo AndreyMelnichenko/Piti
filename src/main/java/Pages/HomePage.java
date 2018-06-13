@@ -26,6 +26,19 @@ public class HomePage {
     public SelenideElement infoPic(){return $(By.xpath("//div[@class='devicesCategory_item-infoIcon']"));}
     public SelenideElement showInMap(){return $(By.xpath("//div[@class='checkbox_icon checked']"));}
     public SelenideElement firstActiveFilterRightWidget(){return $(By.xpath("(//div[@class='mapWiget_filter-item'])[1]"));}
-
-
+    //----------Map
+    public SelenideElement carOnMap(){return $(By.xpath("//div[@class='pit-marker-car']"));}
+    public SelenideElement carOnMapDescription(){return $(By.xpath("//div[@class='mapCarModal_name']"));}
+    public SelenideElement mapZoomOut(){return $(By.xpath("//a[@class='leaflet-control-zoom-out']"));}
+    public SelenideElement mapSettings(){return $(By.xpath("//div[@class='settings']"));}
+    //---------Calendar
+    public SelenideElement calendarPeriod(){return $(By.xpath("//a[@class='subMenu_item']"));}
+    public SelenideElement calendarPrev(){return $(By.xpath("(//th[@class='prev available'])"));}
+    public SelenideElement calendarNext(){return $(By.xpath("(//th[@class='next available'])"));}
+    public SelenideElement startDate(){return $(By.xpath("(//td[@data-title='r2c3'])[1]"));}
+    public SelenideElement endDate(){return $(By.xpath("(//td[@data-title='r4c2'])[2]"));}
+    public SelenideElement calendarHeadFirst(){return $(By.xpath("(//div[@class='calendar_head'])[1]"));}
+    public SelenideElement calendarHeadSecond(){return $(By.xpath("(//div[@class='calendar_head'])[2]"));}
+    public SelenideElement applyPeriod(){return $(By.xpath("(//button[@class='applyBtn btn btn-sm btn-success'])"));}
+    public SelenideElement chosedPeriod(){return $(By.xpath("//app-sub-menu/span"));}
 }

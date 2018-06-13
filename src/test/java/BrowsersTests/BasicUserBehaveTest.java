@@ -19,7 +19,6 @@ import java.util.Calendar;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.fail;
 import static utils.PropertiesCache.getProperty;
 
 @Epic("UI tests")
@@ -80,9 +79,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();
-        homePage.map().waitUntil(Condition.visible,5000);
+        //registration.buttonCreate().waitWhile(Condition.visible,10000);
+        /*CustomWait.getTwoSecondWait();
+        CustomWait.getTwoSecondWait();*/
+        homePage.map().waitUntil(Condition.visible,10000);
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.exit().shouldBe(Condition.visible).click();
         login.logo().waitUntil(Condition.visible, 6000);//shouldBe(Condition.visible);
@@ -122,10 +122,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
         accountSettings.roleNewUser().shouldBe(Condition.visible).click();
         accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
+/*        CustomWait.getTwoSecondWait();
         CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();
-        Selenide.refresh();
-        accountSettings.mainArea().waitUntil(Condition.visible,5000);
+        Selenide.refresh();*/
+        accountSettings.mainArea().waitUntil(Condition.visible,10000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
@@ -139,9 +139,9 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.messageForInvite().shouldBe(Condition.visible).setValue("Welcome to PIT Service");
         accountSettings.simpleRoleInvite().shouldBe(Condition.visible).click();
         accountSettings.acceptSendInvite().shouldBe(Condition.visible).click();
-        CustomWait.getOneSecondWait();
-        Selenide.refresh();
-        accountSettings.mainArea().waitUntil(Condition.visible,2000);
+/*        CustomWait.getOneSecondWait();
+        Selenide.refresh();*/
+        accountSettings.mainArea().waitUntil(Condition.visible,10000);
     }
 
     @Test(dependsOnMethods = "invitetoUser", description = "User change info")
@@ -177,10 +177,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.newDeviceShowPass().click();
         accountSettings.newDeviceApn().setValue(DataProperties.dataProperty("data.properties","TK116.apn"));
         accountSettings.newDeviceAccept().should(Condition.visible).click();
+/*        CustomWait.getTwoSecondWait();
         CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();
-        Selenide.refresh();
-        accountSettings.newDeviceItem().waitUntil(Condition.visible,5000);
+        Selenide.refresh();*/
+        accountSettings.newDeviceItem().waitUntil(Condition.visible,10000);
     }
 
     @Test(dependsOnMethods = "addDevice", description = "Remove device")
@@ -200,7 +200,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.exit().should(Condition.visible).click();
     }
 
-    @Test(/*dependsOnMethods = "removeDevice",*/ description = "Check device GT3101")
+    @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
     @Description("Check device GT3101")
     public void checkDevice(){
         open(baseUrl);
@@ -209,10 +209,9 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.enter().should(Condition.visible).click();
         CustomWait.getTwoSecondWait();
         homePage.menu().waitUntil(Condition.visible,5000);
-        Selenide.refresh();
+        for(int i=0; i<3;i++) {
         homePage.firstDeviceItem().should(Condition.visible).click();
-        CustomWait.getMinWait();
-        homePage.firstDeviceItem().should(Condition.visible).click();
+        CustomWait.getMinWait();}
         homePage.allarmPic().should(Condition.visible).hover();
         CustomWait.getMinWait();
         homePage.lockPic().should(Condition.visible).hover();
@@ -222,20 +221,51 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.infoPic().should(Condition.visible).hover();
         CustomWait.getMinWait();
         homePage.showInMap().should(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
+        //CustomWait.getTwoSecondWait();
     }
 
     @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
     @Description("Check right widget")
     public void checkRightWidget(){
         for(int i=0; i<7;i++) {
-            homePage.firstDeviceItem().should(Condition.visible).hover();
+            homePage.firstActiveFilterRightWidget().waitWhile(Condition.visible,5000).click();
             CustomWait.getMinWait();
-            homePage.firstDeviceItem().should(Condition.visible).hover();
         }
     }
 
-    @Test(dependsOnMethods = "checkDevice", description = "Exit from personal cabinet")
+    @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
+    @Description("Car on Map")
+    public void checkMapZoom(){
+        homePage.carOnMap().shouldBe(Condition.visible).hover();
+        Selenide.sleep(500);
+        homePage.carOnMapDescription().shouldBe(Condition.visible).shouldHave(Condition.exactText("Test Device GT3101"));
+        for(int i=0; i<10;i++) {homePage.mapZoomOut().shouldBe(Condition.visible).click();Selenide.sleep(200);}
+        homePage.mapSettings().shouldBe(Condition.visible).click();
+    }
+
+    @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
+    @Description("Calendar")
+    public void calendar(){
+        homePage.calendarPeriod().shouldBe(Condition.visible).click();
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(Condition.exactText("Not selected"));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(Condition.exactText("Not selected"));
+        homePage.calendarPrev().shouldBe(Condition.visible).click();
+        Selenide.sleep(100);
+        homePage.calendarPrev().shouldBe(Condition.visible).click();
+        homePage.startDate().shouldBe(Condition.visible).click();
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldNotHave(Condition.exactText("Not selected"));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(Condition.exactText("Not selected"));
+        homePage.calendarNext().shouldBe(Condition.visible).click();
+        Selenide.sleep(100);
+        homePage.calendarNext().shouldBe(Condition.visible).click();
+        homePage.endDate().shouldBe(Condition.visible).click();
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldNotHave(Condition.exactText("Not selected"));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldNotHave(Condition.exactText("Not selected"));
+        homePage.applyPeriod().shouldBe(Condition.visible).click();
+        homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(Condition.exactText(""));
+    }
+
+    @Test(dependsOnMethods = "calendar", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
