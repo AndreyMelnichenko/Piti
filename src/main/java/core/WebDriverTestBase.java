@@ -35,6 +35,8 @@ public class WebDriverTestBase {
                 break;
             case("docker"):
                 Configuration.browser = "chrome";
+                Configuration.reportsFolder = "src/main/java/screen";
+                Configuration.savePageSource=false;
                 DesiredCapabilities browser = new DesiredCapabilities();
                 browser.setBrowserName("chrome");
                 browser.setVersion("66");

@@ -219,14 +219,16 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.infoPic().should(Condition.visible).hover();
         Selenide.sleep(200);
         homePage.showInMap().should(Condition.visible).click();
-        Selenide.sleep(2000);
+        Selenide.sleep(1000);
+        homePage.showInMap().should(Condition.visible).click();
     }
 
     @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
     @Description("Check right widget")
     public void checkRightWidget(){
+        Selenide.refresh();
         for(int i=0; i<7;i++) {
-            homePage.firstActiveFilterRightWidget().waitWhile(Condition.visible,5000).click();
+            homePage.firstActiveFilterRightWidget().shouldBe(Condition.visible).click();
             Selenide.sleep(200);
         }
     }
@@ -234,6 +236,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
     @Description("Car on Map")
     public void checkMapZoom(){
+        homePage.firstDeviceItem().shouldBe(Condition.visible).click();
         homePage.carOnMap().shouldBe(Condition.visible).hover();
         Selenide.sleep(500);
         homePage.carOnMapDescription().shouldBe(Condition.visible).shouldHave(Condition.exactText("Test Device GT3101"));

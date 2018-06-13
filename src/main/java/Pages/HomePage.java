@@ -24,7 +24,7 @@ public class HomePage {
     public SelenideElement lockPic(){return $(By.xpath("(//div[@aria-describedby='cdk-describedby-message-9'])[1]"));}
     public SelenideElement speedPic(){return $(By.xpath("(//div[@aria-describedby='cdk-describedby-message-9'])[3]"));}
     public SelenideElement infoPic(){return $(By.xpath("//div[@class='devicesCategory_item-infoIcon']"));}
-    public SelenideElement showInMap(){return $(By.xpath("//div[@class='checkbox_icon checked']"));}
+    public SelenideElement showInMap(){return $(By.xpath("//div[@class='checkbox_label' and contains(text(),'Отображать на карте')]"));}
     public SelenideElement firstActiveFilterRightWidget(){return $(By.xpath("(//div[@class='mapWiget_filter-item'])[1]"));}
     //----------Map
     public SelenideElement carOnMap(){return $(By.xpath("//div[@class='pit-marker-car']"));}
