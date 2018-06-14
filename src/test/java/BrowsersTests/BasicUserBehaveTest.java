@@ -3,7 +3,6 @@ package BrowsersTests;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -11,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
-import utils.CustomWait;
+import utils.CursorRobot;
 import utils.DataProperties;
 
 import java.text.SimpleDateFormat;
@@ -151,7 +150,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         String oldName = accountSettings.firstUserName().getText();
         accountSettings.firstUserThreeDots().shouldBe(Condition.visible).click();
         Selenide.sleep(200);
-        accountSettings.firstUserEdit().shouldBe(Condition.visible).click();
+        accountSettings.firstUserEdit().click();
         accountSettings.fitstUserOldEmail().should(Condition.visible).setValue(getProperty("user.email"));
         String newName = "Dima" + new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
         accountSettings.firstUserOldName().should(Condition.visible).setValue(newName);
@@ -268,32 +267,39 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(Condition.exactText(""));
     }
 
-/*    @Test(enabled = false)
-    public void addGroup(){
-        open(baseUrl);
-        login.login().should(Condition.visible).setValue(getProperty("user2.email"));
-        login.password().should(Condition.visible).setValue(getProperty("user2.password"));
-        login.enter().should(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.menu().waitUntil(Condition.visible,5000);
-        *//*homePage.createDeviceGroup().shouldBe(Condition.visible).click();
+    @Test(dependsOnMethods = "calendar", description = "Add Device group")
+    @Description("Add Device group")
+    public void addGroup() {
+        Selenide.sleep(1000);
+        homePage.menu().waitUntil(Condition.visible, 5000);
+        //-------Create Group
+        homePage.createDeviceGroup().shouldBe(Condition.visible).click();
         homePage.addGroupPopUpTitle().shouldBe(Condition.visible).shouldBe(Condition.matchesText("Добавить группу"));
         homePage.groupName().shouldBe(Condition.visible).setValue("Test Group");
-        homePage.acceptCreateGroup().shouldBe(Condition.visible).click();*//*
-        //Selenide.refresh();
+        homePage.acceptCreateGroup().shouldBe(Condition.visible).click();
+        Selenide.sleep(2000);
+    }
+    @Test(dependsOnMethods = "addGroup", description = "Edit Device group")
+    @Description("Edit Device group")
+    public void editGroup() {
+        Selenide.refresh();
         homePage.editGroup().click();
         homePage.inputNewGroupName().setValue("My Group");
         homePage.acceptNewGroupName().shouldBe(Condition.visible).click();
-        homePage.deviceCssItem().dragAndDropTo(homePage.dragArea()).click();
-        *//*homePage.editGroup().click();
+        Selenide.refresh();
+        CursorRobot.moveMouse();
+    }
+    @Test(dependsOnMethods = "editGroup", description = "Delete Device group")
+    @Description("Delete Device group")
+    public void deleteGroup(){
+        homePage.editGroup().click();
         homePage.deleteNewGroupName().click();
         homePage.deleteNewGroupPopUpTitle().shouldBe(Condition.matchesText("Удалить группу?"));
-        homePage.acceptDeleteNewGroup().shouldBe(Condition.visible).click();*//*
-        Selenide.sleep(4000);
+        homePage.acceptDeleteNewGroup().shouldBe(Condition.visible).click();
+        Selenide.sleep(2000);
+    }
 
-    }*/
-
-    @Test(dependsOnMethods = "calendar", description = "Exit from personal cabinet")
+    @Test(dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();

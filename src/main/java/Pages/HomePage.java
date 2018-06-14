@@ -53,8 +53,4 @@ public class HomePage {
     public SelenideElement deleteNewGroupName(){return $(By.xpath("//div[@class='editBtns']/button[2]"));}
     public SelenideElement deleteNewGroupPopUpTitle(){return $(By.xpath("//div[@class='creatCategory_top']/span[contains(text(),'Удалить группу?')]"));}
     public SelenideElement acceptDeleteNewGroup(){return $(By.xpath("(//button[@class='creatCategory_accept' and contains(text(),'ПОДТВЕРДИТЬ')])[2]"));}
-    //--------CSS
-    public SelenideElement deviceCssItem(){return $(By.cssSelector("div[class='item-box selected']"));}
-    public SelenideElement dragArea(){return $(By.cssSelector("div[class='devicesCategory_content']"));}
-
 }
