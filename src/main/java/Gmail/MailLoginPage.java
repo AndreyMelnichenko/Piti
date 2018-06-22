@@ -41,5 +41,6 @@ public class MailLoginPage extends Util {
 
     public void handleSingIn(){
         getSingIn().click();
+        //add comment
     }
 }
