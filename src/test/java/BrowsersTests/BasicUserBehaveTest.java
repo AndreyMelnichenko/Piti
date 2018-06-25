@@ -306,4 +306,5 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.exitButton().shouldBe(Condition.visible).click();
         login.logo().waitUntil(Condition.visible, 2000);
     }
+    //test
 }
