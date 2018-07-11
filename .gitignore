@@ -111,4 +111,4 @@ $RECYCLE.BIN/
 allure-results/*
 .allure-results/*
 #untracked folders
-#src/main/java/screen/*
+**/screen

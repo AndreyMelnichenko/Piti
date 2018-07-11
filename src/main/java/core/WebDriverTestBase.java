@@ -19,16 +19,16 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 
 @Listeners({TestListener.class})
 public class WebDriverTestBase {
-    protected final String baseUrl = "http://185.156.41.135/login";
+    protected final String baseUrl = "http://ang.chis.kiev.ua/login";
     public RemoteWebDriver driver;
-    private String runType = "docker";
+    private String runType = "local";
 
     @BeforeClass
     public void setup() throws MalformedURLException {
         switch (runType){
             case("local"):
                 Configuration.browser = "chrome";
-                Configuration.browserPosition="1921x0";
+                Configuration.browserPosition="10x0";
                 Configuration.browserSize="1800x1000";
                 Configuration.reportsFolder = "src/main/java/screen";
                 Configuration.savePageSource=false;
@@ -50,7 +50,7 @@ public class WebDriverTestBase {
 
     }
 
-    @BeforeMethod
+    /*@BeforeMethod
     public void dbCleaner(){
         dbClearUser.getClean();
     }
@@ -60,5 +60,5 @@ public class WebDriverTestBase {
             driver.quit();
             driver = null;
         }
-    }
+    }*/
 }
