@@ -112,4 +112,3 @@ allure-results/*
 .allure-results/*
 #untracked folders
 **/screen
-**/.gitignore
