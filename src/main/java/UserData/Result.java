@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class Result {
     private String uid;
     private String auth_token;
+    private String refresh_token;
+    private String timezone;
 
 }

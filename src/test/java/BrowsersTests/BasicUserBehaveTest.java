@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 import utils.CursorRobot;
+import utils.CustomWait;
 import utils.DataProperties;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     }
     @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
     @Description("Sing-Up Error Messages Validation")
-    public void SingUnErrMessages(){
+    public void SingUpErrMessages(){
         login.login().setValue("qatest@email.my");
         login.password().setValue("123qwwedsa");
         login.enter().click();
@@ -49,7 +50,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         AssertJUnit.assertEquals(login.errorPassword().getText(), DataProperties.dataProperty("data.properties", "login.wrong.password"));
     }
 
-    @Test(dependsOnMethods = "SingUnErrMessages", description = "Recovery Password")
+    @Test(dependsOnMethods = "SingUpErrMessages", description = "Recovery Password")
     @Description("Recovery Password")
     public void recoveryPassword(){
         login.recoverPass().shouldBe(Condition.visible).click();
@@ -67,7 +68,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("user.password"));
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        registration.errorMessage().shouldBe(Condition.visible).should(Condition.matchesText("Электронная почта \"dima.laktionov5@gmail.com\" has already been taken."));
+        registration.errorMessage().shouldBe(Condition.visible).should(Condition.matchesText("Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
     }
 
     @Test(dependsOnMethods = "badRegistration", description = "SingIn")
@@ -78,10 +79,9 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.emailField().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        CustomWait.getOneSecondWait();
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        //registration.buttonCreate().waitWhile(Condition.visible,10000);
-        /*CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();*/
+        CustomWait.getTwoSecondWait();
         homePage.map().waitUntil(Condition.visible,10000);
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.exit().shouldBe(Condition.visible).click();
@@ -122,9 +122,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
         accountSettings.roleNewUser().shouldBe(Condition.visible).click();
         accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
-/*        CustomWait.getTwoSecondWait();
         CustomWait.getTwoSecondWait();
-        Selenide.refresh();*/
+        Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
@@ -139,8 +138,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.messageForInvite().shouldBe(Condition.visible).setValue("Welcome to PIT Service");
         accountSettings.simpleRoleInvite().shouldBe(Condition.visible).click();
         accountSettings.acceptSendInvite().shouldBe(Condition.visible).click();
-/*        CustomWait.getOneSecondWait();
-        Selenide.refresh();*/
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
     }
 
@@ -172,15 +169,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.newDeviceName().setValue(DataProperties.dataProperty("data.properties","TK116.name"));
         accountSettings.newDeviceImei().setValue(DataProperties.dataProperty("data.properties","TK116.imei"));
         Select selectDevice = new Select(accountSettings.newDeviceType());
-        selectDevice.selectByVisibleText(DataProperties.dataProperty("data.properties","TK116.types"));
+        selectDevice.selectByIndex(4);
         accountSettings.newDevicePhone().setValue(DataProperties.dataProperty("data.properties","TK116.sim"));
         accountSettings.newDevicePass().setValue(DataProperties.dataProperty("data.properties","TK116.pass"));
         accountSettings.newDeviceShowPass().click();
         accountSettings.newDeviceApn().setValue(DataProperties.dataProperty("data.properties","TK116.apn"));
         accountSettings.newDeviceAccept().should(Condition.visible).click();
-/*        CustomWait.getTwoSecondWait();
-        CustomWait.getTwoSecondWait();
-        Selenide.refresh();*/
         accountSettings.newDeviceItem().waitUntil(Condition.visible,10000);
     }
 
@@ -201,7 +195,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.exit().should(Condition.visible).click();
     }
 
-    @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
+    @Test(enabled = false, dependsOnMethods = "removeDevice", description = "Check device GT3101")
     @Description("Check device GT3101")
     public void checkDevice(){
         open(baseUrl);
@@ -224,7 +218,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.showInMap().should(Condition.visible).click();
     }
 
-    @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
+    @Test(enabled = false, dependsOnMethods = "checkDevice", description = "Check right widget")
     @Description("Check right widget")
     public void checkRightWidget(){
         Selenide.refresh();
@@ -234,7 +228,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         }
     }
 
-    @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
+    @Test(enabled = false, dependsOnMethods = "checkRightWidget", description = "Car on Map")
     @Description("Car on Map")
     public void checkMapZoom(){
         homePage.firstDeviceItem().shouldBe(Condition.visible).click();
@@ -245,7 +239,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.mapSettings().shouldBe(Condition.visible).click();
     }
 
-    @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
+    @Test(enabled = false, dependsOnMethods = "checkMapZoom", description = "Calendar")
     @Description("Calendar")
     public void calendar(){
         homePage.calendarPeriod().shouldBe(Condition.visible).click();
@@ -267,7 +261,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(Condition.exactText(""));
     }
 
-    @Test(dependsOnMethods = "calendar", description = "Add Device group")
+    @Test(enabled = false, dependsOnMethods = "calendar", description = "Add Device group")
     @Description("Add Device group")
     public void addGroup() {
         Selenide.sleep(1000);
@@ -279,7 +273,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.acceptCreateGroup().shouldBe(Condition.visible).click();
         Selenide.sleep(2000);
     }
-    @Test(dependsOnMethods = "addGroup", description = "Edit Device group")
+    @Test(enabled = false, dependsOnMethods = "addGroup", description = "Edit Device group")
     @Description("Edit Device group")
     public void editGroup() {
         Selenide.refresh();
@@ -289,7 +283,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.refresh();
         CursorRobot.moveMouse();
     }
-    @Test(dependsOnMethods = "editGroup", description = "Delete Device group")
+    @Test(enabled = false, dependsOnMethods = "editGroup", description = "Delete Device group")
     @Description("Delete Device group")
     public void deleteGroup(){
         homePage.editGroup().click();
@@ -299,12 +293,11 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.sleep(2000);
     }
 
-    @Test(dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
+    @Test(enabled = false, dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
         accountSettings.exitButton().shouldBe(Condition.visible).click();
         login.logo().waitUntil(Condition.visible, 2000);
     }
-    //test
 }

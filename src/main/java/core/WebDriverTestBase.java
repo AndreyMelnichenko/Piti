@@ -20,15 +20,16 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 @Listeners({TestListener.class})
 public class WebDriverTestBase {
     protected final String baseUrl = "http://ang.chis.kiev.ua/login";
+    protected final String baseUrl2="http://185.156.41.135/login";
     public RemoteWebDriver driver;
-    private String runType = "local";
+    private String runType = "docker";
 
     @BeforeClass
     public void setup() throws MalformedURLException {
         switch (runType){
             case("local"):
                 Configuration.browser = "chrome";
-                Configuration.browserPosition="10x0";
+                Configuration.browserPosition="1980x0";
                 Configuration.browserSize="1800x1000";
                 Configuration.reportsFolder = "src/main/java/screen";
                 Configuration.savePageSource=false;
@@ -42,6 +43,8 @@ public class WebDriverTestBase {
                 browser.setVersion("66");
                 browser.setCapability("enableVNC", true);
                 driver = new RemoteWebDriver(URI.create("http://18.195.216.182:4444/wd/hub").toURL(),browser);
+                //browser.setCapability("enableVideo", true);
+                //driver = new RemoteWebDriver(URI.create("http://selenoid.lenal.com.ua:4444/wd/hub").toURL(),browser);
                 setWebDriver(driver);
                 driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
                 driver.manage().window().setSize(new Dimension(1920, 1080));
@@ -50,7 +53,7 @@ public class WebDriverTestBase {
 
     }
 
-    /*@BeforeMethod
+    @BeforeMethod
     public void dbCleaner(){
         dbClearUser.getClean();
     }
@@ -60,5 +63,5 @@ public class WebDriverTestBase {
             driver.quit();
             driver = null;
         }
-    }*/
+    }
 }

@@ -12,5 +12,6 @@ public class UserRK {
     private String email;
     private String password;
     private String passwordConfirm;
+    private String time_zone;
 
 }
