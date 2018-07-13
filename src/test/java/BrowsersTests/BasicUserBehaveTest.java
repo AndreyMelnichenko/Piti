@@ -57,8 +57,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         recovery.title().should(Condition.matchesText(DataProperties.dataProperty("data.properties","recovery.page.title")));
         recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
         recovery.recoveryButton().shouldBe(Condition.visible).click();
-
     }
+
     @Test(dependsOnMethods = "recoveryPassword", description = "Re-SingIn")
     @Description("Re-SingIn")
     public void badRegistration(){

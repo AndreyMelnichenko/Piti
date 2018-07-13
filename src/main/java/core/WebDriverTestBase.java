@@ -20,7 +20,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 @Listeners({TestListener.class})
 public class WebDriverTestBase {
     protected final String baseUrl = "http://ang.chis.kiev.ua/login";
-    protected final String baseUrl2="http://185.156.41.135/login";
+    //protected final String baseUrl2="http://185.156.41.135/login";
     public RemoteWebDriver driver;
     private String runType = "docker";
 
@@ -57,6 +57,7 @@ public class WebDriverTestBase {
     public void dbCleaner(){
         dbClearUser.getClean();
     }
+
     @AfterClass
     public void tearDown(){
         if (driver != null) {
