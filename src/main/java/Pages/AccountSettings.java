@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class AccountSettings {
     //---------Main Area
-    public SelenideElement mainArea(){return $(By.xpath("//div[@class='content']"));}
+    public SelenideElement mainArea(){return $(By.xpath("//div[@class='content ps']"));}
     //---------Create User Button
     public SelenideElement createNewUserButton(){return $(By.xpath("(//div[@class='bottom'])/div[2]"));}
     //---------Add new User Pop-up
@@ -21,7 +21,7 @@ public class AccountSettings {
     //---------Created User
     public SelenideElement createdUserEmail(){return $(By.xpath("(//div[@class='user_info-mail'])[2]"));}
     public SelenideElement createdUserName(){return $(By.xpath("(//div[@class='user_info-name'])[2]"));}
-    public SelenideElement createdUserPhone(){return $(By.xpath("(//div[@class='user_info-phone'])[1]"));}
+    public SelenideElement createdUserPhone(){return $(By.xpath("(//div[@class='user_info-phone'])[2]"));}
     //---------Send Invite Button
     public SelenideElement inviteButton(){return $(By.xpath("(//div[@class='bottom'])/div[1]"));}
     //---------Send Invite Pop-up
@@ -31,9 +31,10 @@ public class AccountSettings {
     public SelenideElement simpleRoleInvite(){return $(By.xpath("(//span[@class='checkmark'])[3]"));}
     //---------First User Info
     public SelenideElement firstUserName (){return $(By.xpath("(//div[@class='user_info-name'])[1]"));}
-    //---------
     public SelenideElement firstUserThreeDots(){return $(By.xpath("(//div[@class='droprown_btn'])[1]"));}
     public SelenideElement firstUserEdit(){return $(By.xpath("(//div[@class='droprown_item'])[1]"));}
+    //---------Second User Info
+    public SelenideElement secondUserInviteAlert(){return $(By.xpath("//div[@class='user_info-alert']"));}
     //---------- User Pop-up
     public SelenideElement fitstUserOldEmail(){return $(By.xpath("(//input[@name='email'])[3]"));}
     public SelenideElement firstUserOldName(){return $(By.xpath("(//input[@name='name'])[2]"));}
@@ -57,7 +58,7 @@ public class AccountSettings {
     public SelenideElement removeNewDevice(){return firstUserThreeDots();}
     public SelenideElement removeNewDeviceButton(){return firstUserEdit();}
     public SelenideElement removeNewDeviceConfirm(){return $(By.xpath("//button[contains(text(),'ПОДТВЕРДИТЬ')]"));}
-    public SelenideElement contentField(){return $(By.xpath("//div[@class='content']"));}
+    public SelenideElement contentField(){return $(By.xpath("//div[@class='content ps']"));}
     //---------Menu
     public SelenideElement menuButton(){return $(By.xpath("//div[@class='menuBtn']"));}
     public SelenideElement exitButton(){
