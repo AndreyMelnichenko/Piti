@@ -13,5 +13,6 @@ public class UserRK {
     private String password;
     private String passwordConfirm;
     private String time_zone;
+    private String lang;
 
 }

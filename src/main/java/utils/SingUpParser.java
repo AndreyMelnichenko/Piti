@@ -27,7 +27,7 @@ public class SingUpParser {
                 System.out.println(str_line);
             }
         }
-        Object[][] arr2 = new String[list.size()][6];
+        Object[][] arr2 = new String[list.size()][7];
         for (int i=0; i<=(list.size()-1);i++) {
             List<String> tmplist = Arrays.asList(list.get(i).split(";"));
             arr2[i][0]=tmplist.get(0);
@@ -36,6 +36,7 @@ public class SingUpParser {
             arr2[i][3]=tmplist.get(3);
             arr2[i][4]=tmplist.get(4);
             arr2[i][5]=tmplist.get(5);
+            arr2[i][5]=tmplist.get(6);
         }
         return arr2;
     }

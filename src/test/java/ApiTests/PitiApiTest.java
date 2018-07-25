@@ -23,8 +23,8 @@ public class PitiApiTest extends ApiTestBase {
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-In with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
-    public void SingInSimplePassword(String email, String pass, String confPass,String timeZone,String validation, String errMessage){
-        UserRK faledUserRK = new UserRK(email, pass,confPass, timeZone);
+    public void SingInSimplePassword(String email, String pass, String confPass,String timeZone,String lang,String validation, String errMessage){
+        UserRK faledUserRK = new UserRK(email, pass,confPass, timeZone, lang);
         ErrorRS actualAnswer = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .spec(spec).body(faledUserRK)
@@ -50,7 +50,7 @@ public class PitiApiTest extends ApiTestBase {
     @Description("Sing-In")
     @Severity(SeverityLevel.CRITICAL)
     public void SingIn (){
-        UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"),getProperty("user.timezone"));
+        UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"),getProperty("user.timezone"),getProperty("user.lang"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .spec(spec).body(expectedUserRK)
@@ -105,7 +105,7 @@ public class PitiApiTest extends ApiTestBase {
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void PassRestore(){
-        UserRK userRK = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"),getProperty("user.timezone"));
+        UserRK userRK = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"),getProperty("user.timezone"),getProperty("user.lang"));
         RestoreRS actualAnswer = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .spec(spec).body(userRK)

@@ -11,8 +11,7 @@ import org.testng.annotations.BeforeClass;
 public class ApiTestBase {
     protected RequestSpecification spec;
     private ObjectMapper objectMapper = new ObjectMapper();
-    protected String baseURL = "http://api.chis.kiev.ua/api/web/v1/";
-    //protected String baseURL="http://185.156.41.135/api/web/v1/";
+    protected String baseURL = "https://a2.chis.kiev.ua/api/web/v1/";
 
     @BeforeClass
     public void setUp(){
