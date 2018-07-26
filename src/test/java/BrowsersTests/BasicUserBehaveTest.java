@@ -23,6 +23,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.AssertJUnit.assertFalse;
+import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
 
 @Epic("UI tests")
@@ -40,7 +41,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void logo() {
         open(baseUrl);
         login.logo().shouldBe(Condition.visible);
-        AssertJUnit.assertEquals(login.title().getText(),DataProperties.dataProperty("data.properties", "login.page.title"));
+        AssertJUnit.assertEquals(login.title().getText(),dataProperty("data.properties", "login.page.title"));
 
     }
     @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
@@ -49,15 +50,15 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.login().setValue("qatest@email.my");
         login.password().setValue("123qwwedsa");
         login.enter().click();
-        AssertJUnit.assertEquals(login.errorLogin().getText(), DataProperties.dataProperty("data.properties", "login.wrong.email"));
-        AssertJUnit.assertEquals(login.errorPassword().getText(), DataProperties.dataProperty("data.properties", "login.wrong.password"));
+        AssertJUnit.assertEquals(login.errorLogin().getText(), dataProperty("data.properties", "login.wrong.email"));
+        AssertJUnit.assertEquals(login.errorPassword().getText(), dataProperty("data.properties", "login.wrong.password"));
     }
 
     @Test(dependsOnMethods = "SingUpErrMessages", description = "Recovery Password")
     @Description("Recovery Password")
     public void recoveryPassword(){
         login.recoverPass().shouldBe(Condition.visible).click();
-        recovery.title().should(Condition.matchesText(DataProperties.dataProperty("data.properties","recovery.page.title")));
+        recovery.title().should(Condition.matchesText(dataProperty("data.properties","recovery.page.title")));
         recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
         recovery.recoveryButton().shouldBe(Condition.visible).click();
         recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
@@ -147,21 +148,14 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.simpleRoleInvite().shouldBe(Condition.visible).click();
         accountSettings.acceptSendInvite().shouldBe(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
-        CustomWait.getOneSecondWait();
+        Selenide.sleep(2000);
         Selenide.refresh();
         accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
     }
 
-    @Test//(dependsOnMethods = "invitetoUser", description = "User change info")
+    @Test(dependsOnMethods = "invitetoUser", description = "User change info")
     @Description("User change info")
     public void userChangeInfo(){
-        open(baseUrl);
-        login.login().setValue(getProperty("user.email"));
-        login.password().setValue(getProperty("user.password"));
-        login.enter().click();
-        homePage.menu().shouldBe(Condition.visible).click();
-        homePage.accountSettings().shouldBe(Condition.visible).click();
-
         String oldName = accountSettings.firstUserName().getText();
         accountSettings.firstUserThreeDots().shouldBe(Condition.visible).click();
         Selenide.sleep(200);
@@ -179,34 +173,27 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     }
 
-    @Test//(enabled = false, dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
+    @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
     public void addDevice(){
-        open(baseUrl);
-        login.login().setValue(getProperty("user.email"));
-        login.password().setValue(getProperty("user.password"));
-        login.enter().click();
-        homePage.menu().shouldBe(Condition.visible).click();
-        homePage.accountSettings().shouldBe(Condition.visible).click();
-
         accountSettings.devicesButton().should(Condition.visible).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
-        System.out.println(" ");
-        accountSettings.newDeviceName().setValue(DataProperties.dataProperty("data.properties","TK116.name"));
-        accountSettings.newDeviceImei().setValue(DataProperties.dataProperty("data.properties","TK116.imei"));
+        System.out.println("1");
+        accountSettings.newDeviceName().setValue(dataProperty("data.properties","TK116.name"));
+        accountSettings.newDeviceImei().setValue(dataProperty("data.properties","TK116.imei"));
         Select selectDevice = new Select(accountSettings.newDeviceType());
         selectDevice.selectByIndex(4);
-        accountSettings.newDevicePhone().setValue(DataProperties.dataProperty("data.properties","TK116.sim"));
-        accountSettings.newDevicePass().setValue(DataProperties.dataProperty("data.properties","TK116.pass"));
+        accountSettings.newDevicePhone().setValue(dataProperty("data.properties","TK116.sim"));
+        accountSettings.newDevicePass().setValue(dataProperty("data.properties","TK116.pass"));
         accountSettings.newDeviceShowPass().click();
-        accountSettings.newDeviceApn().setValue(DataProperties.dataProperty("data.properties","TK116.apn"));
-        System.out.println(" ");
+        accountSettings.newDeviceApn().setValue(dataProperty("data.properties","TK116.apn"));
+        System.out.println("2");
         accountSettings.newDeviceAccept().should(Condition.visible).click();
-        System.out.println(" ");
+        System.out.println("3");
         Selenide.refresh();
-        System.out.println(" ");
+        System.out.println("4");
         accountSettings.newDeviceItem().waitUntil(Condition.visible,10000);
-        System.out.println(" ");
+        System.out.println("5");
     }
 
     @Test(dependsOnMethods = "addDevice", description = "Remove device")
@@ -229,7 +216,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.exit().should(Condition.visible).click();
     }
 
-    @Test(enabled = false, dependsOnMethods = "removeDevice", description = "Check device GT3101")
+    @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
     @Description("Check device GT3101")
     public void checkDevice(){
         open(baseUrl);
@@ -238,7 +225,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.enter().should(Condition.visible).click();
         Selenide.sleep(200);
         homePage.menu().waitUntil(Condition.visible,5000);
-        for(int i=0; i<3;i++) {homePage.firstDeviceItem().should(Condition.visible).click();Selenide.sleep(200);}
+        homePage.firstDeviceItem().should(Condition.visible).should(Condition.matchesText(dataProperty("data.properties","GT3101.name")));
+        Selenide.sleep(200);
         homePage.allarmPic().should(Condition.visible).hover();
         Selenide.sleep(200);
         homePage.lockPic().should(Condition.visible).hover();
@@ -252,7 +240,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.showInMap().should(Condition.visible).click();
     }
 
-    @Test(enabled = false, dependsOnMethods = "checkDevice", description = "Check right widget")
+    @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
     @Description("Check right widget")
     public void checkRightWidget(){
         Selenide.refresh();
@@ -262,7 +250,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         }
     }
 
-    @Test(enabled = false, dependsOnMethods = "checkRightWidget", description = "Car on Map")
+    @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
     @Description("Car on Map")
     public void checkMapZoom(){
         homePage.firstDeviceItem().shouldBe(Condition.visible).click();
@@ -273,29 +261,29 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.mapSettings().shouldBe(Condition.visible).click();
     }
 
-    @Test(enabled = false, dependsOnMethods = "checkMapZoom", description = "Calendar")
+    @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
     @Description("Calendar")
     public void calendar(){
         homePage.calendarPeriod().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("Not selected"));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("Not selected"));
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarPrev().shouldBe(Condition.visible).click();
         Selenide.sleep(100);
         homePage.calendarPrev().shouldBe(Condition.visible).click();
         homePage.startDate().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldNotHave(exactText("Not selected"));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("Not selected"));
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarNext().shouldBe(Condition.visible).click();
         Selenide.sleep(100);
         homePage.calendarNext().shouldBe(Condition.visible).click();
         homePage.endDate().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldNotHave(exactText("Not selected"));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldNotHave(exactText("Not selected"));
+        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldNotHave(exactText("None"));
         homePage.applyPeriod().shouldBe(Condition.visible).click();
         homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(exactText(""));
     }
 
-    @Test(enabled = false, dependsOnMethods = "calendar", description = "Add Device group")
+    @Test(dependsOnMethods = "calendar", description = "Add Device group")
     @Description("Add Device group")
     public void addGroup() {
         Selenide.sleep(1000);
@@ -307,7 +295,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.acceptCreateGroup().shouldBe(Condition.visible).click();
         Selenide.sleep(2000);
     }
-    @Test(enabled = false, dependsOnMethods = "addGroup", description = "Edit Device group")
+    @Test(dependsOnMethods = "addGroup", description = "Edit Device group")
     @Description("Edit Device group")
     public void editGroup() {
         Selenide.refresh();
@@ -315,9 +303,9 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.inputNewGroupName().setValue("My Group");
         homePage.acceptNewGroupName().shouldBe(Condition.visible).click();
         Selenide.refresh();
-        CursorRobot.moveMouse();
+        //CursorRobot.moveMouse();
     }
-    @Test(enabled = false, dependsOnMethods = "editGroup", description = "Delete Device group")
+    @Test(dependsOnMethods = "editGroup", description = "Delete Device group")
     @Description("Delete Device group")
     public void deleteGroup(){
         homePage.editGroup().click();
@@ -327,7 +315,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.sleep(2000);
     }
 
-    @Test(enabled = false, dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
+    @Test(dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
