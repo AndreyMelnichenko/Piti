@@ -1,5 +1,6 @@
 package BrowsersTests;
 
+import Gmail.*;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -35,6 +36,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private Recovery recovery = new Recovery();
     private Registration registration = new Registration();
     private AccountSettings accountSettings = new AccountSettings();
+    private String mailUrl = "https://www.google.com/intl/ru/gmail/about/";
+    private MailHelloPage mailHelloPage = new MailHelloPage();
+    private MailLoginPage mailLoginPage = new MailLoginPage();
+    private MailPasswordPage mailPasswordPage = new MailPasswordPage();
+    private MailMainPage mailMainPage = new MailMainPage();
+    private MailLetterPage mailLetterPage = new MailLetterPage();
 
     @Test (description = "Login page")
     @Description("Login page")
@@ -190,6 +197,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         System.out.println("2");
         accountSettings.newDeviceAccept().should(Condition.visible).click();
         System.out.println("3");
+        Selenide.sleep(2000);
         Selenide.refresh();
         System.out.println("4");
         accountSettings.newDeviceItem().waitUntil(Condition.visible,10000);
@@ -321,5 +329,39 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.menuButton().should(Condition.visible).click();
         accountSettings.exitButton().shouldBe(Condition.visible).click();
         login.logo().waitUntil(Condition.visible, 2000);
+    }
+
+    @Test(dependsOnMethods = "exitPersonalCabinet", description = "Check Email notification")
+    @Description("Check Email notification")
+    public void singUpMail(){
+        open(mailUrl);
+        mailHelloPage.goEnter().shouldBe(Condition.visible).click();
+        mailLoginPage.inputEmail().setValue(getProperty("user.gmail"));
+        mailLoginPage.next().shouldBe(Condition.visible).click();
+        mailPasswordPage.inputPass().setValue(getProperty("password.gmail"));
+        mailPasswordPage.next().shouldBe(Condition.visible).click();
+        Selenide.sleep(500);
+        mailMainPage.title().filterBy(text("Signup Confirmation")).get(0).waitUntil(Condition.visible, 2000).click();
+        Selenide.sleep(500);
+        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
+        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
+        mailLetterPage.confirmRegistration().shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","conf.link"));
+        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "first.text"));
+        mailLetterPage.confirmText2().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text2"));
+        mailLetterPage.confirmText3().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text3"));
+        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text4"));
+        System.out.println("confirm letter checked!");
+        //------- All text pass Signup invite
+        mailLetterPage.backToMailList().shouldBe(Condition.visible).click();
+        Selenide.sleep(500);
+        mailMainPage.title().filterBy(text("Signup invite")).get(0).waitUntil(Condition.visible, 2000).click();
+        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
+        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
+        mailLetterPage.beginRegistration().shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","begin.link"));
+        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "first.text"));
+        mailLetterPage.secondText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text2"));
+        mailLetterPage.thirdText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text3"));
+        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text4"));
+        System.out.println("Invite letter checked!!!!");
     }
 }
