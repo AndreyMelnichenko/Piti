@@ -250,11 +250,14 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.carOnMapDescription().shouldBe(Condition.visible).shouldHave(exactText("Test Device GT3101"));
         for(int i=0; i<10;i++) {homePage.mapZoomOut().shouldBe(Condition.visible).click();Selenide.sleep(200);}
         homePage.mapSettings().shouldBe(Condition.visible).click();
+        pagesActions.exitFromPersonalCabinet();
     }
 
     @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
     @Description("Calendar")
     public void calendar(){
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet();
         homePage.calendarPeriod().shouldBe(Condition.visible).click();
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
