@@ -21,7 +21,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 public class WebDriverTestBase {
     protected final String baseUrl = "http://n2.chis.kiev.ua/login";
     public RemoteWebDriver driver;
-    private String runType = "local";
+    private String runType = "docker";
 
     @BeforeClass
     public void setup() throws MalformedURLException {
