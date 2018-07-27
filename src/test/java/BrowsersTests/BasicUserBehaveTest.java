@@ -15,7 +15,7 @@ import utils.CursorRobot;
 import utils.CustomWait;
 import utils.DataProperties;
 import utils.RandomMinMax;
-
+import utils.dbClearUser;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -23,6 +23,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -37,18 +38,14 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private Registration registration = new Registration();
     private AccountSettings accountSettings = new AccountSettings();
     private String mailUrl = "https://www.google.com/intl/ru/gmail/about/";
-    private MailHelloPage mailHelloPage = new MailHelloPage();
-    private MailLoginPage mailLoginPage = new MailLoginPage();
-    private MailPasswordPage mailPasswordPage = new MailPasswordPage();
-    private MailMainPage mailMainPage = new MailMainPage();
-    private MailLetterPage mailLetterPage = new MailLetterPage();
+    private MailActions mailActions = new MailActions();
+    private PagesActions pagesActions = new PagesActions();
 
     @Test (description = "Login page")
     @Description("Login page")
     public void logo() {
         open(baseUrl);
-        login.logo().shouldBe(Condition.visible);
-        AssertJUnit.assertEquals(login.title().getText(),dataProperty("data.properties", "login.page.title"));
+        pagesActions.checkLogoPage();
 
     }
     @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
@@ -61,17 +58,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         AssertJUnit.assertEquals(login.errorPassword().getText(), dataProperty("data.properties", "login.wrong.password"));
     }
 
-    @Test(dependsOnMethods = "SingUpErrMessages", description = "Recovery Password")
-    @Description("Recovery Password")
-    public void recoveryPassword(){
-        login.recoverPass().shouldBe(Condition.visible).click();
-        recovery.title().should(Condition.matchesText(dataProperty("data.properties","recovery.page.title")));
-        recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
-        recovery.recoveryButton().shouldBe(Condition.visible).click();
-        recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
-    }
-
-    @Test(dependsOnMethods = "recoveryPassword", description = "Re-SingIn")
+    @Test(dependsOnMethods = "SingUpErrMessages", description = "Re-SingIn")
     @Description("Re-SingIn")
     public void badRegistration(){
         open(baseUrl);
@@ -99,18 +86,25 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.buttonCreate().shouldBe(Condition.visible).click();
         CustomWait.getTwoSecondWait();
         homePage.map().waitUntil(Condition.visible,10000);
-        homePage.menu().shouldBe(Condition.visible).click();
-        homePage.exit().shouldBe(Condition.visible).click();
-        login.logo().waitUntil(Condition.visible, 6000);
+        pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test (dependsOnMethods = "registration", description = "Sing Up")
+    @Test(dependsOnMethods = "registration", description = "Recovery Password")
+    @Description("Recovery Password")
+    public void recoveryPassword(){
+        login.recoverPass().shouldBe(Condition.visible).click();
+        recovery.title().should(Condition.matchesText(dataProperty("data.properties","recovery.page.title")));
+        recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
+        recovery.recoveryButton().shouldBe(Condition.visible).click();
+        recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
+        dbClearUser.getClean();
+    }
+
+    @Test (dependsOnMethods = "recoveryPassword", description = "Sing Up")
     @Description("Sing-Up")
     public void enterPersonalCabinet(){
         open(baseUrl);
-        login.login().setValue(getProperty("user.email"));
-        login.password().setValue(getProperty("user.password"));
-        login.enter().click();
+        pagesActions.enterToPersonalCabinet();
         homePage.map().shouldBe(Condition.visible);
     }
 
@@ -144,6 +138,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
+        dbClearUser.getClean();
     }
 
     @Test(dependsOnMethods = "addUser", description = "Send Invite")
@@ -158,6 +153,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.sleep(2000);
         Selenide.refresh();
         accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
+        dbClearUser.getClean();
     }
 
     @Test(dependsOnMethods = "invitetoUser", description = "User change info")
@@ -177,6 +173,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.firstUserAcceptNewInfo().should(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         assertFalse(oldName.equals(accountSettings.firstUserName()));
+        dbClearUser.getClean();
 
     }
 
@@ -212,16 +209,15 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.removeNewDeviceButton().waitUntil(Condition.visible,2000).click();
         accountSettings.removeNewDeviceConfirm().waitUntil(Condition.visible,2000).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
-        System.out.println(" ");
+        System.out.println("1");
         Selenide.refresh();
         System.out.println(accountSettings.contentField().parent());
-        System.out.println(" ");
+        System.out.println("2");
         accountSettings.contentField().should(Condition.matchesText(""));
-        System.out.println(" ");
+        System.out.println("3");
         open(baseUrl);
         homePage.map().should(Condition.visible);
-        homePage.menu().should(Condition.visible).click();
-        homePage.exit().should(Condition.visible).click();
+        pagesActions.exitFromPersonalCabinet();
     }
 
     @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
@@ -296,7 +292,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void addGroup() {
         Selenide.sleep(1000);
         homePage.menu().waitUntil(Condition.visible, 5000);
-        //-------Create Group
         homePage.createDeviceGroup().shouldBe(Condition.visible).click();
         homePage.addGroupPopUpTitle().shouldBe(Condition.visible).shouldBe(Condition.matchesText("Добавить группу"));
         homePage.groupName().shouldBe(Condition.visible).setValue("Test Group");
@@ -335,33 +330,22 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Check Email notification")
     public void singUpMail(){
         open(mailUrl);
-        mailHelloPage.goEnter().shouldBe(Condition.visible).click();
-        mailLoginPage.inputEmail().setValue(getProperty("user.gmail"));
-        mailLoginPage.next().shouldBe(Condition.visible).click();
-        mailPasswordPage.inputPass().setValue(getProperty("password.gmail"));
-        mailPasswordPage.next().shouldBe(Condition.visible).click();
-        Selenide.sleep(500);
-        mailMainPage.title().filterBy(text("Signup Confirmation")).get(0).waitUntil(Condition.visible, 2000).click();
-        Selenide.sleep(500);
-        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
-        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
-        mailLetterPage.confirmRegistration().shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","conf.link"));
-        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "first.text"));
-        mailLetterPage.confirmText2().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text2"));
-        mailLetterPage.confirmText3().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text3"));
-        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text4"));
-        System.out.println("confirm letter checked!");
-        //------- All text pass Signup invite
-        mailLetterPage.backToMailList().shouldBe(Condition.visible).click();
-        Selenide.sleep(500);
-        mailMainPage.title().filterBy(text("Signup invite")).get(0).waitUntil(Condition.visible, 2000).click();
-        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
-        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
-        mailLetterPage.beginRegistration().shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","begin.link"));
-        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "first.text"));
-        mailLetterPage.secondText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text2"));
-        mailLetterPage.thirdText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text3"));
-        mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "begin.text4"));
-        System.out.println("Invite letter checked!!!!");
+        mailActions.enterToMailBox();
+        mailActions.checkConfirmLetter();
+        mailActions.backToMainLetterList();
+        mailActions.checkInviteLetter();
+        mailActions.backToMainLetterList();
+        mailActions.deleteLetters();
+    }
+
+    @Test(enabled = false)
+    public void checkMailLink(){
+        open(mailUrl);
+        mailActions.enterToMailBox();
+        mailActions.checkRegisterLink();
+        Selenide.sleep(5000);
+        pagesActions.checkLogoPage();
+        switchTo().window("Signup Confirmation - companymobox@gmail.com - Gmail");
+        Selenide.sleep(5000);
     }
 }

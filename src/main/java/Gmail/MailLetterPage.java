@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class MailLetterPage {
     public ElementsCollection pitLogo(){return  $$(By.xpath("//img[@alt='Pit logo']"));}
     public SelenideElement confirmRegistration(){return $(By.xpath("//img[@alt='link registration']"));}
+    public SelenideElement confirmLink(){return $(By.xpath("//a[contains(@href,'n2.chis.kiev.ua')]"));}
     public SelenideElement beginRegistration(){return $(By.xpath("//img[@alt='link begin']"));}
     public SelenideElement email(){return $(By.xpath("//td[contains(text(), 'Здравствуйте,')]/a"));}
     public SelenideElement backToMailList(){return $(By.xpath("//div[@class='ar6 T-I-J3 J-J5-Ji']"));}
