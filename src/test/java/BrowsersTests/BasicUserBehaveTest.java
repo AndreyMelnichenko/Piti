@@ -1,6 +1,6 @@
 package BrowsersTests;
 
-import Gmail.*;
+import Gmail.MailActions;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -11,11 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
-import utils.CursorRobot;
 import utils.CustomWait;
-import utils.DataProperties;
-import utils.RandomMinMax;
 import utils.dbClearUser;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -23,7 +21,6 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.switchTo;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -67,7 +64,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue("1q2w3e4rRTfd");
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        System.out.println(registration.errorMessageEmail().getText());
         registration.errorMessageEmail().shouldBe(Condition.visible).should(Condition.matchesText("Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
         registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).should(Condition.matchesText("Необходимо заполнить «Time Zone»."));
     }
@@ -76,15 +72,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Sing In")
     public void registration(){
         open(baseUrl);
-        login.registration().shouldBe(Condition.visible).click();
-        registration.emailField().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
-        registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
-        registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
-        Select selectDevice = new Select(registration.listTimeZone());
-        selectDevice.selectByIndex(RandomMinMax.Go(1,20));
-        CustomWait.getOneSecondWait();
-        registration.buttonCreate().shouldBe(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
+        pagesActions.checkRegistrationPage();
         homePage.map().waitUntil(Condition.visible,10000);
         pagesActions.exitFromPersonalCabinet();
     }
@@ -92,12 +80,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "registration", description = "Recovery Password")
     @Description("Recovery Password")
     public void recoveryPassword(){
-        login.recoverPass().shouldBe(Condition.visible).click();
-        recovery.title().should(Condition.matchesText(dataProperty("data.properties","recovery.page.title")));
-        recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
+        pagesActions.checkRecoverPage();
+        recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.gmail"));
         recovery.recoveryButton().shouldBe(Condition.visible).click();
         recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
-        dbClearUser.getClean();
     }
 
     @Test (dependsOnMethods = "recoveryPassword", description = "Sing Up")
@@ -107,8 +93,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.enterToPersonalCabinet();
         homePage.map().shouldBe(Condition.visible);
     }
-
-
 
     @Test(dependsOnMethods = "enterPersonalCabinet", description = "404 page")
     @Description("404 page")
@@ -122,6 +106,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
     public void addUser(){
+        dbClearUser.getClean();
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.accountSettings().shouldBe(Condition.visible).click();
         accountSettings.createNewUserButton().shouldBe(Condition.visible).click();
@@ -150,8 +135,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.simpleRoleInvite().shouldBe(Condition.visible).click();
         accountSettings.acceptSendInvite().shouldBe(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
-        Selenide.sleep(2000);
+        System.out.println("1");
+        Selenide.sleep(4000);
         Selenide.refresh();
+        System.out.println("2");
         accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
         dbClearUser.getClean();
     }
@@ -272,14 +259,19 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarPrev().shouldBe(Condition.visible).click();
-        Selenide.sleep(100);
+        Selenide.sleep(200);
         homePage.calendarPrev().shouldBe(Condition.visible).click();
         homePage.startDate().shouldBe(Condition.visible).click();
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarNext().shouldBe(Condition.visible).click();
-        Selenide.sleep(100);
+        Selenide.sleep(200);
         homePage.calendarNext().shouldBe(Condition.visible).click();
+        Selenide.sleep(200);
+        homePage.calendarNext().shouldBe(Condition.visible).click();
+        Selenide.sleep(200);
+        homePage.calendarNext().shouldBe(Condition.visible).click();
+        Selenide.sleep(200);
         homePage.endDate().shouldBe(Condition.visible).click();
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldNotHave(exactText("None"));
@@ -331,21 +323,13 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void singUpMail(){
         open(mailUrl);
         mailActions.enterToMailBox();
-        mailActions.checkConfirmLetter();
+        mailActions.checkConfirmRegisterLetter();
         mailActions.backToMainLetterList();
         mailActions.checkInviteLetter();
         mailActions.backToMainLetterList();
-        mailActions.deleteLetters();
-    }
-
-    @Test(enabled = false)
-    public void checkMailLink(){
-        open(mailUrl);
-        mailActions.enterToMailBox();
-        mailActions.checkRegisterLink();
-        Selenide.sleep(5000);
-        pagesActions.checkLogoPage();
-        switchTo().window("Signup Confirmation - companymobox@gmail.com - Gmail");
-        Selenide.sleep(5000);
+        mailActions.checkResetLetter();
+        mailActions.backToMainLetterList();
+        //mailActions.deleteLetters();
+        mailActions.checkLinks();
     }
 }

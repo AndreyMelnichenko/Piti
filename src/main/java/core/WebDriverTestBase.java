@@ -19,7 +19,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 
 @Listeners({TestListener.class})
 public class WebDriverTestBase {
-    protected final String baseUrl = "http://n2.chis.kiev.ua/login";
+    protected final String baseUrl = "https://n2.chis.kiev.ua";
     public RemoteWebDriver driver;
     private String runType = "docker";
 

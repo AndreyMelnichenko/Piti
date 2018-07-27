@@ -13,6 +13,7 @@ public class Login {
     public SelenideElement logo(){
         return $(By.xpath("//img"));
     }
+    public SelenideElement authorisation(){return $(By.xpath("//div[@class='auth_promo-h']"));}
     public SelenideElement login(){
         return $(By.xpath("//input[@name='email']"));
     }
