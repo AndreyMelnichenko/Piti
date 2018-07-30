@@ -167,7 +167,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
     public void addDevice(){
-        accountSettings.devicesButton().should(Condition.visible).click();
+        Selenide.refresh();
+        accountSettings.devicesButton().waitUntil(Condition.visible, 3000).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
         System.out.println("1");
         accountSettings.newDeviceName().setValue(dataProperty("data.properties","TK116.name"));
