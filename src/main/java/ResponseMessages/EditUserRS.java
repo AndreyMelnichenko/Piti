@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EditUserRS {
     private String success;
-    //@JsonProperty("error")
-    //private EditUserError editUserError;
+    @JsonProperty("error")
+    private EditUserError editUserError;
     private String result;
-    //private String name;
-    //private String file;
-    //private String line;
+    private String name;
+    private String file;
+    private String line;
 }
