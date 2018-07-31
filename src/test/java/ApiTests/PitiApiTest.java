@@ -113,47 +113,5 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isResult());
         assertTrue(actualAnswer.isSuccess());
     }
-    @Test(enabled = false)
-    public void EditUser(){
-        UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
-        UserRS actualUser = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .spec(spec).body(expectedUser)
-                .expect().statusCode(200)
-                .when()
-                .post(baseURL+"users/sign-in")
-                .thenReturn().as(UserRS.class);
-        System.out.println(actualUser.getResult().getAuth_token());
-        System.out.println(actualUser.getResult().getRefresh_token());
-        token=actualUser.getResult().getAuth_token();
-        System.out.println(token);
 
-        EditUserRK editUserRK = new EditUserRK("+7");
-        EditUserRS editUserRS = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+token)
-                .spec(spec).body(editUserRK)
-                .expect().statusCode(200)
-                .when()
-                .post(baseURL+"users/edit-user?id="+getProperty("user.id"))
-                .thenReturn().as(EditUserRS.class);
-        assertEquals(editUserRS.getSuccess(), "true");
-        assertEquals(editUserRS.getResult(), "true");
-
-        try {
-            Thread.sleep(301000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        EditUserRS editUserRS2 = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+token)
-                .spec(spec).body(editUserRK)
-                .expect().statusCode(401)
-                .when()
-                .post(baseURL+"users/edit-user?id="+getProperty("user.id"))
-                .thenReturn().as(EditUserRS.class);
-        assertEquals(editUserRS2.getSuccess(), "false");
-    }
 }
