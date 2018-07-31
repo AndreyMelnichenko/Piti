@@ -113,7 +113,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isResult());
         assertTrue(actualAnswer.isSuccess());
     }
-    @Test//(enabled = false)
+    @Test(enabled = false)
     public void EditUser(){
         UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
         UserRS actualUser = given()
