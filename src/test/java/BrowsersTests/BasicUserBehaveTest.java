@@ -4,10 +4,13 @@ import Gmail.MailActions;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
@@ -21,6 +24,8 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -37,6 +42,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private String mailUrl = "https://www.google.com/intl/ru/gmail/about/#";
     private MailActions mailActions = new MailActions();
     private PagesActions pagesActions = new PagesActions();
+    private Settings settings = new Settings();
 
     @Test (description = "Login page")
     @Description("Login page")
@@ -335,5 +341,31 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.backToMainLetterList();
         //mailActions.deleteLetters();
         mailActions.checkLinks();
+    }
+
+    @Test
+    public void setUpIcon(){
+        open(baseUrl);
+        clearBrowserCache();
+        pagesActions.enterToPersonalCabinet();
+        Actions shiftKey = new Actions(getWebDriver());
+        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
+        Selenide.sleep(3000);
+        homePage.settings().waitUntil(Condition.visible,3000).click();
+        Selenide.sleep(3000);
+        settings.setViews().waitUntil(Condition.visible, 2000).click();
+        Selenide.sleep(3000);
+
+        settings.customIcon().shouldBe(Condition.visible).click();
+        Selenide.sleep(3000);
+        settings.saveButton().shouldBe(Condition.visible).click();
+        Selenide.sleep(3000);
+
+        settings.thirdIco().shouldBe(Condition.visible).click();
+        Selenide.sleep(3000);
+        settings.saveButton().shouldBe(Condition.visible).click();
+        Selenide.sleep(3000);
+        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
+        Selenide.sleep(3000);
     }
 }

@@ -28,6 +28,9 @@ public class HomePage {
     public SelenideElement infoPic(){return $(By.xpath("//div[@class='devicesCategory_item-infoIcon']"));}
     public SelenideElement showInMap(){return $(By.xpath("//div[@class='checkbox_label' and contains(text(),'Отображать на карте')]"));}
     public SelenideElement firstActiveFilterRightWidget(){return $(By.xpath("(//div[@class='mapWiget_filter-item'])[1]"));}
+    public SelenideElement firstDeviceArea(){return $(By.xpath("//div[@class='devicesCategory_item-box']"));}
+    //---------- Settings
+    public SelenideElement settings(){return $(By.xpath("//a[@href='/home/settings']"));}////span[contains(text(),'НАСТРОЙКИ')]
     //----------Map
     public SelenideElement carOnMap(){return $(By.xpath("//div[@class='pit-marker-car']"));}
     public SelenideElement carOnMapDescription(){return $(By.xpath("//div[@class='mapCarModal_name']"));}
