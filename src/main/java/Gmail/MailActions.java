@@ -76,6 +76,8 @@ public class MailActions {
         mailMainPage.checkbox().shouldBe(Condition.visible).click();
         Selenide.sleep(200);
         mailMainPage.delteLetters().shouldBe(Condition.visible).click();
+        Selenide.sleep(200);
+        Selenide.confirm();
     }
 
     public void checkLinks(){

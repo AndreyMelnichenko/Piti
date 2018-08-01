@@ -34,7 +34,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private Recovery recovery = new Recovery();
     private Registration registration = new Registration();
     private AccountSettings accountSettings = new AccountSettings();
-    private String mailUrl = "https://www.google.com/intl/ru/gmail/about/";
+    private String mailUrl = "https://www.google.com/intl/ru/gmail/about/#";
     private MailActions mailActions = new MailActions();
     private PagesActions pagesActions = new PagesActions();
 
