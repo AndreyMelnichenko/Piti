@@ -343,7 +343,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.checkLinks();
     }
 
-    @Test
+    @Test(enabled = false)
     public void setUpIcon(){
         open(baseUrl);
         clearBrowserCache();
