@@ -26,6 +26,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -42,7 +43,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private String mailUrl = "https://www.google.com/intl/ru/gmail/about/#";
     private MailActions mailActions = new MailActions();
     private PagesActions pagesActions = new PagesActions();
-    private Settings settings = new Settings();
+
 
     @Test (description = "Login page")
     @Description("Login page")
@@ -96,7 +97,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Sing-Up")
     public void enterPersonalCabinet(){
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet();
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
         homePage.map().shouldBe(Condition.visible);
     }
 
@@ -264,7 +265,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Calendar")
     public void calendar(){
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet();
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
         homePage.calendarPeriod().shouldBe(Condition.visible).click();
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
@@ -347,25 +348,20 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void setUpIcon(){
         open(baseUrl);
         clearBrowserCache();
-        pagesActions.enterToPersonalCabinet();
-        Actions shiftKey = new Actions(getWebDriver());
-        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
-        Selenide.sleep(3000);
-        homePage.settings().waitUntil(Condition.visible,3000).click();
-        Selenide.sleep(3000);
-        settings.setViews().waitUntil(Condition.visible, 2000).click();
-        Selenide.sleep(3000);
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.goToSettingsPage(getWebDriver());
+        pagesActions.checkChangeIcon();
+        pagesActions.goOutSettingsPage(getWebDriver());
+        pagesActions.exitFromPersonalCabinet();
+    }
 
-        settings.customIcon().shouldBe(Condition.visible).click();
-        Selenide.sleep(3000);
-        settings.saveButton().shouldBe(Condition.visible).click();
-        Selenide.sleep(3000);
-
-        settings.thirdIco().shouldBe(Condition.visible).click();
-        Selenide.sleep(3000);
-        settings.saveButton().shouldBe(Condition.visible).click();
-        Selenide.sleep(3000);
-        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
+    @Test(enabled = false)
+    public void loadIcon(){
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.goToSettingsPage(getWebDriver());
+        pagesActions.loadIcon();
+        pagesActions.goOutSettingsPage(getWebDriver());
         Selenide.sleep(3000);
     }
 }

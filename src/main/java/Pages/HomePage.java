@@ -1,6 +1,5 @@
 package Pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import utils.RandomMinMax;
@@ -30,7 +29,7 @@ public class HomePage {
     public SelenideElement firstActiveFilterRightWidget(){return $(By.xpath("(//div[@class='mapWiget_filter-item'])[1]"));}
     public SelenideElement firstDeviceArea(){return $(By.xpath("//div[@class='devicesCategory_item-box']"));}
     //---------- Settings
-    public SelenideElement settings(){return $(By.xpath("//a[@href='/home/settings']"));}////span[contains(text(),'НАСТРОЙКИ')]
+    public SelenideElement settings(){return $(By.xpath("//a[@href='/home/settings']"));} //span[contains(text(),'НАСТРОЙКИ')]
     //----------Map
     public SelenideElement carOnMap(){return $(By.xpath("//div[@class='pit-marker-car']"));}
     public SelenideElement carOnMapDescription(){return $(By.xpath("//div[@class='mapCarModal_name']"));}
