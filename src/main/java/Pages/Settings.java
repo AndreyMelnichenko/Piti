@@ -16,4 +16,6 @@ public class Settings {
     public SelenideElement uploadIcon(){return $(By.xpath("//label[@class='fileIco_label']"));}
     public SelenideElement uploadInput(){return $(By.xpath("//input[@class='icons_list-item upload_inp']"));}
     public SelenideElement acceptUpload(){return $(By.xpath("//button[@class='creatCategory_accept' and contains(text(), 'СОХРАНИТЬ')]"));}
+    public SelenideElement settingsDevice(){return $(By.xpath("//a[@href='/home/settings/parameters']"));}
+    public SelenideElement deviceCurrentName(){return $(By.xpath("//input[@placeholder='Название устройства' and @class='inp ng-untouched ng-pristine ng-valid']"));}
 }

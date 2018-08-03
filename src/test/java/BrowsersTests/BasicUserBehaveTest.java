@@ -26,6 +26,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
@@ -350,6 +351,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         clearBrowserCache();
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
+        pagesActions.setViews();
         pagesActions.checkChangeIcon();
         pagesActions.goOutSettingsPage(getWebDriver());
         pagesActions.exitFromPersonalCabinet();
@@ -360,8 +362,20 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
+        pagesActions.setViews();
         pagesActions.loadIcon();
         pagesActions.goOutSettingsPage(getWebDriver());
         Selenide.sleep(3000);
+        pagesActions.exitFromPersonalCabinet();
+    }
+
+    @Test(enabled = false)
+    public void reSetUpDevice(){
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.goToSettingsPage(getWebDriver());
+        pagesActions.setDevice();
+        pagesActions.changeDeviceName();
+        pagesActions.goOutSettingsPage(getWebDriver());
     }
 }

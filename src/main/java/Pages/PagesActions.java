@@ -10,6 +10,8 @@ import utils.CustomWait;
 import utils.RandomMinMax;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -71,7 +73,15 @@ public class PagesActions {
         Actions shiftKey = new Actions(driver);
         shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
         homePage.settings().waitUntil(Condition.visible,4000).click();
+    }
+
+    public void setViews(){
         settings.setViews().waitUntil(Condition.visible, 4000).click();
+        Selenide.sleep(200);
+    }
+
+    public void setDevice(){
+        settings.settingsDevice().waitUntil(Condition.visible, 2000).click();
         Selenide.sleep(200);
     }
 
@@ -97,15 +107,22 @@ public class PagesActions {
     public void loadIcon(){
         settings.currentIco().hover();
         settings.deleteIcon().shouldBe(Condition.visible).click();
-
         settings.uploadIcon().shouldBe(Condition.visible).click();
-        Selenide.sleep(1000);
+        Selenide.sleep(500);
         settings.uploadInput().uploadFile(new File("src/main/resources/car1.png"));
-        Selenide.sleep(1000);
-
+        Selenide.sleep(500);
         settings.acceptUpload().waitUntil(Condition.visible, 2000).click();
-
-        Selenide.sleep(1000);
+        Selenide.sleep(500);
         settings.saveButton().shouldBe(Condition.visible).click();
+    }
+
+    public void changeDeviceName(){
+        settings.deviceCurrentName().shouldBe(Condition.visible).clear();
+        Selenide.sleep(1000);
+        String newName = "Test Device GT3101" + new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
+        settings.deviceCurrentName().shouldBe(Condition.visible).setValue(newName);
+        settings.saveButton().shouldBe(Condition.visible).click();
+        Selenide.sleep(2000);
+        assertEquals(newName, homePage.firstDeviceName().getText());
     }
 }
