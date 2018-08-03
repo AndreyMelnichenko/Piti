@@ -4,17 +4,13 @@ import Gmail.MailActions;
 import Pages.*;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import core.WebDriverTestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
-import utils.CustomWait;
 import utils.dbClearUser;
 
 import java.text.SimpleDateFormat;
@@ -125,7 +121,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
         accountSettings.roleNewUser().shouldBe(Condition.visible).click();
         accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
-        CustomWait.getTwoSecondWait();
+        Selenide.sleep(2000);
         Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
@@ -345,7 +341,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.checkLinks();
     }
 
-    @Test(enabled = false)
+    @Test(dependsOnMethods = "singUpMail", description = "Change Device Icon")
+    @Description("Change Device Icon")
     public void setUpIcon(){
         open(baseUrl);
         clearBrowserCache();
@@ -369,7 +366,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test(enabled = false)
+    @Test(dependsOnMethods = "setUpIcon", description = "Change Device Data")
+    @Description("Change Device Data")
     public void reSetUpDevice(){
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));

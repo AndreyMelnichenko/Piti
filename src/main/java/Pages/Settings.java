@@ -18,4 +18,5 @@ public class Settings {
     public SelenideElement acceptUpload(){return $(By.xpath("//button[@class='creatCategory_accept' and contains(text(), 'СОХРАНИТЬ')]"));}
     public SelenideElement settingsDevice(){return $(By.xpath("//a[@href='/home/settings/parameters']"));}
     public SelenideElement deviceCurrentName(){return $(By.xpath("//input[@placeholder='Название устройства' and @class='inp ng-untouched ng-pristine ng-valid']"));}
+    public SelenideElement deviceOldName(){return $(By.xpath("//input[@placeholder='Название устройства' and @class='inp ng-valid ng-dirty ng-touched']"));}
 }
