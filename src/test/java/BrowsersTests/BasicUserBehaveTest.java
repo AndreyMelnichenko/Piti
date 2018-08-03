@@ -341,7 +341,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.checkLinks();
     }
 
-    @Test(dependsOnMethods = "singUpMail", description = "Change Device Icon")
+    @Test(enabled = false, dependsOnMethods = "singUpMail", description = "Change Device Icon")
     @Description("Change Device Icon")
     public void setUpIcon(){
         open(baseUrl);
@@ -366,7 +366,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test(dependsOnMethods = "setUpIcon", description = "Change Device Data")
+    @Test(enabled = false, dependsOnMethods = "setUpIcon", description = "Change Device Data")
     @Description("Change Device Data")
     public void reSetUpDevice(){
         open(baseUrl);
