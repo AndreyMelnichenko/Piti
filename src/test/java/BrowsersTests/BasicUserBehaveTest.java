@@ -121,8 +121,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
         accountSettings.roleNewUser().shouldBe(Condition.visible).click();
         accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
-        Selenide.sleep(2000);
-        Selenide.refresh();
+        Selenide.sleep(4000);
+        //Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
