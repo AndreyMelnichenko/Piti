@@ -306,7 +306,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void editGroup() {
         Selenide.refresh();
         homePage.editGroup().waitUntil(Condition.visible, 5000).click();
-        Selenide.refresh();
+        Selenide.sleep(2000);
         homePage.inputNewGroupName().waitUntil(Condition.visible,5000).setValue("My Group");
         homePage.acceptNewGroupName().waitUntil(Condition.visible, 5000).click();
         Selenide.refresh();
