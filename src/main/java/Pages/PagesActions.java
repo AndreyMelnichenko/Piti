@@ -73,7 +73,7 @@ public class PagesActions {
     public void goToSettingsPage(WebDriver driver){
         Actions shiftKey = new Actions(driver);
         Selenide.sleep(2000);
-        //shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
+        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
         homePage.settings().waitUntil(Condition.visible,4000).click();
     }
 

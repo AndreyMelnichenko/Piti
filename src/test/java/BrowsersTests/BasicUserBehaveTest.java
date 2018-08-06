@@ -22,8 +22,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -210,6 +208,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         open(baseUrl);
         homePage.map().should(Condition.visible);
         pagesActions.exitFromPersonalCabinet();
+        Selenide.sleep(1000);
     }
 
     @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
@@ -255,6 +254,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.carOnMapDescription().shouldBe(Condition.visible).shouldHave(exactText("Test Device GT3101"));
         for(int i=0; i<10;i++) {homePage.mapZoomOut().shouldBe(Condition.visible).click();Selenide.sleep(200);}
         homePage.mapSettings().shouldBe(Condition.visible).click();
+        pagesActions.goOutSettingsPage(getWebDriver());
+        Selenide.sleep(1000);
+
+
         pagesActions.exitFromPersonalCabinet();
     }
 
@@ -302,17 +305,18 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Edit Device group")
     public void editGroup() {
         Selenide.refresh();
-        homePage.editGroup().click();
+        homePage.editGroup().waitUntil(Condition.visible, 5000).click();
+        Selenide.refresh();
         homePage.inputNewGroupName().setValue("My Group");
-        homePage.acceptNewGroupName().shouldBe(Condition.visible).click();
+        homePage.acceptNewGroupName().waitUntil(Condition.visible, 5000).click();
         Selenide.refresh();
         //CursorRobot.moveMouse();
     }
     @Test(dependsOnMethods = "editGroup", description = "Delete Device group")
     @Description("Delete Device group")
     public void deleteGroup(){
-        homePage.editGroup().click();
-        homePage.deleteNewGroupName().click();
+        homePage.editGroup().waitUntil(Condition.visible, 5000).click();
+        homePage.deleteNewGroupName().waitUntil(Condition.visible, 5000).click();
         homePage.deleteNewGroupPopUpTitle().shouldBe(Condition.matchesText("Удалить группу?"));
         homePage.acceptDeleteNewGroup().shouldBe(Condition.visible).click();
         Selenide.sleep(2000);
