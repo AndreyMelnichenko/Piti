@@ -64,11 +64,12 @@ public class PagesActions {
         registration.emailField().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
+        Selenide.sleep(1000);
         Select selectDevice = new Select(registration.listTimeZone());
-        selectDevice.selectByIndex(RandomMinMax.Go(1,20));
+        selectDevice.selectByIndex(RandomMinMax.Go(2,19));
         Selenide.sleep(1000);
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        Selenide.sleep(2000);
+        Selenide.sleep(1000);
     }
 
     public void goToSettingsPage(WebDriver driver){
