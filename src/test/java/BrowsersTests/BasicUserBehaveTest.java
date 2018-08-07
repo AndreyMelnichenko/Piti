@@ -256,9 +256,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.mapSettings().shouldBe(Condition.visible).click();
         pagesActions.exitFromPersonalCabinet();
         Selenide.sleep(1000);
-
-
-        pagesActions.exitFromPersonalCabinet();
     }
 
     @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
