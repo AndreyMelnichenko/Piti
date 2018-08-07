@@ -34,8 +34,9 @@ public class PagesActions {
     }
 
     public void exitFromPersonalCabinet(){
-        homePage.menu().shouldBe(Condition.visible).click();
-        homePage.exit().shouldBe(Condition.visible).click();
+        homePage.menu().waitUntil(Condition.visible,2000).click();
+        Selenide.sleep(1000);
+        homePage.exit().waitUntil(Condition.visible,3000).click();
         login.logo().waitUntil(Condition.visible, 6000);
     }
 
