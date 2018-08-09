@@ -136,7 +136,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(userSettingsRK)
                 .expect().statusCode(200)
                 .when()
-                .post("https://a1.chis.kiev.ua/api/web/v1/"+"users/settings")
+                .post(baseURL+"users/settings")
                 .thenReturn().as(UserSettingsRS.class);
 
         assertEquals("true", response.getSuccess());
@@ -169,7 +169,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(userSettingsRK)
                 .expect().statusCode(200)
                 .when()
-                .post("https://a1.chis.kiev.ua/api/web/v1/"+"users/settings")
+                .post(baseURL+"users/settings")
                 .thenReturn().as(UserSettingsRS.class);
         assertEquals("true", response.getSuccess());
         assertEquals(icon,response.getResult().getIcon());
