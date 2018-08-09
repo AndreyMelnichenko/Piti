@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRK {
 
-    private String email;
-    private String password;
-    private String passwordConfirm;
-    private String time_zone;
-    private String lang;
-
+    protected String email;
+    protected String password;
+    protected String passwordConfirm;
+    protected String time_zone;
+    protected String lang;
 }

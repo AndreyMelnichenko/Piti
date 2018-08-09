@@ -182,6 +182,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.newDeviceShowPass().click();
         accountSettings.newDeviceApn().setValue(dataProperty("data.properties","TK116.apn"));
         System.out.println("2");
+        accountSettings.newDeviceHandSettings().shouldBe(Condition.visible).click();
+        System.out.println("Custom option");
         accountSettings.newDeviceAccept().should(Condition.visible).click();
         System.out.println("3");
         Selenide.sleep(2000);
@@ -305,6 +307,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.editGroup().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(2000);
         homePage.inputNewGroupName().waitUntil(Condition.visible,5000).setValue("My Group");
+        Selenide.sleep(2000);
         homePage.acceptNewGroupName().waitUntil(Condition.visible, 5000).click();
         Selenide.refresh();
         //CursorRobot.moveMouse();

@@ -54,6 +54,7 @@ public class AccountSettings {
     public SelenideElement newDeviceApn(){return $(By.xpath("//input[@placeholder='Apn']"));}
     public SelenideElement newDeviceAccept(){return $(By.xpath("//button[contains(text(),'ОТПРАВИТЬ')]"));}
     public SelenideElement newDeviceItem(){return $(By.xpath("(//div[@class='content_item'])[1]"));}
+    public SelenideElement newDeviceHandSettings(){return $(By.xpath("//div[@class='checkbox_label' and contains(text(), 'Настроить вручную')]"));}
     //--------- Remove Device
     public SelenideElement removeNewDevice(){return firstUserThreeDots();}
     public SelenideElement removeNewDeviceButton(){return firstUserEdit();}
