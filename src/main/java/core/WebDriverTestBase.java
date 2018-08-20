@@ -6,10 +6,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import utils.TestListener;
-import utils.dbClearUser;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -21,7 +19,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 public class WebDriverTestBase {
     protected final String baseUrl = "https://n2.chis.kiev.ua";
     public RemoteWebDriver driver;
-    private String runType = "docker";
+    private String runType = "local";
 
     @BeforeClass
     public void setup() throws MalformedURLException {

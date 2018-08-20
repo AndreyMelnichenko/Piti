@@ -11,7 +11,6 @@ import utils.RandomMinMax;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import static org.testng.Assert.assertEquals;
@@ -25,6 +24,7 @@ public class PagesActions {
     private Recovery recovery = new Recovery();
     private Registration registration = new Registration();
     private Settings settings = new Settings();
+    private UserSettings userSettings = new UserSettings();
 
     public void enterToPersonalCabinet(String name, String password){
         login.login().setValue(name);
@@ -91,8 +91,13 @@ public class PagesActions {
 
     public void goOutSettingsPage(WebDriver driver){
         Actions shiftKey = new Actions(driver);
-        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceArea()).keyUp(Keys.SHIFT).perform();
+        shiftKey.keyDown(Keys.SHIFT).click(homePage.firstDeviceAreaSelected()).keyUp(Keys.SHIFT).perform();
         Selenide.sleep(1000);
+    }
+
+    public void goUsersItem(){
+        settings.usersItem().waitUntil(Condition.visible, 3000).click();
+
     }
 
     public void checkChangeIcon(){
@@ -135,5 +140,11 @@ public class PagesActions {
         settings.deviceOldName().shouldBe(Condition.visible).setValue("Test Device GT3101");
         settings.saveButton().shouldBe(Condition.visible).click();
         Selenide.sleep(2000);
+    }
+
+    public void goToUserSettings(){
+        homePage.menu().waitUntil(Condition.visible, 5000).click();
+        homePage.accountSettings().waitUntil(Condition.visible, 5000).click();
+        homePage.userSettingsPage().waitUntil(Condition.visible,5000).click();
     }
 }

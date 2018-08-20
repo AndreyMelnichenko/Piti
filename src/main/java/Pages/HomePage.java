@@ -10,6 +10,7 @@ public class HomePage {
     public SelenideElement map(){
         return $(By.xpath("//div[@class='map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom']"));
     }
+    public SelenideElement logo(){return  $(By.xpath("//a[@class='header_logo']"));}
     public SelenideElement menu(){
         return $(By.xpath("//div[@class='menuBtn']"));
     }
@@ -19,6 +20,7 @@ public class HomePage {
     public SelenideElement accountSettings(){
         return $(By.xpath("(//div[@class='menu_item-label'])[2]"));
     }
+    public SelenideElement userSettingsPage(){return  $(By.xpath("(//a[@class='menu_item'])[3]"));}
     //--------- Check device on Home Page
     public SelenideElement firstDeviceItem(){return $(By.xpath("//span[contains(text(),'Test Device GT3101')]"));}
     public SelenideElement allarmPic(){return $(By.xpath("//div[@class='stateInfo_item alarm__off']"));}
@@ -27,8 +29,10 @@ public class HomePage {
     public SelenideElement infoPic(){return $(By.xpath("//div[@class='devicesCategory_item-infoIcon']"));}
     public SelenideElement showInMap(){return $(By.xpath("//div[@class='checkbox_label' and contains(text(),'Отображать на карте')]"));}
     public SelenideElement firstActiveFilterRightWidget(){return $(By.xpath("(//div[@class='mapWiget_filter-item'])[1]"));}
-    public SelenideElement firstDeviceArea(){return $(By.xpath("//div[@class='devicesCategory_item-box']"));}
+    public SelenideElement firstDeviceArea(){return $(By.xpath("//div[@class='item-box']"));}//devicesCategory_
+    public SelenideElement firstDeviceAreaSelected(){return $(By.xpath("//div[@class='item-box selected']"));}
     public SelenideElement firstDeviceName(){return $(By.xpath("//div[@class='devicesCategory_item-name']/span"));}
+    public SelenideElement firstDeviceLastUpdate(){return $(By.xpath("(//div[@class='devicesCategory_item-date'])[1]/span"));}
     //---------- Settings
     public SelenideElement settings(){return $(By.xpath("//a[@href='/home/settings']"));} //span[contains(text(),'НАСТРОЙКИ')]
     //----------Map
@@ -57,4 +61,6 @@ public class HomePage {
     public SelenideElement deleteNewGroupName(){return $(By.xpath("//div[@class='editBtns']/button[2]"));}
     public SelenideElement deleteNewGroupPopUpTitle(){return $(By.xpath("//div[@class='creatCategory_top']/span[contains(text(),'Удалить группу?')]"));}
     public SelenideElement acceptDeleteNewGroup(){return $(By.xpath("(//button[@class='creatCategory_accept' and contains(text(),'ПОДТВЕРДИТЬ')])[2]"));}
+    //----------Multilanguage
+    //public ElementsCollection isBadelement(){return $$(By.xpath("//*[contains(text(), 'Content.')]"));}
 }

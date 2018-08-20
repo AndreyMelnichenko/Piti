@@ -20,7 +20,7 @@ import static utils.PropertiesCache.getProperty;
 public class PitiApiTest extends ApiTestBase {
     private static String token, uid, email, password;
 
-    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-In with wrong data", priority = 1)
+    @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-Up with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
     public void SingInSimplePassword(String email, String pass, String confPass,String timeZone,String lang,String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass, timeZone, lang);
@@ -46,9 +46,9 @@ public class PitiApiTest extends ApiTestBase {
     }
 
     @Test(priority = 2)
-    @Description("Sing-In")
+    @Description("Sing-Up")
     @Severity(SeverityLevel.CRITICAL)
-    public void SingIn (){
+    public void SingUp (){
         UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"),getProperty("user.timezone"),getProperty("user.lang"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -63,13 +63,13 @@ public class PitiApiTest extends ApiTestBase {
         uid=actualUser.getResult().getUid();
         email=expectedUserRK.getEmail();
         password=expectedUserRK.getPassword();
-        dbClearUser.getClean();
+        dbClearUser.clearData();
     }
 
-    @Test//(priority = 3)
-    @Description("Sing-Up")
-    //@Severity(SeverityLevel.CRITICAL)
-    public void SingUp(){
+    @Test(priority = 3)
+    @Description("Sing-In")
+    @Severity(SeverityLevel.CRITICAL)
+    public void SingIn(){
         UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -83,7 +83,7 @@ public class PitiApiTest extends ApiTestBase {
         token=actualUser.getResult().getAuth_token();
     }
 
-    @Test(dependsOnMethods = "SingUp", priority = 4)
+    @Test(dependsOnMethods = "SingIn", priority = 4)
     @Description("Invite sending")
     public void Invite(){
         InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
@@ -97,10 +97,10 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(InviteRS.class);
         assertTrue(inviteRS.isSuccess());
         assertEquals(inviteRS.getResult().getEmail(),getProperty("user.gmail"));
-        dbClearUser.getClean();
+        dbClearUser.clearData();
     }
 
-    @Test (dependsOnMethods = "SingUp", priority = 5)
+    @Test (dependsOnMethods = "SingIn", priority = 5)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void PassRestore(){
@@ -116,7 +116,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isSuccess());
     }
 
-    @Test(dependsOnMethods = "SingUp", priority = 6)
+    @Test(dependsOnMethods = "SingIn", priority = 6)
     public void userProfileAvatar(){
         UserSettingsAvatarRK userSettingsRK = new UserSettingsAvatarRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -148,7 +148,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("0", response.getResult().getIcon());
     }
 
-    @Test(dependsOnMethods = "SingUp", priority = 7)
+    @Test(dependsOnMethods = "SingIn", priority = 7)
     public void userProfileIcon(){
         UserSettingsIconRK userSettingsRK = new UserSettingsIconRK();
         userSettingsRK.setEmail(getProperty("user.email"));

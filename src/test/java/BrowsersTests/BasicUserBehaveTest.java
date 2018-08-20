@@ -11,8 +11,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
+import utils.Multilang;
+import utils.TimeCinvertor;
 import utils.dbClearUser;
 
+import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -22,6 +26,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
 import static utils.PropertiesCache.getProperty;
@@ -38,6 +43,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private String mailUrl = "https://www.google.com/intl/ru/gmail/about/#";
     private MailActions mailActions = new MailActions();
     private PagesActions pagesActions = new PagesActions();
+    private UserSettings userSettings = new UserSettings();
 
 
     @Test (description = "Login page")
@@ -108,7 +114,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
     public void addUser(){
-        dbClearUser.getClean();
+        dbClearUser.clearData();
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.accountSettings().shouldBe(Condition.visible).click();
         accountSettings.createNewUserButton().shouldBe(Condition.visible).click();
@@ -125,7 +131,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
-        dbClearUser.getClean();
+        dbClearUser.clearData();
     }
 
     @Test(dependsOnMethods = "addUser", description = "Send Invite")
@@ -142,7 +148,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.refresh();
         System.out.println("2");
         accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
-        dbClearUser.getClean();
+        dbClearUser.clearData();
     }
 
     @Test(dependsOnMethods = "invitetoUser", description = "User change info")
@@ -162,7 +168,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.firstUserAcceptNewInfo().should(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         assertFalse(oldName.equals(accountSettings.firstUserName()));
-        dbClearUser.getClean();
+        dbClearUser.clearData();
 
     }
 
@@ -379,5 +385,42 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.setDevice();
         pagesActions.changeDeviceName();
         pagesActions.goOutSettingsPage(getWebDriver());
+    }
+
+    @Test
+    public void multilanguage() throws FileNotFoundException {
+        open("https://featureang.chis.kiev.ua/");
+        Multilang multilang = new Multilang();
+        multilang.scanPage();
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        multilang.scanPage();
+        pagesActions.goToUserSettings();
+        multilang.scanPage();
+        homePage.logo().waitUntil(Condition.visible,5000).click();
+        pagesActions.goToSettingsPage(getWebDriver());
+        multilang.scanPage();
+        pagesActions.goUsersItem();
+        multilang.scanPage();
+        pagesActions.goOutSettingsPage(getWebDriver());
+
+    }
+
+    @Test
+    public void timeZone() throws ParseException {
+        dbClearUser.uncheckDevices();
+        dbClearUser.setTimeZone();
+        TimeCinvertor timeCinvertor = new TimeCinvertor();
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        String beforeTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
+        pagesActions.goToUserSettings();
+        userSettings.chooseTimeZone();
+        userSettings.saveSettings();
+        userSettings.goMainPage();
+        Selenide.sleep(2000);
+        Selenide.refresh();
+        String afterTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
+        int diff = timeCinvertor.getDiff(beforeTime, afterTime);
+        assertEquals(diff, 1);
     }
 }

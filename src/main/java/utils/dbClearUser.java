@@ -10,7 +10,7 @@ public class dbClearUser {
     private static final String user = getProperty("db.user");
     private static final String password = getProperty("db.pass");
 
-    public static void getClean () {
+    private void getClean(String query) {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -19,29 +19,8 @@ public class dbClearUser {
             System.out.println("Connected database successfully...");
             System.out.println("Executing a query...");
             stmt = conn.createStatement();
+            stmt.executeUpdate(query);
 
-            String sessionDelete = "delete from users_sessions where user_id in " +
-                    "(select id from users where email='"+getProperty("new.user.email")+"')";
-            String checkSessionDelete = "select count(id) as result from users_sessions where user_id in " +
-                    "(select id from users where email='"+getProperty("new.user.email")+"')";
-            String usersDelete = "delete from users where email='"+getProperty("new.user.email")+"'";
-            String checkUserDelete = "select count(id) as result from users where email='"+getProperty("new.user.email")+"'";
-            String inviteDelete = "delete from invites where email='"+getProperty("user.gmail")+"'";
-
-            stmt.executeUpdate(sessionDelete);
-            stmt.executeUpdate(checkSessionDelete);
-            stmt.executeUpdate(usersDelete);
-            stmt.executeUpdate(checkUserDelete);
-            stmt.executeUpdate(inviteDelete);
-
-            ResultSet sessionDel = stmt.executeQuery(sessionDelete);
-            ResultSet resultSessionDelete = stmt.executeQuery(checkSessionDelete);
-            ResultSet userDel = stmt.executeQuery(usersDelete);
-            ResultSet rresultUserDelete = stmt.executeQuery(checkUserDelete);
-            ResultSet deleteIvite = stmt.executeQuery(inviteDelete);
-
-        } catch (SQLException se) {
-            se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -49,8 +28,7 @@ public class dbClearUser {
                 if (stmt != null) {
                     conn.close();
                 }
-            } catch (SQLException se) {
-            }
+            } catch (SQLException ignored) {}
             try {
                 if (conn != null) {
                     conn.close();
@@ -59,10 +37,52 @@ public class dbClearUser {
                 se.printStackTrace();
             }
         }
-        System.out.println("Current USER was DELTED! Goodbye!");
+        System.out.println("Query executed! Goodbye!");
     }
 
-    public static void main(String[] args) {
-        getClean();
+    private void userSessiondelete(){
+        String sessionDelete = "delete from users_sessions where user_id in (select id from users where email='"+getProperty("new.user.email")+"')";
+        getClean(sessionDelete);
+    }
+
+    private void checkSessionDelete(){
+        String checkSessionDelete = "select count(id) as result from users_sessions where user_id in (select id from users where email='"+getProperty("new.user.email")+"')";
+        getClean(checkSessionDelete);
+    }
+
+    private void userDelete(){
+        String usersDelete = "delete from users where email='"+getProperty("new.user.email")+"'";
+        getClean(usersDelete);
+    }
+
+    private void checkUserDelete(){
+        String checkUserDelete = "select count(id) as result from users where email='"+getProperty("new.user.email")+"'";
+        getClean(checkUserDelete);
+    }
+
+    private void inviteDelete(){
+        String inviteDelete = "delete from invites where email='"+getProperty("user.gmail")+"'";
+        getClean(inviteDelete);
+    }
+
+    public static void uncheckDevices(){
+        String uncheckDevice = "update user_device set is_checked=0 where user_id=79";
+        dbClearUser db = new dbClearUser();
+        db.getClean(uncheckDevice);
+    }
+
+    public static void setTimeZone(){
+        String setTimeZone = "update users set time_zone=2 where  id=79";
+        dbClearUser db = new dbClearUser();
+        db.getClean(setTimeZone);
+    }
+
+    public static void clearData() {
+        dbClearUser db = new dbClearUser();
+        db.userSessiondelete();
+        db.checkSessionDelete();
+        db.userDelete();
+        db.checkUserDelete();
+        db.inviteDelete();
     }
 }
