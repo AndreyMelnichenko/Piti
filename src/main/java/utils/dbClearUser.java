@@ -71,6 +71,13 @@ public class dbClearUser {
         db.getClean(uncheckDevice);
     }
 
+    public static void uncheckDevices(String userName){
+        String uncheckDevice = "update user_device set is_checked=0 where user_id in (select id from users where email='"
+                +userName+"')";
+        dbClearUser db = new dbClearUser();
+        db.getClean(uncheckDevice);
+    }
+
     public static void setTimeZone(){
         String setTimeZone = "update users set time_zone=2 where  id=79";
         dbClearUser db = new dbClearUser();

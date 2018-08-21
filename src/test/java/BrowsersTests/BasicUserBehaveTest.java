@@ -376,10 +376,11 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test(enabled = false, dependsOnMethods = "setUpIcon", description = "Change Device Data")
+    @Test//(enabled = false, dependsOnMethods = "setUpIcon", description = "Change Device Data")
     @Description("Change Device Data")
-    public void reSetUpDevice(){
+    public void deviceSettings(){
         open(baseUrl);
+        dbClearUser.uncheckDevices(getProperty("user2.email"));
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
         pagesActions.setDevice();
