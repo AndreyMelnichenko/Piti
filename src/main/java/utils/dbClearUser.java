@@ -1,9 +1,8 @@
 package utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static utils.PropertiesCache.getProperty;
 
@@ -41,6 +40,45 @@ public class dbClearUser {
             }
         }
         System.out.println("Query executed! Goodbye!");
+    }
+
+    public static String getInviteToken(String email){
+        PreparedStatement ps = null;
+        Connection conn = null;
+        String SQL = "select token from invites where email='"+email+"'";
+        String result = null;
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(url, user, password);
+            ps = conn.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            result=null;
+            while (rs.next()) {
+                result=rs.getString(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
     }
 
     private void userSessiondelete(){
@@ -100,5 +138,10 @@ public class dbClearUser {
         db.userDelete();
         db.checkUserDelete();
         db.inviteDelete();
+    }
+
+    public static void main(String[] args) {
+        clearData();
+        //getDataFromDb();
     }
 }

@@ -79,7 +79,7 @@ public class PitiApiTest extends ApiTestBase {
                 .post(baseURL+"users/sign-in")
                 .thenReturn().as(UserRS.class);
         assertTrue(actualUser.isSuccess());
-        //assertEquals(getProperty("user.id"), actualUser.getResult().getUid());
+        assertEquals(getProperty("user.id"), actualUser.getResult().getUid());
         token=actualUser.getResult().getAuth_token();
     }
 
@@ -97,10 +97,30 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(InviteRS.class);
         assertTrue(inviteRS.isSuccess());
         assertEquals(inviteRS.getResult().getEmail(),getProperty("user.gmail"));
+    }
+
+    @Test(dependsOnMethods = "Invite", priority = 5)
+    @Description("Invite confirm")
+    public void InviteConfirm(){
+        InviteConfirmRK inviteConfirmRK = new InviteConfirmRK();
+        inviteConfirmRK.setPhone("380502102093");
+        inviteConfirmRK.setLang("1");
+        inviteConfirmRK.setTime_zone("3");
+        inviteConfirmRK.setName("companymobox@gmail.com");
+        inviteConfirmRK.setPassword("DSD12DA1Aa2");
+        inviteConfirmRK.setPasswordConfirm("DSD12DA1Aa2");
+        UserRS inviteConfirmRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(inviteConfirmRK)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/invite-success?token="+dbClearUser.getInviteToken(getProperty("user.gmail")))
+                .thenReturn().as(UserRS.class);
+        assertTrue(inviteConfirmRS.isSuccess());
         dbClearUser.clearData();
     }
 
-    @Test (dependsOnMethods = "SingIn", priority = 5)
+    @Test (dependsOnMethods = "SingIn", priority = 6)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void PassRestore(){
@@ -116,7 +136,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isSuccess());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 6)
+    @Test(dependsOnMethods = "SingIn", priority = 7)
     public void userProfileAvatar(){
         UserSettingsAvatarRK userSettingsRK = new UserSettingsAvatarRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -148,7 +168,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("0", response.getResult().getIcon());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 7)
+    @Test(dependsOnMethods = "SingIn", priority = 8)
     public void userProfileIcon(){
         UserSettingsIconRK userSettingsRK = new UserSettingsIconRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -178,4 +198,5 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(phone, response.getResult().getPhone());
         assertEquals(lang, response.getResult().getLang());
     }
+
 }
