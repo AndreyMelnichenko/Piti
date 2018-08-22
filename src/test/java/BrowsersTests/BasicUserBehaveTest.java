@@ -424,4 +424,14 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         int diff = timeCinvertor.getDiff(beforeTime, afterTime);
         assertEquals(diff, 1);
     }
+
+    @Test
+    public void userSettings(){
+        dbClearUser.uncheckDevices();
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.goToUserSettings();
+        userSettings.setUserEmail();
+
+    }
 }
