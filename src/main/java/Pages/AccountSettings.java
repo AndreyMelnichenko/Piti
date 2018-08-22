@@ -33,6 +33,7 @@ public class AccountSettings {
     public SelenideElement firstUserName (){return $(By.xpath("(//div[@class='user_info-name'])[1]"));}
     public SelenideElement firstUserThreeDots(){return $(By.xpath("(//div[@class='droprown_btn'])[1]"));}
     public SelenideElement firstUserEdit(){return $(By.xpath("(//div[@class='droprown_item'])[1]"));}
+    public SelenideElement firstUserEmail(){return $(By.xpath("(//div[@class='user_info-mail'])[1]"));}
     //---------Second User Info
     public SelenideElement secondUserInviteAlert(){return $(By.xpath("//div[@class='user_info-alert']"));}
     //---------- User Pop-up

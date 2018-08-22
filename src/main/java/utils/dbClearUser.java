@@ -84,6 +84,12 @@ public class dbClearUser {
         db.getClean(setTimeZone);
     }
 
+    public static void emailReset(String email, String id){
+        String query = "update users set email='"+email+"' where id="+id;
+        dbClearUser db = new dbClearUser();
+        db.getClean(query);
+    }
+
     public static void clearData() {
         dbClearUser db = new dbClearUser();
         db.userSessiondelete();

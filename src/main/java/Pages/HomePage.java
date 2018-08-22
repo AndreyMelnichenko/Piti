@@ -62,5 +62,4 @@ public class HomePage {
     public SelenideElement deleteNewGroupPopUpTitle(){return $(By.xpath("//div[@class='creatCategory_top']/span[contains(text(),'Удалить группу?')]"));}
     public SelenideElement acceptDeleteNewGroup(){return $(By.xpath("(//button[@class='creatCategory_accept' and contains(text(),'ПОДТВЕРДИТЬ')])[2]"));}
     //----------Multilanguage
-    //public ElementsCollection isBadelement(){return $$(By.xpath("//*[contains(text(), 'Content.')]"));}
 }

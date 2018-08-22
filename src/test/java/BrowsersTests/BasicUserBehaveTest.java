@@ -432,6 +432,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
         pagesActions.goToUserSettings();
         userSettings.setUserEmail();
-
+        userSettings.saveSettings();
+        Selenide.sleep(2000);
+        userSettings.goUsersItem();
+        assertEquals(accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText(),1+getProperty("user.email"));
+        dbClearUser.emailReset(getProperty("user.email"), getProperty("user.id"));
     }
 }

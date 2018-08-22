@@ -18,6 +18,7 @@ public class UserSettings {
     private SelenideElement saveButton(){return $(By.xpath("//div[@class='saveSettings __active']"));}
     private SelenideElement goToMainPage(){return $(By.xpath("//img[@src='/assets/img/logo.png']"));}
     private SelenideElement emailField(){return $(By.xpath("//input[@name='email']"));}
+    private SelenideElement usersItem(){return $(By.xpath("(//a[@href='/account/users'])[1]"));}
     //------Methods----------
     public int chooseTimeZone(){
         Select selectDevice = new Select(timezone());
@@ -31,10 +32,12 @@ public class UserSettings {
         saveButton().waitUntil(Condition.visible,5000).click();
         System.out.println("Saved");
     }
-
     public void setUserEmail(){
         emailField().waitUntil(Condition.visible, 3000).clear();
         emailField().waitUntil(Condition.visible, 3000).setValue(1+getProperty("user.email"));
         Selenide.sleep(2000);
+    }
+    public void goUsersItem(){
+        usersItem().waitUntil(Condition.visible, 3000).click();
     }
 }

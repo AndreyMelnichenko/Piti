@@ -21,17 +21,6 @@ public class TimeCinvertor {
         String resul2 = onlyHour.format(date2);
         System.out.println("Parsed Expected HOURS: "+resul2);
         System.out.println(Integer.parseInt(resul1)+"==="+Integer.parseInt(resul2));
-        /*Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date1);
-        calendar.add(Calendar.HOUR_OF_DAY, timezone);
-        String expectedTimeZone = onlyHour.format(calendar.getTime());*/
         return (Integer.parseInt(resul2)-Integer.parseInt(resul1));
     }
-
-/*    public int cutDate(String date){
-        SimpleDateFormat onlyHour = new SimpleDateFormat("HH");
-        String resul1 = onlyHour.format(date);
-        System.out.println("Cutted DATE: "+resul1);
-        return Integer.parseInt(resul1);
-    }*/
 }
