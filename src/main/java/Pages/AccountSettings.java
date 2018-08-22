@@ -64,5 +64,4 @@ public class AccountSettings {
     //---------Menu
     public SelenideElement menuButton(){return $(By.xpath("//div[@class='menuBtn']"));}
     public SelenideElement exitButton(){return $(By.xpath("//div[@class='menu_item-label' and contains(text(),'Выход из системы')]"));}
-
 }

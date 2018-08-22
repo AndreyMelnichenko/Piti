@@ -26,6 +26,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static utils.DataProperties.dataProperty;
@@ -437,5 +438,18 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         userSettings.goUsersItem();
         assertEquals(accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText(),1+getProperty("user.email"));
         dbClearUser.emailReset(getProperty("user.email"), getProperty("user.id"));
+    }
+
+    @Test
+    public void tripDisplaying(){
+        dbClearUser.uncheckDevices();
+        open(baseUrl);
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.firstDeviceClick();
+        pagesActions.lastTripClick();
+        pagesActions.hoverPointA();
+        assertTrue(pagesActions.popUpPointA());
+        pagesActions.hoverPointB();
+        assertTrue(pagesActions.popUpPointB());
     }
 }

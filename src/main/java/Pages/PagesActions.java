@@ -147,4 +147,29 @@ public class PagesActions {
         homePage.accountSettings().waitUntil(Condition.visible, 5000).click();
         homePage.userSettingsPage().waitUntil(Condition.visible,5000).click();
     }
+
+    public void firstDeviceClick() {
+        homePage.firstDeviceArea().waitUntil(Condition.visible,5000).click();
+    }
+
+    public void lastTripClick(){
+        homePage.lastTrip().waitUntil(Condition.visible,5000).click();
+    }
+
+    public void hoverPointA(){
+        //Actions mouseHover = new Actions(driver);
+        homePage.pointA().waitUntil(Condition.visible,5000).hover();
+    }
+    public void hoverPointB(){
+        //Actions mouseHover = new Actions(driver);
+        homePage.pointB().waitUntil(Condition.visible,5000).hover();
+    }
+
+    public boolean popUpPointA(){
+        return homePage.popUpPointA().waitUntil(Condition.visible,5000).isDisplayed();
+    }
+
+    public boolean popUpPointB(){
+        return homePage.popUpPointB().waitUntil(Condition.visible,5000).isDisplayed();
+    }
 }

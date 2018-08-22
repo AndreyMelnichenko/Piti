@@ -1,5 +1,6 @@
 package Pages;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import utils.RandomMinMax;
@@ -40,6 +41,10 @@ public class HomePage {
     public SelenideElement carOnMapDescription(){return $(By.xpath("//div[@class='mapCarModal_name']"));}
     public SelenideElement mapZoomOut(){return $(By.xpath("//a[@class='leaflet-control-zoom-out']"));}
     public SelenideElement mapSettings(){return $(By.xpath("//div[@class='settings']"));}
+    public SelenideElement pointA(){return $(By.xpath("(//div[@class='marker_extremePoint'])[1]"));}
+    public SelenideElement pointB(){return $(By.xpath("(//div[@class='marker_extremePoint'])[2]"));}
+    public SelenideElement popUpPointA(){return $(By.xpath("(//div[@class='extreme_modal'])[1]"));}
+    public SelenideElement popUpPointB(){return $(By.xpath("(//div[@class='extreme_modal'])[2]"));}
     //---------Calendar
     public SelenideElement calendarPeriod(){return $(By.xpath("//a[@class='subMenu_item subMenu_item-calendar']"));}
     public SelenideElement calendarPrev(){return $(By.xpath("//button[@title='Previous month']"));}
@@ -61,5 +66,6 @@ public class HomePage {
     public SelenideElement deleteNewGroupName(){return $(By.xpath("//div[@class='editBtns']/button[2]"));}
     public SelenideElement deleteNewGroupPopUpTitle(){return $(By.xpath("//div[@class='creatCategory_top']/span[contains(text(),'Удалить группу?')]"));}
     public SelenideElement acceptDeleteNewGroup(){return $(By.xpath("(//button[@class='creatCategory_accept' and contains(text(),'ПОДТВЕРДИТЬ')])[2]"));}
-    //----------Multilanguage
+    //----------Right wiget
+    public SelenideElement lastTrip(){return $(By.xpath("(//div[@class='card_top-schemeMin'])[1]"));}
 }

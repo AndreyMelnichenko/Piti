@@ -19,6 +19,7 @@ public class UserSettings {
     private SelenideElement goToMainPage(){return $(By.xpath("//img[@src='/assets/img/logo.png']"));}
     private SelenideElement emailField(){return $(By.xpath("//input[@name='email']"));}
     private SelenideElement usersItem(){return $(By.xpath("(//a[@href='/account/users'])[1]"));}
+
     //------Methods----------
     public int chooseTimeZone(){
         Select selectDevice = new Select(timezone());
