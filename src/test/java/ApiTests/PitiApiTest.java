@@ -1,5 +1,6 @@
 package ApiTests;
 
+import Pages.ErrPage;
 import ResponseMessages.*;
 import UserData.*;
 import core.ApiTestBase;
@@ -199,4 +200,44 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(lang, response.getResult().getLang());
     }
 
+    @Test(dependsOnMethods = "SingIn", priority = 9)
+    public void addUser(){
+        AddUserRK newUser = new AddUserRK();
+        newUser.setEmail(getProperty("user.gmail"));
+        newUser.setPassword(getProperty("new.user.password"));
+        newUser.setPasswordConfirm(getProperty("new.user.password"));
+        newUser.setName(getProperty("new.user.fio"));
+        newUser.setPhone(getProperty("new.user.phone"));
+        newUser.setRole(getProperty("new.user.role"));
+        RestoreRS addUserRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(newUser)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/add-user")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(addUserRS.isSuccess());
+        assertTrue(addUserRS.isResult());
+        dbClearUser.clearData();
+    }
+
+    @Test (priority = 10)
+    public void addUserNegative(){
+        AddUserRK newUser = new AddUserRK();
+        newUser.setEmail(getProperty("user.gmail"));
+        newUser.setPassword(getProperty("new.user.password"));
+        newUser.setName(getProperty("new.user.fio"));
+        newUser.setPhone(getProperty("new.user.phone"));
+        newUser.setRole(getProperty("new.user.role"));
+        ErrorRS addUserRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+"VvklDJvit-yB_9SOrcD1peMBmsQECJHQ")
+                .spec(spec).body(newUser)
+                .expect().statusCode(400)
+                .when()
+                .post(baseURL+"users/add-user")
+                .thenReturn().as(ErrorRS.class);
+        assertFalse(addUserRS.isSuccess());
+    }
 }

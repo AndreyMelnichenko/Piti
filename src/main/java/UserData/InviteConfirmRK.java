@@ -17,5 +17,4 @@ public class InviteConfirmRK {
     private String time_zone;
     private String lang;
     private String name;
-
 }

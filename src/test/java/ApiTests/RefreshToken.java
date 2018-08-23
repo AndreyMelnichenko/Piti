@@ -15,7 +15,7 @@ import static utils.PropertiesCache.getProperty;
 
 
 @Epic("API tests")
-public class RefreshToken extends PitiApiTest {
+public class RefreshToken extends ApiTestBase {
     private static String token;
 
     @Test(priority = 1)
@@ -28,10 +28,9 @@ public class RefreshToken extends PitiApiTest {
                 .when()
                 .post(baseURL+"users/sign-in")
                 .thenReturn().as(UserRS.class);
-        System.out.println(actualUser.getResult().getAuth_token());
-        System.out.println(actualUser.getResult().getRefresh_token());
         token=actualUser.getResult().getAuth_token();
-        System.out.println(token);
+        System.out.println("Auth token 1: "+token);
+        System.out.println("REfresh_token 1: "+actualUser.getResult().getRefresh_token());
 
         EditUserRK editUserRK = new EditUserRK("+7");
         EditUserRS editUserRS = given()
