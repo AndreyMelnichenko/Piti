@@ -357,6 +357,66 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(EditUserRS.class);
         assertFalse(Boolean.parseBoolean(editedUser.getSuccess()));
         assertEquals(editedUser.getName(),"Unauthorized");
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 17)
+    public void editUserBadUrl(){
+        InviteConfirmRK editUserRK = new InviteConfirmRK();
+        editUserRK.setName("New Name");
+        editUserRK.setPhone("234242342432342");
+        editUserRK.setTime_zone("3");
+        EditUserRS editedUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(editUserRK)
+                .expect().statusCode(403)
+                .when()
+                .post(baseURL+"users/edit-user?id=1")//+dbConnect.getUserId(getProperty("user.gmail")))
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(editedUser.getSuccess()));
+        assertEquals(editedUser.getName(),"Forbidden");
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 18)
+    public void deleteUserNegative(){
+        EditUserRS deleteUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token+"34y457fy457f")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/delete-user?id="+dbConnect.getUserId(getProperty("user.gmail")))
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(deleteUser.getSuccess()));
+        assertEquals(deleteUser.getName(),"Unauthorized");
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 19)
+    public void deleteUserBadUrl(){
+        EditUserRS deleteUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(403)
+                .when()
+                .post(baseURL+"users/delete-user?id=1")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(deleteUser.getSuccess()));
+        assertEquals(deleteUser.getName(),"Forbidden");
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 20)
+    public void deleteUser(){
+        RestoreRS deleteUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/delete-user?id="+dbConnect.getUserId(getProperty("user.gmail")))
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(deleteUser.isSuccess());
+        assertTrue(deleteUser.isResult());
         dbConnect.clearData();
     }
 }
