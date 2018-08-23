@@ -121,7 +121,34 @@ public class PitiApiTest extends ApiTestBase {
         dbClearUser.clearData();
     }
 
+
     @Test(dependsOnMethods = "SingIn", priority = 6)
+    @Description("Invite Remove")
+    public void inviteRemove(){
+        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
+        InviteRS inviteRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(inviteRK)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/invite")
+                .thenReturn().as(InviteRS.class);
+        assertTrue(inviteRS.isSuccess());
+        assertEquals(inviteRS.getResult().getEmail(),getProperty("user.gmail"));
+
+        RestoreRS inviteRemoveRS = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/invite-delete?id="+inviteRS.getResult().getInvite_id())
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(inviteRemoveRS.isSuccess());
+        assertTrue(inviteRemoveRS.isResult());
+    }
+
+    @Test(dependsOnMethods = "SingIn", priority = 7)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void passRestore(){
@@ -137,7 +164,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isSuccess());
     }
 
-    @Test (priority = 7)
+    @Test (priority = 8)
     @Description("Repare PASSWORD FALSE")
     @Severity(SeverityLevel.CRITICAL)
     public void repairPasswordBadToken(){
@@ -156,7 +183,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("57", reparePassword.getError().getMessage().getToken());
     }
 
-    @Test (priority = 8)
+    @Test (priority = 9)
     @Description("Repare PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void repairPassword(){
@@ -174,7 +201,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(reparePassword.isSuccess());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 9)
+    @Test(dependsOnMethods = "SingIn", priority = 10)
     public void userProfileAvatar(){
         UserSettingsAvatarRK userSettingsRK = new UserSettingsAvatarRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -206,7 +233,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("0", response.getResult().getIcon());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 10)
+    @Test(dependsOnMethods = "SingIn", priority = 11)
     public void userProfileIcon(){
         UserSettingsIconRK userSettingsRK = new UserSettingsIconRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -235,28 +262,6 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(userName, response.getResult().getName());
         assertEquals(phone, response.getResult().getPhone());
         assertEquals(lang, response.getResult().getLang());
-    }
-
-    @Test(dependsOnMethods = "SingIn", priority = 11)
-    public void addUser(){
-        AddUserRK newUser = new AddUserRK();
-        newUser.setEmail(getProperty("user.gmail"));
-        newUser.setPassword(getProperty("new.user.password"));
-        newUser.setPasswordConfirm(getProperty("new.user.password"));
-        newUser.setName(getProperty("new.user.fio"));
-        newUser.setPhone(getProperty("new.user.phone"));
-        newUser.setRole(getProperty("new.user.role"));
-        RestoreRS addUserRS = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+token)
-                .spec(spec).body(newUser)
-                .expect().statusCode(200)
-                .when()
-                .post(baseURL+"users/add-user")
-                .thenReturn().as(RestoreRS.class);
-        assertTrue(addUserRS.isSuccess());
-        assertTrue(addUserRS.isResult());
-        dbClearUser.clearData();
     }
 
     @Test (priority = 12)
@@ -297,6 +302,28 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Your request was made with invalid credentials.", addUserRS.getEditUserError().getMessage());
         assertEquals("Unauthorized", addUserRS.getName());
         assertFalse(Boolean.parseBoolean(addUserRS.getSuccess()));
+    }
+
+    @Test(dependsOnMethods = "SingIn", priority = 14)
+    public void addUser(){
+        AddUserRK newUser = new AddUserRK();
+        newUser.setEmail(getProperty("user.gmail"));
+        newUser.setPassword(getProperty("new.user.password"));
+        newUser.setPasswordConfirm(getProperty("new.user.password"));
+        newUser.setName(getProperty("new.user.fio"));
+        newUser.setPhone(getProperty("new.user.phone"));
+        newUser.setRole(getProperty("new.user.role"));
+        RestoreRS addUserRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(newUser)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/add-user")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(addUserRS.isSuccess());
+        assertTrue(addUserRS.isResult());
+        dbClearUser.clearData();
     }
 
     @Test(enabled = false)
