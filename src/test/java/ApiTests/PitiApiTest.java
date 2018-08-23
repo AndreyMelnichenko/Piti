@@ -322,10 +322,9 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(RestoreRS.class);
         assertTrue(addUserRS.isSuccess());
         assertTrue(addUserRS.isResult());
-        //dbConnect.clearData();
     }
 
-    @Test(priority = 15)
+    @Test(dependsOnMethods = "addUser", priority = 15)
     public void editUser(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -337,8 +336,27 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(editUserRK)
                 .expect().statusCode(200)
                 .when()
-                .post(baseURL+"users/edit-user?id="+dbConnect.getUserId(getProperty("user.email")))
+                .post(baseURL+"users/edit-user?id="+dbConnect.getUserId(getProperty("user.gmail")))
                 .thenReturn().as(RestoreRS.class);
         assertTrue(editedUser.isSuccess());
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 16)
+    public void editUserNegative(){
+        InviteConfirmRK editUserRK = new InviteConfirmRK();
+        editUserRK.setName("New Name");
+        editUserRK.setPhone("234242342432342");
+        editUserRK.setTime_zone("3");
+        EditUserRS editedUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token+"54t45t45t")
+                .spec(spec).body(editUserRK)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/edit-user?id="+dbConnect.getUserId(getProperty("user.gmail")))
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(editedUser.getSuccess()));
+        assertEquals(editedUser.getName(),"Unauthorized");
+        dbConnect.clearData();
     }
 }
