@@ -121,10 +121,10 @@ public class PitiApiTest extends ApiTestBase {
         dbClearUser.clearData();
     }
 
-    @Test (dependsOnMethods = "SingIn", priority = 6)
+    @Test(dependsOnMethods = "SingIn", priority = 6)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
-    public void PassRestore(){
+    public void passRestore(){
         UserRK userRK = new UserRK(getProperty("user.email"),getProperty("user.password"),getProperty("user.password"),getProperty("user.timezone"),getProperty("user.lang"));
         RestoreRS actualAnswer = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -137,7 +137,44 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(actualAnswer.isSuccess());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 7)
+    @Test (priority = 7)
+    @Description("Repare PASSWORD FALSE")
+    @Severity(SeverityLevel.CRITICAL)
+    public void repairPasswordBadToken(){
+        UserPassRepareRK repareRK = new UserPassRepareRK();
+        repareRK.setToken(dbClearUser.getRepareToken("958gh459gh457gh78h"));//getProperty("user.email")));
+        repareRK.setPassword(getProperty("user.password"));
+        repareRK.setPasswordConfirm(getProperty("user.password"));
+        ErrorRS reparePassword = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(repareRK)
+                .expect().statusCode(400)
+                .when()
+                .post(baseURL+"users/repair-password")
+                .thenReturn().as(ErrorRS.class);
+        assertFalse(reparePassword.isSuccess());
+        assertEquals("57", reparePassword.getError().getMessage().getToken());
+    }
+
+    @Test (priority = 8)
+    @Description("Repare PASSWORD")
+    @Severity(SeverityLevel.CRITICAL)
+    public void repairPassword(){
+        UserPassRepareRK repareRK = new UserPassRepareRK();
+        repareRK.setToken(dbClearUser.getRepareToken(getProperty("user.email")));
+        repareRK.setPassword(getProperty("user.password"));
+        repareRK.setPasswordConfirm(getProperty("user.password"));
+        UserRS reparePassword = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .spec(spec).body(repareRK)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/repair-password")
+                .thenReturn().as(UserRS.class);
+        assertTrue(reparePassword.isSuccess());
+    }
+
+    @Test(dependsOnMethods = "SingIn", priority = 9)
     public void userProfileAvatar(){
         UserSettingsAvatarRK userSettingsRK = new UserSettingsAvatarRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -169,7 +206,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("0", response.getResult().getIcon());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 8)
+    @Test(dependsOnMethods = "SingIn", priority = 10)
     public void userProfileIcon(){
         UserSettingsIconRK userSettingsRK = new UserSettingsIconRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -200,7 +237,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(lang, response.getResult().getLang());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 9)
+    @Test(dependsOnMethods = "SingIn", priority = 11)
     public void addUser(){
         AddUserRK newUser = new AddUserRK();
         newUser.setEmail(getProperty("user.gmail"));
@@ -222,7 +259,7 @@ public class PitiApiTest extends ApiTestBase {
         dbClearUser.clearData();
     }
 
-    @Test (priority = 10)
+    @Test (priority = 12)
     public void addUserNegative(){
         AddUserRK newUser = new AddUserRK();
         newUser.setEmail(getProperty("user.gmail"));
@@ -232,12 +269,38 @@ public class PitiApiTest extends ApiTestBase {
         newUser.setRole(getProperty("new.user.role"));
         ErrorRS addUserRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+"VvklDJvit-yB_9SOrcD1peMBmsQECJHQ")
+                .header("Authorization", "Bearer "+token)
                 .spec(spec).body(newUser)
                 .expect().statusCode(400)
                 .when()
                 .post(baseURL+"users/add-user")
                 .thenReturn().as(ErrorRS.class);
         assertFalse(addUserRS.isSuccess());
+    }
+
+    @Test(priority = 13)
+    public void addUserBadToken(){
+        AddUserRK newUser = new AddUserRK();
+        newUser.setEmail(getProperty("user.gmail"));
+        newUser.setPassword(getProperty("new.user.password"));
+        newUser.setName(getProperty("new.user.fio"));
+        newUser.setPhone(getProperty("new.user.phone"));
+        newUser.setRole(getProperty("new.user.role"));
+        EditUserRS addUserRS = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+"uhfefeHIHdisufiufhiuf")
+                .spec(spec).body(newUser)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/add-user")
+                .thenReturn().as(EditUserRS.class);
+        assertEquals("Your request was made with invalid credentials.", addUserRS.getEditUserError().getMessage());
+        assertEquals("Unauthorized", addUserRS.getName());
+        assertFalse(Boolean.parseBoolean(addUserRS.getSuccess()));
+    }
+
+    @Test(enabled = false)
+    public void editUser(){
+
     }
 }

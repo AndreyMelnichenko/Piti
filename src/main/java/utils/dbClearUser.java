@@ -42,10 +42,10 @@ public class dbClearUser {
         System.out.println("Query executed! Goodbye!");
     }
 
-    public static String getInviteToken(String email){
+    private static String getDataValue(String email, String field, String table){
         PreparedStatement ps = null;
         Connection conn = null;
-        String SQL = "select token from invites where email='"+email+"'";
+        String SQL = "select "+field+" from "+table+" where email='"+email+"'";
         String result = null;
         try {
             Class.forName(JDBC_DRIVER);
@@ -138,6 +138,14 @@ public class dbClearUser {
         db.userDelete();
         db.checkUserDelete();
         db.inviteDelete();
+    }
+
+    public static String getInviteToken(String email){
+        return getDataValue(email,"token","invites");
+    }
+
+    public static String getRepareToken(String email){
+        return getDataValue(email, "recovery_token", "users");
     }
 
     public static void main(String[] args) {
