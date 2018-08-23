@@ -152,6 +152,10 @@ public class dbConnect {
         return getDataValue(email, "id", "users");
     }
 
+    public static String getUserToken(String email){
+        return getDataValue(email, "token", "users");
+    }
+
     public static void main(String[] args) {
         clearData();
         //getDataFromDb();

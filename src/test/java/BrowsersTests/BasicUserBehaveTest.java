@@ -64,8 +64,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         AssertJUnit.assertEquals(login.errorPassword().getText(), dataProperty("data.properties", "login.wrong.password"));
     }
 
-    @Test(dependsOnMethods = "SingUpErrMessages", description = "Re-SingIn")
-    @Description("Re-SingIn")
+    @Test(dependsOnMethods = "SingUpErrMessages", description = "Re-singIn")
+    @Description("Re-singIn")
     public void badRegistration(){
         open(baseUrl);
         login.registration().shouldBe(Condition.visible).click();
@@ -77,7 +77,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).should(Condition.matchesText("Необходимо заполнить «Time Zone»."));
     }
 
-    @Test(dependsOnMethods = "badRegistration", description = "SingIn")
+    @Test(dependsOnMethods = "badRegistration", description = "singIn")
     @Description("Sing In")
     public void registration(){
         open(baseUrl);
@@ -135,8 +135,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.clearData();
     }
 
-    @Test(dependsOnMethods = "addUser", description = "Send Invite")
-    @Description("Send Invite")
+    @Test(dependsOnMethods = "addUser", description = "Send invite")
+    @Description("Send invite")
     public void invitetoUser(){
         accountSettings.inviteButton().shouldBe(Condition.visible).click();
         accountSettings.emailForImvite().shouldBe(Condition.visible).setValue(getProperty("user.gmail"));

@@ -22,7 +22,7 @@ public class PitiApiTest extends ApiTestBase {
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-Up with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
-    public void SingInSimplePassword(String email, String pass, String confPass,String timeZone,String lang,String validation, String errMessage){
+    public void singInSimplePassword(String email, String pass, String confPass, String timeZone, String lang, String validation, String errMessage){
         UserRK faledUserRK = new UserRK(email, pass,confPass, timeZone, lang);
         ErrorRS actualAnswer = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -48,7 +48,7 @@ public class PitiApiTest extends ApiTestBase {
     @Test(priority = 2)
     @Description("Sing-Up")
     @Severity(SeverityLevel.CRITICAL)
-    public void SingUp (){
+    public void singUp(){
         UserRK expectedUserRK = new UserRK(getProperty("new.user.email"),getProperty("new.user.password"),getProperty("new.user.password"),getProperty("user.timezone"),getProperty("user.lang"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -69,7 +69,7 @@ public class PitiApiTest extends ApiTestBase {
     @Test(priority = 3)
     @Description("Sing-In")
     @Severity(SeverityLevel.CRITICAL)
-    public void SingIn(){
+    public void singIn(){
         UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
         UserRS actualUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -83,10 +83,10 @@ public class PitiApiTest extends ApiTestBase {
         token=actualUser.getResult().getAuth_token();
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 4)
-    @Description("Invite sending")
-    public void Invite(){
-        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
+    @Test(dependsOnMethods = "singIn", priority = 4)
+    @Description("invite sending")
+    public void invite(){
+        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"invite messages", "1");
         InviteRS inviteRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .header("Authorization", "Bearer "+token)
@@ -99,9 +99,9 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(inviteRS.getResult().getEmail(),getProperty("user.gmail"));
     }
 
-    @Test(dependsOnMethods = "Invite", priority = 5)
-    @Description("Invite confirm")
-    public void InviteConfirm(){
+    @Test(dependsOnMethods = "invite", priority = 5)
+    @Description("invite confirm")
+    public void inviteConfirm(){
         InviteConfirmRK inviteConfirmRK = new InviteConfirmRK();
         inviteConfirmRK.setPhone("380502102093");
         inviteConfirmRK.setLang("1");
@@ -121,10 +121,10 @@ public class PitiApiTest extends ApiTestBase {
     }
 
 
-    @Test(dependsOnMethods = "SingIn", priority = 6)
-    @Description("Invite Remove")
+    @Test(dependsOnMethods = "singIn", priority = 6)
+    @Description("invite Remove")
     public void inviteRemove(){
-        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"Invite messages", "1");
+        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"invite messages", "1");
         InviteRS inviteRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .header("Authorization", "Bearer "+token)
@@ -147,7 +147,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(inviteRemoveRS.isResult());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 7)
+    @Test(dependsOnMethods = "singIn", priority = 7)
     @Description("Restore PASSWORD")
     @Severity(SeverityLevel.CRITICAL)
     public void passRestore(){
@@ -200,7 +200,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(reparePassword.isSuccess());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 10)
+    @Test(dependsOnMethods = "singIn", priority = 10)
     public void userProfileAvatar(){
         UserSettingsAvatarRK userSettingsRK = new UserSettingsAvatarRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -232,7 +232,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("0", response.getResult().getIcon());
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 11)
+    @Test(dependsOnMethods = "singIn", priority = 11)
     public void userProfileIcon(){
         UserSettingsIconRK userSettingsRK = new UserSettingsIconRK();
         userSettingsRK.setEmail(getProperty("user.email"));
@@ -303,7 +303,7 @@ public class PitiApiTest extends ApiTestBase {
         assertFalse(Boolean.parseBoolean(addUserRS.getSuccess()));
     }
 
-    @Test(dependsOnMethods = "SingIn", priority = 14)
+    @Test(dependsOnMethods = "singIn", priority = 14)
     public void addUser(){
         AddUserRK newUser = new AddUserRK();
         newUser.setEmail(getProperty("user.gmail"));
@@ -325,6 +325,17 @@ public class PitiApiTest extends ApiTestBase {
     }
 
     @Test(dependsOnMethods = "addUser", priority = 15)
+    public void activateEmail(){
+        UserRS activateEmail = given()
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/activate-email?token="+dbConnect.getUserToken(getProperty("user.gmail")))
+                .thenReturn().as(UserRS.class);
+        assertTrue(activateEmail.isSuccess());
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 16)
     public void editUser(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -341,7 +352,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(editedUser.isSuccess());
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 16)
+    @Test(dependsOnMethods = "addUser", priority = 17)
     public void editUserNegative(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -359,7 +370,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(editedUser.getName(),"Unauthorized");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 17)
+    @Test(dependsOnMethods = "addUser", priority = 18)
     public void editUserBadUrl(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -377,7 +388,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(editedUser.getName(),"Forbidden");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 18)
+    @Test(dependsOnMethods = "addUser", priority = 19)
     public void deleteUserNegative(){
         EditUserRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -391,7 +402,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(deleteUser.getName(),"Unauthorized");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 19)
+    @Test(dependsOnMethods = "addUser", priority = 20)
     public void deleteUserBadUrl(){
         EditUserRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -405,7 +416,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(deleteUser.getName(),"Forbidden");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 20)
+    @Test(dependsOnMethods = "addUser", priority = 21)
     public void deleteUser(){
         RestoreRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
