@@ -430,4 +430,16 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(deleteUser.isResult());
         dbConnect.clearData();
     }
+
+    @Test(dependsOnMethods = "singIn", priority = 22)
+    public void eventsLoad(){
+        Events events = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/events")
+                .thenReturn().as(Events.class);
+        assertTrue(events.isSuccess());
+    }
 }
