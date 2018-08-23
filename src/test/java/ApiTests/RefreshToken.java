@@ -6,6 +6,7 @@ import ResponseMessages.EditUserRS;
 import ResponseMessages.UserRS;
 import UserData.UserSingUp;
 import core.ApiTestBase;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.testng.annotations.Test;
 
@@ -18,7 +19,8 @@ import static utils.PropertiesCache.getProperty;
 public class RefreshToken extends ApiTestBase {
     private static String token;
 
-    @Test(priority = 1)
+    @Test(description = "Refresh Token")
+    @Description("Refresh Token")
     public void EditUser(){
         UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
         UserRS actualUser = given()
@@ -30,7 +32,7 @@ public class RefreshToken extends ApiTestBase {
                 .thenReturn().as(UserRS.class);
         token=actualUser.getResult().getAuth_token();
         System.out.println("Auth token 1: "+token);
-        System.out.println("REfresh_token 1: "+actualUser.getResult().getRefresh_token());
+        System.out.println("Refresh_token 1: "+actualUser.getResult().getRefresh_token());
 
         EditUserRK editUserRK = new EditUserRK("+7");
         EditUserRS editUserRS = given()

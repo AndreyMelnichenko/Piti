@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import static utils.PropertiesCache.getProperty;
 
-public class dbClearUser {
+public class dbConnect {
     private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
     private static final String url = getProperty("db.url");
     private static final String user = getProperty("db.user");
@@ -58,7 +58,7 @@ public class dbClearUser {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -67,14 +67,14 @@ public class dbClearUser {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (ps != null) {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(dbClearUser.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -108,31 +108,31 @@ public class dbClearUser {
 
     public static void uncheckDevices(){
         String uncheckDevice = "update user_device set is_checked=0 where user_id=79";
-        dbClearUser db = new dbClearUser();
+        dbConnect db = new dbConnect();
         db.getClean(uncheckDevice);
     }
 
     public static void uncheckDevices(String userName){
         String uncheckDevice = "update user_device set is_checked=0 where user_id in (select id from users where email='"
                 +userName+"')";
-        dbClearUser db = new dbClearUser();
+        dbConnect db = new dbConnect();
         db.getClean(uncheckDevice);
     }
 
     public static void setTimeZone(){
         String setTimeZone = "update users set time_zone=2 where  id=79";
-        dbClearUser db = new dbClearUser();
+        dbConnect db = new dbConnect();
         db.getClean(setTimeZone);
     }
 
     public static void emailReset(String email, String id){
         String query = "update users set email='"+email+"' where id="+id;
-        dbClearUser db = new dbClearUser();
+        dbConnect db = new dbConnect();
         db.getClean(query);
     }
 
     public static void clearData() {
-        dbClearUser db = new dbClearUser();
+        dbConnect db = new dbConnect();
         db.userSessiondelete();
         db.checkSessionDelete();
         db.userDelete();
@@ -146,6 +146,10 @@ public class dbClearUser {
 
     public static String getRepareToken(String email){
         return getDataValue(email, "recovery_token", "users");
+    }
+
+    public static String getUserId(String email){
+        return getDataValue(email, "id", "users");
     }
 
     public static void main(String[] args) {

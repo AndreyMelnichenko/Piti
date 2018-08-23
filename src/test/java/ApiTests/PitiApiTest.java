@@ -1,6 +1,5 @@
 package ApiTests;
 
-import Pages.ErrPage;
 import ResponseMessages.*;
 import UserData.*;
 import core.ApiTestBase;
@@ -8,7 +7,7 @@ import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import utils.RandomMinMax;
 import utils.SingUpParser;
-import utils.dbClearUser;
+import utils.dbConnect;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,7 +63,7 @@ public class PitiApiTest extends ApiTestBase {
         uid=actualUser.getResult().getUid();
         email=expectedUserRK.getEmail();
         password=expectedUserRK.getPassword();
-        dbClearUser.clearData();
+        dbConnect.clearData();
     }
 
     @Test(priority = 3)
@@ -115,10 +114,10 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(inviteConfirmRK)
                 .expect().statusCode(200)
                 .when()
-                .post(baseURL+"users/invite-success?token="+dbClearUser.getInviteToken(getProperty("user.gmail")))
+                .post(baseURL+"users/invite-success?token="+dbConnect.getInviteToken(getProperty("user.gmail")))
                 .thenReturn().as(UserRS.class);
         assertTrue(inviteConfirmRS.isSuccess());
-        dbClearUser.clearData();
+        dbConnect.clearData();
     }
 
 
@@ -169,7 +168,7 @@ public class PitiApiTest extends ApiTestBase {
     @Severity(SeverityLevel.CRITICAL)
     public void repairPasswordBadToken(){
         UserPassRepareRK repareRK = new UserPassRepareRK();
-        repareRK.setToken(dbClearUser.getRepareToken("958gh459gh457gh78h"));//getProperty("user.email")));
+        repareRK.setToken(dbConnect.getRepareToken("958gh459gh457gh78h"));//getProperty("user.email")));
         repareRK.setPassword(getProperty("user.password"));
         repareRK.setPasswordConfirm(getProperty("user.password"));
         ErrorRS reparePassword = given()
@@ -188,7 +187,7 @@ public class PitiApiTest extends ApiTestBase {
     @Severity(SeverityLevel.CRITICAL)
     public void repairPassword(){
         UserPassRepareRK repareRK = new UserPassRepareRK();
-        repareRK.setToken(dbClearUser.getRepareToken(getProperty("user.email")));
+        repareRK.setToken(dbConnect.getRepareToken(getProperty("user.email")));
         repareRK.setPassword(getProperty("user.password"));
         repareRK.setPasswordConfirm(getProperty("user.password"));
         UserRS reparePassword = given()
@@ -323,11 +322,23 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(RestoreRS.class);
         assertTrue(addUserRS.isSuccess());
         assertTrue(addUserRS.isResult());
-        dbClearUser.clearData();
+        //dbConnect.clearData();
     }
 
-    @Test(enabled = false)
+    @Test(priority = 15)
     public void editUser(){
-
+        InviteConfirmRK editUserRK = new InviteConfirmRK();
+        editUserRK.setName("New Name");
+        editUserRK.setPhone("234242342432342");
+        editUserRK.setTime_zone("3");
+        RestoreRS editedUser = given()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization", "Bearer "+token)
+                .spec(spec).body(editUserRK)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/edit-user?id="+dbConnect.getUserId(getProperty("user.email")))
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(editedUser.isSuccess());
     }
 }

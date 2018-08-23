@@ -52,7 +52,7 @@ public class WebDriverTestBase {
 
 //    @BeforeMethod
 //    public void dbCleaner(){
-//        dbClearUser.getClean();
+//        dbConnect.getClean();
 //    }
 
     @AfterClass

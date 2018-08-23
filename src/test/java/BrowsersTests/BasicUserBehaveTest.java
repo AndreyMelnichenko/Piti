@@ -13,7 +13,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 import utils.Multilang;
 import utils.TimeCinvertor;
-import utils.dbClearUser;
+import utils.dbConnect;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -115,7 +115,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
     public void addUser(){
-        dbClearUser.clearData();
+        dbConnect.clearData();
         homePage.menu().shouldBe(Condition.visible).click();
         homePage.accountSettings().shouldBe(Condition.visible).click();
         accountSettings.createNewUserButton().shouldBe(Condition.visible).click();
@@ -132,7 +132,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
-        dbClearUser.clearData();
+        dbConnect.clearData();
     }
 
     @Test(dependsOnMethods = "addUser", description = "Send Invite")
@@ -149,7 +149,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.refresh();
         System.out.println("2");
         accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
-        dbClearUser.clearData();
+        dbConnect.clearData();
     }
 
     @Test(dependsOnMethods = "invitetoUser", description = "User change info")
@@ -169,7 +169,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.firstUserAcceptNewInfo().should(Condition.visible).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         assertFalse(oldName.equals(accountSettings.firstUserName()));
-        dbClearUser.clearData();
+        dbConnect.clearData();
 
     }
 
@@ -381,7 +381,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Change Device Data")
     public void deviceSettings(){
         open(baseUrl);
-        dbClearUser.uncheckDevices(getProperty("user2.email"));
+        dbConnect.uncheckDevices(getProperty("user2.email"));
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
         pagesActions.setDevice();
@@ -409,8 +409,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test
     public void timeZone() throws ParseException {
-        dbClearUser.uncheckDevices();
-        dbClearUser.setTimeZone();
+        dbConnect.uncheckDevices();
+        dbConnect.setTimeZone();
         TimeCinvertor timeCinvertor = new TimeCinvertor();
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
@@ -428,7 +428,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test
     public void userSettings(){
-        dbClearUser.uncheckDevices();
+        dbConnect.uncheckDevices();
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
         pagesActions.goToUserSettings();
@@ -437,12 +437,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.sleep(2000);
         userSettings.goUsersItem();
         assertEquals(accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText(),1+getProperty("user.email"));
-        dbClearUser.emailReset(getProperty("user.email"), getProperty("user.id"));
+        dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
     }
 
     @Test
     public void tripDisplaying(){
-        dbClearUser.uncheckDevices();
+        dbConnect.uncheckDevices();
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
         pagesActions.firstDeviceClick();
