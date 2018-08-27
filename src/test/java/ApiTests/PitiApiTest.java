@@ -450,7 +450,7 @@ public class PitiApiTest extends ApiTestBase {
     @Test(dependsOnMethods = "singIn", priority = 23)
     public void eventLoadBadToken(){
         EditUserRS events = given()
-                .header("Authorization", "Bearer "+token)
+                .header("Authorization", "Bearer 712121212121212")
                 .spec(spec)
                 .expect().statusCode(401)
                 .when()
@@ -491,5 +491,55 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(RestoreRS.class);
         assertTrue(deleteEvent.isSuccess());
         assertTrue(deleteEvent.isResult());
+    }
+
+    @Test(dependsOnMethods = "singIn", priority = 26)
+    public void userList(){
+        UserListRS userListRS = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/list")
+                .thenReturn().as(UserListRS.class);
+        assertTrue(userListRS.isSuccess());
+    }
+
+    @Test(priority = 27)
+    public void userListBadToken(){
+        EditUserRS userListRS = given()
+                .header("Authorization", "Bearer 0000000000000000")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .get(baseURL+"users/list")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(userListRS.getSuccess()));
+        assertEquals("Unauthorized", userListRS.getName());
+    }
+
+    @Test(dependsOnMethods = "singIn", priority = 28)
+    public void userSessions(){
+        UserRS usersSessions = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/sessions")
+                .thenReturn().as(UserRS.class);
+        assertTrue(usersSessions.isSuccess());
+    }
+
+    @Test(priority = 29)
+    public void userSessionsBadToken(){
+        EditUserRS usersSessions = given()
+                .header("Authorization", "Bearer 1231312312311")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .get(baseURL+"users/sessions")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(usersSessions.getSuccess()));
+        assertEquals("Unauthorized", usersSessions.getName());
     }
 }

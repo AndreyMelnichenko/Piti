@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +25,9 @@ public class Result {
     private String icon;
     private String name;
     private String time_zone;
+
+    private String itemCount;
+    private String pageCount;
+    private List<SessionData> data;
 
 }
