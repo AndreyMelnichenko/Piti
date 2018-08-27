@@ -463,7 +463,7 @@ public class PitiApiTest extends ApiTestBase {
         dbConnect.clearData();
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 24)
+    @Test(enabled = false, dependsOnMethods = "singIn", priority = 24)
     public void eventsLoad(){
         Events events = given()
                 .header("Authorization", "Bearer "+token)
@@ -534,7 +534,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(userListRS.isSuccess());
     }
 
-    @Test(priority = 29)
+    @Test(dependsOnMethods = "singIn", priority = 29)
     public void userListBadToken(){
         EditUserRS userListRS = given()
                 .header("Authorization", "Bearer 0000000000000000")
@@ -559,7 +559,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(usersSessions.isSuccess());
     }
 
-    @Test(priority = 31)
+    @Test(dependsOnMethods = "singIn", priority = 31)
     public void userSessionsBadToken(){
         EditUserRS usersSessions = given()
                 .header("Authorization", "Bearer 1231312312311")
@@ -572,7 +572,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", usersSessions.getName());
     }
 
-    @Test(priority = 32)
+    @Test(dependsOnMethods = "singIn", priority = 32)
     public void fireBaseTokenAdd(){
         firebaseToken = "98ht5948gt4589ghg";
         Map<String, String> fireBaseToken = new HashMap<>();
@@ -589,7 +589,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(firebaseToken, dbConnect.getFireBaseToken(getProperty("user.email")));
     }
 
-    @Test(priority = 33)
+    @Test(dependsOnMethods = "singIn", priority = 33)
     public void fireBaseTokenCheck(){
         UserRS fireBaseToken = given()
                 .header("Authorization", "Bearer "+token)
@@ -602,7 +602,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(Boolean.parseBoolean(fireBaseToken.getResult().getFirebase()));
     }
 
-    @Test(priority = 34)
+    @Test(dependsOnMethods = "singIn", priority = 34)
     public void fireBaseBadTokenCheck(){
         EditUserRS fireBaseToken = given()
                 .header("Authorization", "Bearer ")
@@ -615,7 +615,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(fireBaseToken.getName(),"Unauthorized");
     }
 
-    @Test(priority = 35)
+    @Test(dependsOnMethods = "singIn", priority = 35)
     public void fireBaseBadTokenAdd(){
         firebaseToken = "98ht5948gt4589ghg";
         Map<String, String> fireBaseToken = new HashMap<>();
@@ -632,7 +632,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", fireBaseBadTokenRK.getName());
     }
 
-    @Test(priority = 36)
+    @Test(dependsOnMethods = "singIn", priority = 36)
     public void fireBaseTokenDelete(){
         RestoreRS fireBaseTokenDeleteRK = given()
                 .header("Authorization", "Bearer "+token)
@@ -645,7 +645,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(fireBaseTokenDeleteRK.isResult());
     }
 
-    @Test(priority = 37)
+    @Test(dependsOnMethods = "singIn", priority = 37)
     public void fireBaseBadTokenDelete(){
         EditUserRS fireBaseTokenDeleteRK = given()
                 .header("Authorization", "Bearer 3985395398573489")
@@ -658,7 +658,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", fireBaseTokenDeleteRK.getName());
     }
 
-    @Test(priority = 38)
+    @Test(dependsOnMethods = "singIn", priority = 38)
     public void userSettings(){
         UserRS userSettings = given()
                 .header("Authorization", "Bearer "+token)
@@ -670,6 +670,4 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(userSettings.isSuccess());
         assertEquals(userSettings.getResult().getEmail(), getProperty("user.email"));
     }
-
-
 }
