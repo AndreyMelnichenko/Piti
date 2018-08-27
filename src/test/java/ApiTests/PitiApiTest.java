@@ -554,7 +554,7 @@ public class PitiApiTest extends ApiTestBase {
                 .get(baseURL+"users/get-users")
                 .thenReturn().as(UserListRS.class);
         assertTrue(getUser.isSuccess());
-        //assertEquals(getProperty("new.user.email"),getUser.getResult().get(0).getEmail());
+        assertEquals(getProperty("new.user.email"),getUser.getResult().get(0).getEmail());
     }
 
     @Test(priority = 31)
