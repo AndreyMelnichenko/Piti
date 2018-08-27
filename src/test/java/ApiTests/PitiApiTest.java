@@ -328,7 +328,33 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(addUserRS.isResult());
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 15)
+    @Test(priority = 15)
+    public void getUserAccount(){
+        UserListRS getUser = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/get-users")
+                .thenReturn().as(UserListRS.class);
+        assertTrue(getUser.isSuccess());
+        assertEquals(getProperty("new.user.email"),getUser.getResult().get(0).getEmail());
+    }
+
+    @Test(priority = 16)
+    public void getUserAccountBadToken(){
+        EditUserRS getUser = given()
+                .header("Authorization", "Bearer 2618612564")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .get(baseURL+"users/get-users")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(getUser.getSuccess()));
+        assertEquals("Unauthorized", getUser.getName());
+    }
+
+    @Test(dependsOnMethods = "addUser", priority = 17)
     public void activateEmail(){
         UserRS activateEmail = given()
                 .spec(spec)
@@ -339,7 +365,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(activateEmail.isSuccess());
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 16)
+    @Test(dependsOnMethods = "addUser", priority = 18)
     public void editUser(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -356,7 +382,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(editedUser.isSuccess());
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 17)
+    @Test(dependsOnMethods = "addUser", priority = 19)
     public void editUserNegative(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -374,7 +400,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(editedUser.getName(),"Unauthorized");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 18)
+    @Test(dependsOnMethods = "addUser", priority = 20)
     public void editUserBadUrl(){
         InviteConfirmRK editUserRK = new InviteConfirmRK();
         editUserRK.setName("New Name");
@@ -392,7 +418,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(editedUser.getName(),"Forbidden");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 19)
+    @Test(dependsOnMethods = "addUser", priority = 21)
     public void deleteUserNegative(){
         EditUserRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -406,7 +432,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(deleteUser.getName(),"Unauthorized");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 20)
+    @Test(dependsOnMethods = "addUser", priority = 22)
     public void deleteUserBadUrl(){
         EditUserRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -420,7 +446,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(deleteUser.getName(),"Forbidden");
     }
 
-    @Test(dependsOnMethods = "addUser", priority = 21)
+    @Test(dependsOnMethods = "addUser", priority = 23)
     public void deleteUser(){
         RestoreRS deleteUser = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
@@ -435,7 +461,7 @@ public class PitiApiTest extends ApiTestBase {
         dbConnect.clearData();
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 22)
+    @Test(dependsOnMethods = "singIn", priority = 24)
     public void eventsLoad(){
         Events events = given()
                 .header("Authorization", "Bearer "+token)
@@ -448,7 +474,7 @@ public class PitiApiTest extends ApiTestBase {
         event_id=events.getResult().get(0).getId();
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 23)
+    @Test(dependsOnMethods = "singIn", priority = 25)
     public void eventLoadBadToken(){
         EditUserRS events = given()
                 .header("Authorization", "Bearer 712121212121212")
@@ -461,7 +487,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", events.getName());
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 24)
+    @Test(dependsOnMethods = "singIn", priority = 26)
     public void eventDeleteBadToken(){
         EventDeleteRK eventDeleteRK = new EventDeleteRK();
         eventDeleteRK.setEid(Arrays.asList("93ru3489ru394ru439","349yr3948r39i90"));
@@ -478,7 +504,7 @@ public class PitiApiTest extends ApiTestBase {
 
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 25)
+    @Test(dependsOnMethods = "singIn", priority = 27)
     public void eventDelete(){
         EventDeleteRK eventDeleteRK = new EventDeleteRK();
         eventDeleteRK.setEid(Arrays.asList("93ru3489ru394ru439","349yr3948r39i90"));
@@ -494,7 +520,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(deleteEvent.isResult());
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 26)
+    @Test(dependsOnMethods = "singIn", priority = 28)
     public void userList(){
         UserListRS userListRS = given()
                 .header("Authorization", "Bearer "+token)
@@ -506,7 +532,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(userListRS.isSuccess());
     }
 
-    @Test(priority = 27)
+    @Test(priority = 29)
     public void userListBadToken(){
         EditUserRS userListRS = given()
                 .header("Authorization", "Bearer 0000000000000000")
@@ -519,7 +545,7 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", userListRS.getName());
     }
 
-    @Test(dependsOnMethods = "singIn", priority = 28)
+    @Test(dependsOnMethods = "singIn", priority = 30)
     public void userSessions(){
         UserRS usersSessions = given()
                 .header("Authorization", "Bearer "+token)
@@ -531,7 +557,7 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(usersSessions.isSuccess());
     }
 
-    @Test(priority = 29)
+    @Test(priority = 31)
     public void userSessionsBadToken(){
         EditUserRS usersSessions = given()
                 .header("Authorization", "Bearer 1231312312311")
@@ -544,29 +570,41 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals("Unauthorized", usersSessions.getName());
     }
 
-    @Test(priority = 30)
-    public void getUserAccount(){
-        UserListRS getUser = given()
+    @Test(priority = 32)
+    public void fireBaseTokenCheck(){
+        UserRS fireBaseToken = given()
                 .header("Authorization", "Bearer "+token)
                 .spec(spec)
                 .expect().statusCode(200)
                 .when()
-                .get(baseURL+"users/get-users")
-                .thenReturn().as(UserListRS.class);
-        assertTrue(getUser.isSuccess());
-        assertEquals(getProperty("new.user.email"),getUser.getResult().get(0).getEmail());
+                .get(baseURL+"users/fire-check")
+                .thenReturn().as(UserRS.class);
+        assertTrue(fireBaseToken.isSuccess());
     }
 
-    @Test(priority = 31)
-    public void getUserAccountBadToken(){
-        EditUserRS getUser = given()
-                .header("Authorization", "Bearer 2618612564")
+    @Test(priority = 33)
+    public void fireBaseBadTokenCheck(){
+        EditUserRS fireBaseToken = given()
+                .header("Authorization", "Bearer ")
                 .spec(spec)
                 .expect().statusCode(401)
                 .when()
-                .get(baseURL+"users/get-users")
+                .get(baseURL+"users/fire-check")
                 .thenReturn().as(EditUserRS.class);
-        assertFalse(Boolean.parseBoolean(getUser.getSuccess()));
-        assertEquals("Unauthorized", getUser.getName());
+        assertFalse(Boolean.parseBoolean(fireBaseToken.getSuccess()));
+        assertEquals(fireBaseToken.getName(),"Unauthorized");
+    }
+
+    @Test(priority = 34)
+    public void userSettings(){
+        UserRS userSettings = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/settings")
+                .thenReturn().as(UserRS.class);
+        assertTrue(userSettings.isSuccess());
+        assertEquals(userSettings.getResult().getEmail(), getProperty("user.email"));
     }
 }
