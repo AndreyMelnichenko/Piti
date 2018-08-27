@@ -10,7 +10,10 @@ import utils.SingUpParser;
 import utils.dbConnect;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
@@ -18,7 +21,7 @@ import static utils.PropertiesCache.getProperty;
 
 @Epic("API tests")
 public class PitiApiTest extends ApiTestBase {
-    private static String token, uid, email, password;
+    private static String token, uid, email, password, event_id;
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-Up with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
@@ -441,5 +444,52 @@ public class PitiApiTest extends ApiTestBase {
                 .get(baseURL+"users/events")
                 .thenReturn().as(Events.class);
         assertTrue(events.isSuccess());
+        event_id=events.getResult().get(0).getId();
+    }
+
+    @Test(dependsOnMethods = "singIn", priority = 23)
+    public void eventLoadBadToken(){
+        EditUserRS events = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .get(baseURL+"users/events")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(events.getSuccess()));
+        assertEquals("Unauthorized", events.getName());
+    }
+
+    @Test(dependsOnMethods = "singIn", priority = 24)
+    public void eventDeleteBadToken(){
+        EventDeleteRK eventDeleteRK = new EventDeleteRK();
+        eventDeleteRK.setEid(Arrays.asList("93ru3489ru394ru439","349yr3948r39i90"));
+        EditUserRS deleteEvent = given()
+                .header("Authorization", "Bearer 00000001020020202")
+                .spec(spec)
+                .body(eventDeleteRK)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/event-delete")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(deleteEvent.getSuccess()));
+        assertEquals("Unauthorized", deleteEvent.getName());
+
+    }
+
+    @Test(dependsOnMethods = "singIn", priority = 25)
+    public void eventDelete(){
+        EventDeleteRK eventDeleteRK = new EventDeleteRK();
+        eventDeleteRK.setEid(Arrays.asList("93ru3489ru394ru439","349yr3948r39i90"));
+        RestoreRS deleteEvent = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .body(eventDeleteRK)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/event-delete")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(deleteEvent.isSuccess());
+        assertTrue(deleteEvent.isResult());
     }
 }
