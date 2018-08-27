@@ -52,7 +52,7 @@ public class dbConnect {
             conn = DriverManager.getConnection(url, user, password);
             ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
-            result=null;
+            //result=null;
             while (rs.next()) {
                 result=rs.getString(1);
             }
@@ -79,6 +79,18 @@ public class dbConnect {
             }
         }
         return result;
+    }
+
+    private static String getDataValue(String email, String field, String table, String notNull) throws SQLException {
+        String result = null;
+        try(Connection conn = DriverManager.getConnection(url, user, password);
+        Statement statement = conn.createStatement()){
+            ResultSet resultSet = statement.executeQuery("select "+field+" from "+table+" where user_id in (select id from users where email='"+email+"') and "+notNull+" is not null;");
+            while (resultSet.next()) {
+                result=resultSet.getString(1);
+            }
+            return result;
+        }
     }
 
     private void userSessiondelete(){
@@ -156,8 +168,18 @@ public class dbConnect {
         return getDataValue(email, "token", "users");
     }
 
+    public static String getFireBaseToken(String email) {
+        String result = null;
+        try {
+            result = getDataValue(email, "firebase_token", "users_sessions", "firebase_token");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         clearData();
-        //getDataFromDb();
+        //System.out.println(getFireBaseToken("dima.laktionov5@gmail.com"));
     }
 }

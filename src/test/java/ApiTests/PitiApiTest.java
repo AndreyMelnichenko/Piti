@@ -15,6 +15,8 @@ import utils.dbConnect;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
@@ -22,7 +24,7 @@ import static utils.PropertiesCache.getProperty;
 
 @Epic("API tests")
 public class PitiApiTest extends ApiTestBase {
-    private static String token, uid, email, password, event_id;
+    private static String token, uid, email, password, event_id, firebaseToken;
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-Up with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
@@ -571,6 +573,23 @@ public class PitiApiTest extends ApiTestBase {
     }
 
     @Test(priority = 32)
+    public void fireBaseTokenAdd(){
+        firebaseToken = "98ht5948gt4589ghg";
+        Map<String, String> fireBaseToken = new HashMap<>();
+        fireBaseToken.put("token",firebaseToken);
+        RestoreRS fireBaseTokenRK = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .body(fireBaseToken)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/fire-token-save")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(fireBaseTokenRK.isSuccess());
+        assertEquals(firebaseToken, dbConnect.getFireBaseToken(getProperty("user.email")));
+    }
+
+    @Test(priority = 33)
     public void fireBaseTokenCheck(){
         UserRS fireBaseToken = given()
                 .header("Authorization", "Bearer "+token)
@@ -580,9 +599,10 @@ public class PitiApiTest extends ApiTestBase {
                 .get(baseURL+"users/fire-check")
                 .thenReturn().as(UserRS.class);
         assertTrue(fireBaseToken.isSuccess());
+        assertTrue(Boolean.parseBoolean(fireBaseToken.getResult().getFirebase()));
     }
 
-    @Test(priority = 33)
+    @Test(priority = 34)
     public void fireBaseBadTokenCheck(){
         EditUserRS fireBaseToken = given()
                 .header("Authorization", "Bearer ")
@@ -595,7 +615,50 @@ public class PitiApiTest extends ApiTestBase {
         assertEquals(fireBaseToken.getName(),"Unauthorized");
     }
 
-    @Test(priority = 34)
+    @Test(priority = 35)
+    public void fireBaseBadTokenAdd(){
+        firebaseToken = "98ht5948gt4589ghg";
+        Map<String, String> fireBaseToken = new HashMap<>();
+        fireBaseToken.put("token",firebaseToken);
+        EditUserRS fireBaseBadTokenRK = given()
+                .header("Authorization", "Bearer 348534538956734895634")
+                .spec(spec)
+                .body(fireBaseToken)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/fire-token-save")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(fireBaseBadTokenRK.getSuccess()));
+        assertEquals("Unauthorized", fireBaseBadTokenRK.getName());
+    }
+
+    @Test(priority = 36)
+    public void fireBaseTokenDelete(){
+        RestoreRS fireBaseTokenDeleteRK = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .post(baseURL+"users/fire-token-delete")
+                .thenReturn().as(RestoreRS.class);
+        assertTrue(fireBaseTokenDeleteRK.isSuccess());
+        assertTrue(fireBaseTokenDeleteRK.isResult());
+    }
+
+    @Test(priority = 37)
+    public void fireBaseBadTokenDelete(){
+        EditUserRS fireBaseTokenDeleteRK = given()
+                .header("Authorization", "Bearer 3985395398573489")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .post(baseURL+"users/fire-token-delete")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(fireBaseTokenDeleteRK.getSuccess()));
+        assertEquals("Unauthorized", fireBaseTokenDeleteRK.getName());
+    }
+
+    @Test(priority = 38)
     public void userSettings(){
         UserRS userSettings = given()
                 .header("Authorization", "Bearer "+token)
@@ -607,4 +670,6 @@ public class PitiApiTest extends ApiTestBase {
         assertTrue(userSettings.isSuccess());
         assertEquals(userSettings.getResult().getEmail(), getProperty("user.email"));
     }
+
+
 }
