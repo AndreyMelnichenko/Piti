@@ -1,9 +1,7 @@
 package ApiTests;
 
 
-import ResponseMessages.EditUserRK;
-import ResponseMessages.EditUserRS;
-import ResponseMessages.UserRS;
+import ResponseMessages.*;
 import UserData.UserSingUp;
 import core.ApiTestBase;
 import io.qameta.allure.Description;
@@ -17,7 +15,6 @@ import static utils.PropertiesCache.getProperty;
 
 @Epic("API tests")
 public class RefreshToken extends ApiTestBase {
-    private static String token;
 
     @Test(description = "Refresh Token")
     @Description("Refresh Token")
@@ -30,14 +27,14 @@ public class RefreshToken extends ApiTestBase {
                 .when()
                 .post(baseURL+"users/sign-in")
                 .thenReturn().as(UserRS.class);
-        token=actualUser.getResult().getAuth_token();
-        System.out.println("Auth token 1: "+token);
+        String token = actualUser.getResult().getAuth_token();
+        System.out.println("Auth token 1: "+ token);
         System.out.println("Refresh_token 1: "+actualUser.getResult().getRefresh_token());
 
         EditUserRK editUserRK = new EditUserRK("+7");
         EditUserRS editUserRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+token)
+                .header("Authorization", "Bearer "+ token)
                 .spec(spec).body(editUserRK)
                 .expect().statusCode(200)
                 .when()
@@ -54,7 +51,7 @@ public class RefreshToken extends ApiTestBase {
 
         EditUserRS editUserRS2 = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
-                .header("Authorization", "Bearer "+token)
+                .header("Authorization", "Bearer "+ token)
                 .spec(spec).body(editUserRK)
                 .expect().statusCode(401)
                 .when()

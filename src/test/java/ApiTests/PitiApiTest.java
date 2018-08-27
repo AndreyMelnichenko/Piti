@@ -3,17 +3,18 @@ package ApiTests;
 import ResponseMessages.*;
 import UserData.*;
 import core.ApiTestBase;
-import io.qameta.allure.*;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 import utils.RandomMinMax;
 import utils.SingUpParser;
 import utils.dbConnect;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
@@ -541,5 +542,31 @@ public class PitiApiTest extends ApiTestBase {
                 .thenReturn().as(EditUserRS.class);
         assertFalse(Boolean.parseBoolean(usersSessions.getSuccess()));
         assertEquals("Unauthorized", usersSessions.getName());
+    }
+
+    @Test(priority = 30)
+    public void getUserAccount(){
+        UserListRS getUser = given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect().statusCode(200)
+                .when()
+                .get(baseURL+"users/get-users")
+                .thenReturn().as(UserListRS.class);
+        assertTrue(getUser.isSuccess());
+        //assertEquals(getProperty("new.user.email"),getUser.getResult().get(0).getEmail());
+    }
+
+    @Test(priority = 31)
+    public void getUserAccountBadToken(){
+        EditUserRS getUser = given()
+                .header("Authorization", "Bearer 2618612564")
+                .spec(spec)
+                .expect().statusCode(401)
+                .when()
+                .get(baseURL+"users/get-users")
+                .thenReturn().as(EditUserRS.class);
+        assertFalse(Boolean.parseBoolean(getUser.getSuccess()));
+        assertEquals("Unauthorized", getUser.getName());
     }
 }
