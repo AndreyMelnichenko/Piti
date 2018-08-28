@@ -37,8 +37,6 @@ public class ApiTestBase {
                 .thenReturn().as(responseClass);
     }
 
-
-
     protected <T> T getResource(String location, int statusCode, Class<T> responseClass){
         return RestAssured.given().spec(spec)
                 .expect()

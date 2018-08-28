@@ -120,7 +120,6 @@ public class PitiApiTest extends ApiTestBase {
         dbConnect.clearData();
     }
 
-
     @Test(dependsOnMethods = "singIn", priority = 6)
     @Description("invite Remove")
     public void inviteRemove(){

@@ -180,6 +180,5 @@ public class dbConnect {
 
     public static void main(String[] args) {
         clearData();
-        //System.out.println(getFireBaseToken("dima.laktionov5@gmail.com"));
     }
 }
