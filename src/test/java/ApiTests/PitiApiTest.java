@@ -408,7 +408,7 @@ public class PitiApiTest extends ApiTestBase {
                 .spec(spec).body(editUserRK)
                 .expect().statusCode(403)
                 .when()
-                .post(baseURL+"users/edit-user?id=1")//+dbConnect.getUserId(getProperty("user.gmail")))
+                .post(baseURL+"users/edit-user?id=1")
                 .thenReturn().as(EditUserRS.class);
         assertFalse(Boolean.parseBoolean(editedUser.getSuccess()));
         assertEquals(editedUser.getName(),"Forbidden");

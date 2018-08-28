@@ -13,7 +13,7 @@ public class ApiTestBase {
     protected RequestSpecification spec;
     private ObjectMapper objectMapper = new ObjectMapper();
     protected String baseURL = "https://a2.chis.kiev.ua/api/web/v1/";
-    protected static String token, uid, email, password, event_id, firebaseToken;
+    protected static String token, uid, email, password, event_id, firebaseToken, deviceGroup_id;
 
     @BeforeClass
     public void setUp(){
