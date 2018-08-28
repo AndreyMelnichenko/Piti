@@ -30,4 +30,10 @@ public class Result {
     private String pageCount;
     private List<SessionData> data;
 
+    private String title;
+    private String id;
+    private String order;
+    private String is_show;
+    private List<Car> cars;
+
 }

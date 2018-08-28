@@ -22,9 +22,9 @@ import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
 import static utils.PropertiesCache.getProperty;
 
-@Epic("API tests")
+@Epic("API Users tests")
 public class PitiApiTest extends ApiTestBase {
-    private static String token, uid, email, password, event_id, firebaseToken;
+    //private static String token, uid, email, password, event_id, firebaseToken;
 
     @Test(dataProvider = "Data collection", dataProviderClass = SingUpParser.class, description = "Sing-Up with wrong data", priority = 1)
     @Severity(SeverityLevel.CRITICAL)
@@ -77,13 +77,7 @@ public class PitiApiTest extends ApiTestBase {
     @Severity(SeverityLevel.CRITICAL)
     public void singIn(){
         UserSingUp expectedUser = new UserSingUp(getProperty("user.email"),getProperty("user.password"));
-        UserRS actualUser = given()
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .spec(spec).body(expectedUser)
-                .expect().statusCode(200)
-                .when()
-                .post(baseURL+"users/sign-in")
-                .thenReturn().as(UserRS.class);
+        UserRS actualUser = postSingIn(baseURL+"users/sign-in",200,UserRS.class, expectedUser);
         assertTrue(actualUser.isSuccess());
         assertEquals(getProperty("user.id"), actualUser.getResult().getUid());
         token=actualUser.getResult().getAuth_token();
@@ -463,7 +457,7 @@ public class PitiApiTest extends ApiTestBase {
         dbConnect.clearData();
     }
 
-    @Test(enabled = false, dependsOnMethods = "singIn", priority = 24)
+    @Test( enabled =false, dependsOnMethods = "singIn", priority = 24)
     public void eventsLoad(){
         Events events = given()
                 .header("Authorization", "Bearer "+token)
