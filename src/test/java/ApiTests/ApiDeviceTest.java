@@ -41,6 +41,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 2)
+    @Description("Add Group Device")
     public void addDeviceGroup(){
         String groupName = "Test Group name";
         Map<String, String> deviceGroup = new HashMap<>();
@@ -52,6 +53,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 3)
+    @Description("Add Group Device Negative")
     public void addDeviceGroupBadToken(){
         String groupName = "Test Group name";
         Map<String, String> deviceGroup = new HashMap<>();
@@ -62,6 +64,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 4)
+    @Description("edit Group Device")
     public void editGroupDevice(){
         String groupName = "Test Group name"+new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
         Map<String, String> deviceGroup = new HashMap<>();
@@ -72,6 +75,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 5)
+    @Description("delete Group Device")
     public void deleteGroupDevice(){
         String groupName = "";
         Map<String, String> deviceGroup = new HashMap<>();
@@ -82,6 +86,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 6)
+    @Description("delete Group Device Negative")
     public void deleteUnExistsGroupDevice(){
         String groupName = "";
         Map<String, String> deviceGroup = new HashMap<>();
@@ -92,6 +97,7 @@ public class ApiDeviceTest extends ApiTestBase {
     }
 
     @Test(priority = 7)
+    @Description("delete Group Device Negative")
     public void deleteGroupDeviceBadToken(){
         String groupName = "";
         Map<String, String> deviceGroup = new HashMap<>();
