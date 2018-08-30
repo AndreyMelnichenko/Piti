@@ -11,10 +11,10 @@ import static com.codeborne.selenide.Selenide.$$;
 public class MailLetterPage extends WebDriverTestBase {
     public ElementsCollection pitLogo(){return  $$(By.xpath("//img[@alt='Pit logo']"));}
 
-    public SelenideElement mailLink(){return $(By.xpath("//a[contains(@href,'"+baseUrl+"')]"));}
+    public SelenideElement mailLink(){return $(By.xpath("//td/a[@style='display:block;width:270px;height:36px']"));}
     public SelenideElement firstText(){return $(By.xpath("//td[contains(text(), 'Здравствуйте,')]"));}
     public SelenideElement email(){return $(By.xpath("//td[contains(text(), 'Здравствуйте,')]/a"));}
-    public SelenideElement backToMailList(){return $(By.xpath("//div[@class='ar6 T-I-J3 J-J5-Ji']"));}
+    public SelenideElement backToMailList(){return $(By.xpath("//div[@class='T-I J-J5-Ji lS T-I-ax7   mA']"));}//div[@class='ar6 T-I-J3 J-J5-Ji']"));}
     //------------ Cinfirm registration
     public SelenideElement confirmRegistration(){return $(By.xpath("//img[@alt='link registration']"));}
     public SelenideElement confirmText2(){return $(By.xpath("//td[contains(text(), 'Вы отправили запрос на подтверждение адреса электронной почты.')]"));}

@@ -73,8 +73,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("user.password"));
         registration.passwordConfirmField().shouldBe(Condition.visible).setValue("1q2w3e4rRTfd");
         registration.buttonCreate().shouldBe(Condition.visible).click();
-        registration.errorMessageEmail().shouldBe(Condition.visible).should(Condition.matchesText("Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
-        registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).should(Condition.matchesText("Необходимо заполнить «Time Zone»."));
+        assertEquals(registration.errorMessageEmail().shouldBe(Condition.visible).getText(),"Значение «{value}» для «{attribute}» уже занято.");//"Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
+        assertEquals(registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).getText(),"Необходимо заполнить «{attribute}».");//"Необходимо заполнить «Time Zone»."));
     }
 
     @Test(dependsOnMethods = "badRegistration", description = "singIn")
@@ -352,7 +352,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.checkLinks();
     }
 
-    @Test(enabled = false, dependsOnMethods = "singUpMail", description = "Change Device Icon")
+    @Test(dependsOnMethods = "singUpMail", description = "Change Device Icon")
     @Description("Change Device Icon")
     public void setUpIcon(){
         open(baseUrl);
@@ -377,8 +377,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test//(enabled = false, dependsOnMethods = "setUpIcon", description = "Change Device Data")
-    @Description("Change Device Data")
+    @Test(dependsOnMethods = "setUpIcon", description = "Change Device Settings")
+    @Description("Change Device Settings")
     public void deviceSettings(){
         open(baseUrl);
         dbConnect.uncheckDevices(getProperty("user2.email"));
@@ -389,7 +389,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.goOutSettingsPage(getWebDriver());
     }
 
-    @Test
+    @Test(dependsOnMethods = "deviceSettings", description = "Multilanguage scanner")
+    @Description("Multilanguage scanner")
     public void multilanguage() throws FileNotFoundException {
         open("https://featureang.chis.kiev.ua/");
         Multilang multilang = new Multilang();
@@ -407,7 +408,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     }
 
-    @Test
+    @Test(dependsOnMethods = "multilanguage", description = "Time Zone checking")
+    @Description("Time Zone checking")
     public void timeZone() throws ParseException {
         dbConnect.uncheckDevices();
         dbConnect.setTimeZone();
@@ -426,7 +428,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         assertEquals(diff, 1);
     }
 
-    @Test
+    @Test(dependsOnMethods = "timeZone", description = "User Settings")
+    @Description("User Settings")
     public void userSettings(){
         dbConnect.uncheckDevices();
         open(baseUrl);
@@ -440,7 +443,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "userSettings", description = "Check point A and point B")
+    @Description("Check point A and point B")
     public void tripDisplaying(){
         dbConnect.uncheckDevices();
         open(baseUrl);

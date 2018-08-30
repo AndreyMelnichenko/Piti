@@ -7,5 +7,5 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class MailPasswordPage {
     public SelenideElement inputPass(){return $(By.xpath("//input[@type='password']"));}
-    public SelenideElement next(){return $(By.xpath("//span[contains(text(), 'Next')]"));}
+    public SelenideElement next(){return $(By.xpath("//span[contains(text(), 'Weiter')]"));}
 }

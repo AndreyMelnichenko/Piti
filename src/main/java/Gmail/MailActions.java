@@ -30,9 +30,9 @@ public class MailActions {
     public void checkConfirmRegisterLetter(){
         mailMainPage.title().filterBy(text("Signup Confirmation")).get(0).waitUntil(Condition.visible, 2000).click();
         Selenide.sleep(500);
-        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
-        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
-        mailLetterPage.confirmRegistration().shouldBe(Condition.visible).getAttribute("src").equals(dataProperty("data.properties","conf.link"));
+        mailLetterPage.pitLogo().get(0).shouldBe(Condition.visible);
+        mailLetterPage.pitLogo().get(1).shouldBe(Condition.visible);
+        mailLetterPage.confirmRegistration().shouldBe(Condition.visible);
         mailLetterPage.firstText().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "first.text"));
         mailLetterPage.confirmText2().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text2"));
         mailLetterPage.confirmText3().shouldBe(Condition.visible).getText().equals(dataProperty("data.properties", "confirm.text3"));
