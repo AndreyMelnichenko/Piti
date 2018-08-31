@@ -131,8 +131,20 @@ public class dbConnect {
         db.getClean(uncheckDevice);
     }
 
+    public static void setLang(int i, String email){
+        String uncheckDevice = "update users set lang="+i+" where email='"+email+"'";
+        dbConnect db = new dbConnect();
+        db.getClean(uncheckDevice);
+    }
+
     public static void setTimeZone(){
         String setTimeZone = "update users set time_zone=2 where  id=79";
+        dbConnect db = new dbConnect();
+        db.getClean(setTimeZone);
+    }
+
+    public static void setTimeZone(String email){
+        String setTimeZone = "update users set time_zone=2 where  email='"+email+"'";
         dbConnect db = new dbConnect();
         db.getClean(setTimeZone);
     }

@@ -176,6 +176,11 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
     public void addDevice(){
+/*        open(baseUrl);//
+        dbConnect.setLang(1,getProperty("user.email"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
+        pagesActions.goToUserSettings();//*/
+
         Selenide.refresh();
         accountSettings.devicesButton().waitUntil(Condition.visible, 3000).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
@@ -275,25 +280,25 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.calendarPeriod().shouldBe(Condition.visible).click();
         homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
         homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
-        homePage.calendarPrev().shouldBe(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.calendarPrev().shouldBe(Condition.visible).click();
-        homePage.startDate().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
-        homePage.calendarNext().shouldBe(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.calendarNext().shouldBe(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.calendarNext().shouldBe(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.calendarNext().shouldBe(Condition.visible).click();
-        Selenide.sleep(200);
-        homePage.endDate().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldNotHave(exactText("None"));
-        homePage.applyPeriod().shouldBe(Condition.visible).click();
-        homePage.chosedPeriod().shouldBe(Condition.visible).shouldNot(exactText(""));
+        homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
+        //Selenide.sleep(200);
+        homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
+        homePage.startDate().waitUntil(Condition.visible,3000).click();
+        homePage.calendarHeadFirst().waitUntil(Condition.visible,3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().waitUntil(Condition.visible,3000).shouldHave(exactText("None"));
+        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        //Selenide.sleep(200);
+        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        //Selenide.sleep(200);
+        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        //Selenide.sleep(200);
+        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        //Selenide.sleep(200);
+        homePage.endDate().waitUntil(Condition.visible,3000).click();
+        homePage.calendarHeadFirst().waitUntil(Condition.visible,3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().waitUntil(Condition.visible,3000).shouldNotHave(exactText("None"));
+        homePage.applyPeriod().waitUntil(Condition.visible,3000).click();
+        homePage.chosedPeriod().waitUntil(Condition.visible,3000).shouldNot(exactText(""));
     }
 
     @Test(dependsOnMethods = "calendar", description = "Add Device group")
@@ -337,7 +342,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.logo().waitUntil(Condition.visible, 2000);
     }
 
-    @Test(dependsOnMethods = "exitPersonalCabinet", description = "Check Email notification")
+    @Test(dependsOnMethods = "userSettings", description = "Check Email notification")
     @Description("Check Email notification")
     public void singUpMail(){
         open(mailUrl);
@@ -352,9 +357,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         mailActions.checkLinks();
     }
 
-    @Test(dependsOnMethods = "singUpMail", description = "Change Device Icon")
+    @Test(dependsOnMethods = "exitPersonalCabinet", description = "Change Device Icon")
     @Description("Change Device Icon")
     public void setUpIcon(){
+        dbConnect.uncheckDevices(getProperty("user2.email"));
         open(baseUrl);
         clearBrowserCache();
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
@@ -387,15 +393,16 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.setDevice();
         pagesActions.changeDeviceName();
         pagesActions.goOutSettingsPage(getWebDriver());
+        pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test(dependsOnMethods = "deviceSettings", description = "Multilanguage scanner")
+    @Test(enabled = false, dependsOnMethods = "deviceSettings", description = "Multilanguage scanner")
     @Description("Multilanguage scanner")
     public void multilanguage() throws FileNotFoundException {
-        open("https://featureang.chis.kiev.ua/");
+        open(baseUrl);
         Multilang multilang = new Multilang();
         multilang.scanPage();
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user.password"));
         multilang.scanPage();
         pagesActions.goToUserSettings();
         multilang.scanPage();
@@ -408,24 +415,26 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     }
 
-    @Test(dependsOnMethods = "multilanguage", description = "Time Zone checking")
+    @Test(dependsOnMethods = "deviceSettings", description = "Time Zone checking")
     @Description("Time Zone checking")
     public void timeZone() throws ParseException {
         dbConnect.uncheckDevices();
-        dbConnect.setTimeZone();
+        dbConnect.setTimeZone(getProperty("user2.email"));
         TimeCinvertor timeCinvertor = new TimeCinvertor();
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user.password"));
         String beforeTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
         pagesActions.goToUserSettings();
         userSettings.chooseTimeZone();
         userSettings.saveSettings();
-        userSettings.goMainPage();
         Selenide.sleep(2000);
+        userSettings.goMainPage();
+        Selenide.sleep(3000);
         Selenide.refresh();
         String afterTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
         int diff = timeCinvertor.getDiff(beforeTime, afterTime);
         assertEquals(diff, 1);
+        pagesActions.exitFromPersonalCabinet();
     }
 
     @Test(dependsOnMethods = "timeZone", description = "User Settings")
@@ -434,16 +443,20 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.uncheckDevices();
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+
         pagesActions.goToUserSettings();
         userSettings.setUserEmail();
         userSettings.saveSettings();
         Selenide.sleep(2000);
         userSettings.goUsersItem();
-        assertEquals(accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText(),1+getProperty("user.email"));
+        Selenide.sleep(2000);
+        Selenide.refresh();
+        String actualEmail = accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText();
         dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
+        assertEquals(actualEmail,1+getProperty("user.email"));
     }
 
-    @Test(dependsOnMethods = "userSettings", description = "Check point A and point B")
+    @Test(enabled = false, dependsOnMethods = "userSettings", description = "Check point A and point B")
     @Description("Check point A and point B")
     public void tripDisplaying(){
         dbConnect.uncheckDevices();
