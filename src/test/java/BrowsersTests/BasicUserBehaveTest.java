@@ -68,12 +68,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Re-singIn")
     public void badRegistration(){
         open(baseUrl);
-        login.registration().shouldBe(Condition.visible).click();
-        registration.emailField().shouldBe(Condition.visible).setValue(getProperty("user.email"));
-        registration.passwordField().shouldBe(Condition.visible).setValue(getProperty("user.password"));
-        registration.passwordConfirmField().shouldBe(Condition.visible).setValue("1q2w3e4rRTfd");
-        registration.buttonCreate().shouldBe(Condition.visible).click();
-        assertEquals(registration.errorMessageEmail().shouldBe(Condition.visible).getText(),"Значение «{value}» для «{attribute}» уже занято.");//"Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
+        login.registration().waitUntil(Condition.visible, 5000).click();
+        registration.emailField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.email"));
+        registration.passwordField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.password"));
+        registration.passwordConfirmField().waitUntil(Condition.visible, 5000).setValue("1q2w3e4rRTfd");
+        registration.buttonCreate().waitUntil(Condition.visible, 5000).click();
+        assertEquals(registration.errorMessageEmail().waitUntil(Condition.visible, 5000).getText(),"Значение «{value}» для «{attribute}» уже занято.");//"Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
         assertEquals(registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).getText(),"Необходимо заполнить «{attribute}».");//"Необходимо заполнить «Time Zone»."));
     }
 
@@ -90,8 +90,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Recovery Password")
     public void recoveryPassword(){
         pagesActions.checkRecoverPage();
-        recovery.emailField().shouldBe(Condition.visible).setValue(getProperty("user.gmail"));
-        recovery.recoveryButton().shouldBe(Condition.visible).click();
+        recovery.emailField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.gmail"));
+        recovery.recoveryButton().waitUntil(Condition.visible, 5000).click();
         recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
     }
 
@@ -100,7 +100,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void enterPersonalCabinet(){
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
-        homePage.map().shouldBe(Condition.visible);
+        homePage.map().waitUntil(Condition.visible, 5000);
     }
 
     @Test(dependsOnMethods = "enterPersonalCabinet", description = "404 page")
@@ -109,23 +109,23 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         open(baseUrl+"/eeuheirf");
         AssertJUnit.assertEquals(errPage.errTitle().getText(), "404");
         $(By.xpath("//a")).click();
-        homePage.map().shouldBe(Condition.visible);
+        homePage.map().waitUntil(Condition.visible, 5000);
     }
 
     @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
     public void addUser(){
         dbConnect.clearData();
-        homePage.menu().shouldBe(Condition.visible).click();
-        homePage.accountSettings().shouldBe(Condition.visible).click();
-        accountSettings.createNewUserButton().shouldBe(Condition.visible).click();
-        accountSettings.emailNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.email"));
-        accountSettings.nameNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.fio"));
-        accountSettings.passNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
-        accountSettings.passNewUserConfirm().shouldBe(Condition.visible).setValue(getProperty("new.user.password"));
-        accountSettings.phoneNewUser().shouldBe(Condition.visible).setValue(getProperty("new.user.phone"));
-        accountSettings.roleNewUser().shouldBe(Condition.visible).click();
-        accountSettings.acceptCreateNewUser().shouldBe(Condition.visible).click();
+        homePage.menu().waitUntil(Condition.visible, 5000).click();
+        homePage.accountSettings().waitUntil(Condition.visible, 5000).click();
+        accountSettings.createNewUserButton().waitUntil(Condition.visible, 5000).click();
+        accountSettings.emailNewUser().waitUntil(Condition.visible, 5000).setValue(getProperty("new.user.email"));
+        accountSettings.nameNewUser().waitUntil(Condition.visible, 5000).setValue(getProperty("new.user.fio"));
+        accountSettings.passNewUser().waitUntil(Condition.visible, 5000).setValue(getProperty("new.user.password"));
+        accountSettings.passNewUserConfirm().waitUntil(Condition.visible, 5000).setValue(getProperty("new.user.password"));
+        accountSettings.phoneNewUser().waitUntil(Condition.visible, 5000).setValue(getProperty("new.user.phone"));
+        accountSettings.roleNewUser().waitUntil(Condition.visible, 5000).click();
+        accountSettings.acceptCreateNewUser().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(4000);
         //Selenide.refresh();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
@@ -138,25 +138,30 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "addUser", description = "Send invite")
     @Description("Send invite")
     public void invitetoUser(){
-        accountSettings.inviteButton().shouldBe(Condition.visible).click();
-        accountSettings.emailForImvite().shouldBe(Condition.visible).setValue(getProperty("user.gmail"));
-        accountSettings.messageForInvite().shouldBe(Condition.visible).setValue("Welcome to PIT Service");
-        accountSettings.simpleRoleInvite().shouldBe(Condition.visible).click();
-        accountSettings.acceptSendInvite().shouldBe(Condition.visible).click();
+        accountSettings.inviteButton().waitUntil(Condition.visible, 5000).click();
+        accountSettings.emailForImvite().waitUntil(Condition.visible, 5000).setValue(getProperty("user.gmail"));
+        accountSettings.messageForInvite().waitUntil(Condition.visible, 5000).setValue("Welcome to PIT Service");
+        accountSettings.simpleRoleInvite().waitUntil(Condition.visible, 5000).click();
+        accountSettings.acceptSendInvite().waitUntil(Condition.visible, 5000).click();
         accountSettings.mainArea().waitUntil(Condition.visible,10000);
         System.out.println("1");
         Selenide.sleep(4000);
         Selenide.refresh();
         System.out.println("2");
-        accountSettings.secondUserInviteAlert().shouldBe(Condition.visible).should(Condition.matchesText("Приглашение истекает через 6 дней"));
+        accountSettings.secondUserInviteAlert().waitUntil(Condition.visible, 5000).should(Condition.matchesText("Приглашение истекает через 6 дней"));
         dbConnect.clearData();
     }
 
-    @Test(dependsOnMethods = "invitetoUser", description = "User change info")
+    @Test//(dependsOnMethods = "invitetoUser", description = "User change info")
     @Description("User change info")
     public void userChangeInfo(){
+        open(baseUrl);//
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
+        homePage.menu().waitUntil(Condition.visible, 5000).click();
+        homePage.accountSettings().waitUntil(Condition.visible, 5000).click();
+
         String oldName = accountSettings.firstUserName().getText();
-        accountSettings.firstUserThreeDots().shouldBe(Condition.visible).click();
+        accountSettings.firstUserThreeDots().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(200);
         accountSettings.firstUserEdit().click();
         accountSettings.fitstUserOldEmail().should(Condition.visible).setValue(getProperty("user.email"));
@@ -170,15 +175,16 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         assertFalse(oldName.equals(accountSettings.firstUserName()));
         dbConnect.clearData();
-
+        pagesActions.exitFromPersonalCabinet();
+        //Selenide.sleep(15000);
     }
 
     @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
     public void addDevice(){
-/*        open(baseUrl);//
+        open(baseUrl);//
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
-        pagesActions.goToUserSettings();//*/
+        pagesActions.goToUserSettings();//
 
         dbConnect.setLang(1,getProperty("user.email"));
         Selenide.refresh();
@@ -194,7 +200,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.newDeviceShowPass().click();
         accountSettings.newDeviceApn().setValue(dataProperty("data.properties","TK116.apn"));
         System.out.println("2");
-        accountSettings.newDeviceHandSettings().shouldBe(Condition.visible).click();
+        accountSettings.newDeviceHandSettings().waitUntil(Condition.visible, 5000).click();
         System.out.println("Custom option");
         accountSettings.newDeviceAccept().should(Condition.visible).click();
         System.out.println("3");
@@ -254,7 +260,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void checkRightWidget(){
         Selenide.refresh();
         for(int i=0; i<7;i++) {
-            homePage.firstActiveFilterRightWidget().shouldBe(Condition.visible).click();
+            homePage.firstActiveFilterRightWidget().waitUntil(Condition.visible, 5000).click();
             Selenide.sleep(200);
         }
     }
@@ -262,12 +268,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
     @Description("Car on Map")
     public void checkMapZoom(){
-        homePage.firstDeviceItem().shouldBe(Condition.visible).click();
-        homePage.carOnMap().shouldBe(Condition.visible).hover();
+        homePage.firstDeviceItem().waitUntil(Condition.visible, 5000).click();
+        homePage.carOnMap().waitUntil(Condition.visible, 5000).hover();
         Selenide.sleep(500);
-        homePage.carOnMapDescription().shouldBe(Condition.visible).shouldHave(exactText("Test Device GT3101"));
-        for(int i=0; i<10;i++) {homePage.mapZoomOut().shouldBe(Condition.visible).click();Selenide.sleep(200);}
-        homePage.mapSettings().shouldBe(Condition.visible).click();
+        homePage.carOnMapDescription().waitUntil(Condition.visible, 5000).shouldHave(exactText("Test Device GT3101"));
+        for(int i=0; i<10;i++) {homePage.mapZoomOut().waitUntil(Condition.visible, 5000).click();Selenide.sleep(200);}
+        homePage.mapSettings().waitUntil(Condition.visible, 5000).click();
         pagesActions.exitFromPersonalCabinet();
         Selenide.sleep(1000);
     }
@@ -277,9 +283,9 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void calendar(){
         open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
-        homePage.calendarPeriod().shouldBe(Condition.visible).click();
-        homePage.calendarHeadFirst().shouldBe(Condition.visible).shouldHave(exactText("None"));
-        homePage.calendarHeadSecond().shouldBe(Condition.visible).shouldHave(exactText("None"));
+        homePage.calendarPeriod().waitUntil(Condition.visible, 5000).click();
+        homePage.calendarHeadFirst().waitUntil(Condition.visible, 5000).shouldHave(exactText("None"));
+        homePage.calendarHeadSecond().waitUntil(Condition.visible, 5000).shouldHave(exactText("None"));
         homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
         //Selenide.sleep(200);
         homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
@@ -306,10 +312,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     public void addGroup() {
         Selenide.sleep(1000);
         homePage.menu().waitUntil(Condition.visible, 5000);
-        homePage.createDeviceGroup().shouldBe(Condition.visible).click();
-        homePage.addGroupPopUpTitle().shouldBe(Condition.visible).shouldBe(Condition.matchesText("Добавить группу"));
-        homePage.groupName().shouldBe(Condition.visible).setValue("Test Group");
-        homePage.acceptCreateGroup().shouldBe(Condition.visible).click();
+        homePage.createDeviceGroup().waitUntil(Condition.visible, 5000).click();
+        homePage.addGroupPopUpTitle().waitUntil(Condition.visible, 5000).shouldBe(Condition.matchesText("Добавить группу"));
+        homePage.groupName().waitUntil(Condition.visible, 5000).setValue("Test Group");
+        homePage.acceptCreateGroup().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(2000);
     }
     @Test(dependsOnMethods = "addGroup", description = "Edit Device group")
@@ -330,7 +336,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         homePage.editGroup().waitUntil(Condition.visible, 5000).click();
         homePage.deleteNewGroupName().waitUntil(Condition.visible, 5000).click();
         homePage.deleteNewGroupPopUpTitle().shouldBe(Condition.matchesText("Удалить группу?"));
-        homePage.acceptDeleteNewGroup().shouldBe(Condition.visible).click();
+        homePage.acceptDeleteNewGroup().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(2000);
     }
 
@@ -338,7 +344,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Exit from personal cabinet")
     public void exitPersonalCabinet(){
         accountSettings.menuButton().should(Condition.visible).click();
-        accountSettings.exitButton().shouldBe(Condition.visible).click();
+        accountSettings.exitButton().waitUntil(Condition.visible, 5000).click();
         login.logo().waitUntil(Condition.visible, 2000);
     }
 

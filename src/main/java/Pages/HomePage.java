@@ -1,6 +1,5 @@
 package Pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import utils.RandomMinMax;
@@ -16,7 +15,7 @@ public class HomePage {
         return $(By.xpath("//div[@class='menuBtn']"));
     }
     public SelenideElement exit(){
-        return $(By.xpath("(//div[@class='menu_item-label'])[last()]"));
+        return $(By.xpath("//div[@class='menu_item']/div[@class='menu_item-label']"));
     }
     public SelenideElement accountSettings(){
         return $(By.xpath("(//div[@class='menu_item-label'])[2]"));
