@@ -177,10 +177,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Add new Device TK-116")
     public void addDevice(){
 /*        open(baseUrl);//
-        dbConnect.setLang(1,getProperty("user.email"));
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
         pagesActions.goToUserSettings();//*/
 
+        dbConnect.setLang(1,getProperty("user.email"));
         Selenide.refresh();
         accountSettings.devicesButton().waitUntil(Condition.visible, 3000).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
