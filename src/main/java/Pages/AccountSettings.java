@@ -46,7 +46,7 @@ public class AccountSettings {
     public SelenideElement devicesButton(){return $(By.xpath("//div[@class='menu_item-label' and contains(text(),'Устройства')]"));}
     public SelenideElement addDeviceButton(){return $(By.xpath("//div[contains(text(),'ДОБАВИТЬ УСТРОЙСТВО')]"));}
     //---------Device Pop-up
-    public SelenideElement newDeviceName(){return $(By.xpath("//input[@placeholder='Название устройства']"));}
+    public SelenideElement newDeviceName(){return $(By.xpath("//input[contains(@placeholder,'Название устройства')]"));}
     public SelenideElement newDeviceImei(){return $(By.xpath("//input[@placeholder='Imei устройства']"));}
     public SelenideElement newDeviceType(){return $(By.xpath("//select[@formcontrolname='type']"));}
     public SelenideElement newDevicePhone(){return $(By.xpath("//input[@placeholder='телефон']"));}
