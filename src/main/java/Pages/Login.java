@@ -7,8 +7,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class Login {
 
-    public SelenideElement errorLogin(){return $(By.xpath("(//span[@class='err ng-star-inserted'])[1]"));}
-    public SelenideElement errorPassword(){return $(By.xpath("(//span[@class='err ng-star-inserted'])[2]"));}
+    public SelenideElement errorLogin(){return $(By.xpath("(//span[@class='err'])[1]"));}//ng-star-inserted
+    public SelenideElement errorPassword(){return $(By.xpath("(//span[@class='err'])[2]"));}
     public SelenideElement title(){return $(By.xpath("//div[@class='auth_title']"));}
     public SelenideElement logo(){
         return $(By.xpath("//img"));

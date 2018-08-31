@@ -152,13 +152,13 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.clearData();
     }
 
-    @Test//(dependsOnMethods = "invitetoUser", description = "User change info")
+    @Test(dependsOnMethods = "invitetoUser", description = "User change info")
     @Description("User change info")
     public void userChangeInfo(){
-        open(baseUrl);//
+/*        open(baseUrl);//
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
         homePage.menu().waitUntil(Condition.visible, 5000).click();
-        homePage.accountSettings().waitUntil(Condition.visible, 5000).click();
+        homePage.accountSettings().waitUntil(Condition.visible, 5000).click();*/
 
         String oldName = accountSettings.firstUserName().getText();
         accountSettings.firstUserThreeDots().waitUntil(Condition.visible, 5000).click();
