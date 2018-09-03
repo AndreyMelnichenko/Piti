@@ -28,7 +28,7 @@ public class MailActions {
     }
 
     public void checkConfirmRegisterLetter(){
-        mailMainPage.title().filterBy(text("Signup Confirmation")).get(0).waitUntil(Condition.visible, 2000).click();
+        mailMainPage.title().filterBy(text("Signup Confirmation")).get(0).waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(500);
         mailLetterPage.pitLogo().get(0).waitUntil(Condition.visible, 5000);
         mailLetterPage.pitLogo().get(1).waitUntil(Condition.visible, 5000);

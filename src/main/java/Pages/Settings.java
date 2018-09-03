@@ -18,6 +18,8 @@ public class Settings {
     public SelenideElement acceptUpload(){return $(By.xpath("//button[@class='creatCategory_accept' and contains(text(), 'СОХРАНИТЬ')]"));}
     public SelenideElement settingsDevice(){return $(By.xpath("//a[@href='/home/settings/parameters']"));}
     public SelenideElement deviceCurrentName(){return $(By.xpath("//input[@placeholder='Название устройства' and @class='inp ng-untouched ng-pristine ng-valid']"));}
+    //public SelenideElement deviceClearInput(){return $(By.xpath("//form[@class='ng-invalid ng-dirty ng-touched']//input[@placeholder='Название устройства']"));}
+    //public SelenideElement deviceClearInput(){return $(By.cssSelector("input.inp.ng-dirty"));}
     public SelenideElement deviceOldName(){return $(By.xpath("//input[@placeholder='Название устройства' and @class='inp ng-valid ng-dirty ng-touched']"));}
     public SelenideElement usersItem(){return $(By.xpath("//a[contains(text(), 'Пользователи')]"));}
 }

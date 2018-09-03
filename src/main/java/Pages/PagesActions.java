@@ -128,10 +128,12 @@ public class PagesActions {
     }
 
     public void changeDeviceName(){
-        settings.deviceCurrentName().shouldBe(Condition.visible).clear();
+        settings.deviceCurrentName().waitUntil(Condition.visible,3000).clear();
         Selenide.sleep(1000);
         String newName = "Test Device GT3101" + new SimpleDateFormat("_dd-MM-yyyy_HH:mm").format(Calendar.getInstance().getTime());
-        settings.deviceCurrentName().shouldBe(Condition.visible).setValue(newName);
+        //settings.deviceCurrentName().waitUntil(Condition.visible,3000).click();
+        //System.out.println(settings.deviceCurrentName().waitUntil(Condition.visible,3000).isDisplayed());
+        settings.deviceCurrentName().waitUntil(Condition.visible,3000).setValue(newName);
         settings.saveButton().shouldBe(Condition.visible).click();
         Selenide.sleep(4000);
         assertEquals(newName, homePage.firstDeviceName().getText());
