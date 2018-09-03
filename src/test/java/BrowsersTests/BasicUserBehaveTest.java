@@ -453,7 +453,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         }
     }
 
-    @Test//(dependsOnMethods = "userSettings", description = "Check Email notification")
+    @Test(dependsOnMethods = "userSettings", description = "Check Email notification")
     @Description("Check Email notification")
     public void singUpMail(){
         open(mailUrl);
