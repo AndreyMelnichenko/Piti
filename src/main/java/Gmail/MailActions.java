@@ -43,7 +43,7 @@ public class MailActions {
 
     public void checkInviteLetter(){
         Selenide.sleep(500);
-        mailMainPage.title().filterBy(text("Signup invite")).get(0).waitUntil(Condition.visible, 2000).click();
+        mailMainPage.title().filterBy(text("Signup invite")).get(0).waitUntil(Condition.visible, 5000).click();
         mailLetterPage.pitLogo().get(0).waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
         mailLetterPage.pitLogo().get(1).waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
         mailLetterPage.beginRegistration().waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","begin.link"));
@@ -56,7 +56,7 @@ public class MailActions {
     }
 
     public void checkResetLetter(){
-        mailMainPage.title().filterBy(text("Password reset for My Application")).get(0).waitUntil(Condition.visible, 2000).click();
+        mailMainPage.title().filterBy(text("Password reset for My Application")).get(0).waitUntil(Condition.visible, 5000).click();
         mailLetterPage.pitLogo().get(0).waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","heder.link"));
         mailLetterPage.pitLogo().get(1).waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","footer.link"));
         mailLetterPage.recoverPass().waitUntil(Condition.visible, 5000).getAttribute("src").equals(dataProperty("data.properties","recover.link"));

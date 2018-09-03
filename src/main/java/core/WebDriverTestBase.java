@@ -26,7 +26,7 @@ public class WebDriverTestBase {
             case("local"):
                 Configuration.browser = browser;
                 if (browser==null){
-                    Configuration.browser ="chrome";
+                    Configuration.browser ="firefox";
                 }
                 Configuration.browserPosition="1980x0";
                 Configuration.browserSize="1800x1000";
