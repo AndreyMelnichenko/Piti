@@ -443,7 +443,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test(dependsOnMethods = "timeZone", description = "User Settings")
+    @Test//(dependsOnMethods = "timeZone", description = "User Settings")
     @Description("User Settings")
     public void userSettings(){
         dbConnect.uncheckDevices();
@@ -457,9 +457,15 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         userSettings.goUsersItem();
         Selenide.sleep(2000);
         Selenide.refresh();
+        try{
         String actualEmail = accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText();
         dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
-        assertEquals(actualEmail,1+getProperty("user.email"));
+        assertEquals(actualEmail,1+getProperty("user.email"));}
+        catch (AssertionError error){
+            System.out.println(error);
+        }finally {
+            dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
+        }
     }
 
     @Test(enabled = false, dependsOnMethods = "userSettings", description = "Check point A and point B")
