@@ -348,21 +348,6 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         login.logo().waitUntil(Condition.visible, 2000);
     }
 
-    @Test(dependsOnMethods = "userSettings", description = "Check Email notification")
-    @Description("Check Email notification")
-    public void singUpMail(){
-        open(mailUrl);
-        mailActions.enterToMailBox();
-        mailActions.checkConfirmRegisterLetter();
-        mailActions.backToMainLetterList();
-        mailActions.checkInviteLetter();
-        mailActions.backToMainLetterList();
-        mailActions.checkResetLetter();
-        mailActions.backToMainLetterList();
-        //mailActions.deleteLetters();
-        mailActions.checkLinks();
-    }
-
     @Test(dependsOnMethods = "exitPersonalCabinet", description = "Change Device Icon")
     @Description("Change Device Icon")
     public void setUpIcon(){
@@ -443,7 +428,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         pagesActions.exitFromPersonalCabinet();
     }
 
-    @Test//(dependsOnMethods = "timeZone", description = "User Settings")
+    @Test(dependsOnMethods = "timeZone", description = "User Settings")
     @Description("User Settings")
     public void userSettings(){
         dbConnect.uncheckDevices();
@@ -466,6 +451,21 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         }finally {
             dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
         }
+    }
+
+    @Test(dependsOnMethods = "userSettings", description = "Check Email notification")
+    @Description("Check Email notification")
+    public void singUpMail(){
+        open(mailUrl);
+        mailActions.enterToMailBox();
+        mailActions.checkConfirmRegisterLetter();
+        mailActions.backToMainLetterList();
+        mailActions.checkInviteLetter();
+        mailActions.backToMainLetterList();
+        mailActions.checkResetLetter();
+        mailActions.backToMainLetterList();
+        //mailActions.deleteLetters();
+        mailActions.checkLinks();
     }
 
     @Test(enabled = false, dependsOnMethods = "userSettings", description = "Check point A and point B")
