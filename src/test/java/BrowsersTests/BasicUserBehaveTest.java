@@ -51,6 +51,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Login page")
     public void logo() {
         dbConnect.clearData();
+        dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
         open(baseUrl);
         pagesActions.checkLogoPage();
 
