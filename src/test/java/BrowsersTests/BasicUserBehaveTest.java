@@ -50,6 +50,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test (description = "Login page")
     @Description("Login page")
     public void logo() {
+        dbConnect.clearData();
         open(baseUrl);
         pagesActions.checkLogoPage();
 
