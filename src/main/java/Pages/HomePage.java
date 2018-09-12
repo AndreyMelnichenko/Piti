@@ -48,7 +48,7 @@ public class HomePage {
     public SelenideElement calendarPeriod(){return $(By.xpath("//a[@class='subMenu_item subMenu_item-calendar']"));}
     public SelenideElement calendarPrev(){return $(By.xpath("//button[@title='Previous month']"));}
     public SelenideElement calendarNext(){return $(By.xpath("//button[@title='Next month']"));}
-    public SelenideElement startDate(){return $(By.xpath("(//span[@class='custom-day' and contains(text(),' "+RandomMinMax.Go(1,30) +" ')])[1]"));}
+    public SelenideElement startDate(){return $(By.xpath("(//span[@class='custom-day' and contains(text(),' 11 ')])[1]"));}
     public SelenideElement endDate(){return $(By.xpath("(//span[@class='custom-day' and contains(text(),' 5 ')])[2]"));}
     public SelenideElement calendarHeadFirst(){return $(By.xpath("//div[@class='head-left-bottom']"));}
     public SelenideElement calendarHeadSecond(){return $(By.xpath("//div[@class='head-right-bottom']"));}

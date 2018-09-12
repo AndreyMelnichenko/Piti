@@ -54,8 +54,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
         open(baseUrl);
         pagesActions.checkLogoPage();
-
     }
+
     @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
     @Description("Sing-Up Error Messages Validation")
     public void SingUpErrMessages(){
