@@ -41,4 +41,7 @@ public class Access {
     private String accountDevices;
     @JsonProperty("remove_device")
     private String removeDevice;
+    private String createdeleteusers;
+    private String addremovealldevice;
+    private String addremoveowndevice;
 }

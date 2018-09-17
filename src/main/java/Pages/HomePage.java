@@ -20,9 +20,10 @@ public class HomePage {
     public SelenideElement accountSettings(){
         return $(By.xpath("(//div[@class='menu_item-label'])[2]"));
     }
-    public SelenideElement userSettingsPage(){return  $(By.xpath("(//a[@class='menu_item'])[3]"));}
+    public SelenideElement userSettingsPage(){return  $(By.xpath("(//a[@class='menu_item'])[4]"));}
     //--------- Check device on Home Page
     public SelenideElement firstDeviceItem(){return $(By.xpath("//span[contains(text(),'Test Device GT3101')]"));}
+    public SelenideElement tripDeviceItem(){return $(By.xpath("//div[@class='item-box']//span[contains(text(),'Tests TK905')]"));}
     public SelenideElement allarmPic(){return $(By.xpath("//div[@class='stateInfo_item alarm__off']"));}
     public SelenideElement lockPic(){return $(By.xpath("//div[@class='stateInfo_item lock__off']"));}
     public SelenideElement speedPic(){return $(By.xpath("//div[@class='stateInfo_item speed__off']"));}

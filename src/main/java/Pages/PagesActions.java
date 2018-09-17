@@ -24,13 +24,13 @@ public class PagesActions {
     private Recovery recovery = new Recovery();
     private Registration registration = new Registration();
     private Settings settings = new Settings();
-    private UserSettings userSettings = new UserSettings();
+    //private UserSettings userSettings = new UserSettings();
 
     public void enterToPersonalCabinet(String name, String password){
         login.login().setValue(name);
         login.password().setValue(password);
         login.enter().click();
-        homePage.map().waitUntil(Condition.visible,5000);
+        homePage.map().waitUntil(Condition.visible,15000);
     }
 
     public void exitFromPersonalCabinet(){
@@ -173,5 +173,9 @@ public class PagesActions {
 
     public boolean popUpPointB(){
         return homePage.popUpPointB().waitUntil(Condition.visible,5000).isDisplayed();
+    }
+
+    public void tripDevice() {
+        homePage.tripDeviceItem().waitUntil(Condition.visible,5000).click();
     }
 }

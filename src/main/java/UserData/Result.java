@@ -17,6 +17,7 @@ public class Result {
     private String lang;
     private String firebase;
     private String role;
+    private String is_account;
     private Access access;
 
     private String email;

@@ -17,7 +17,7 @@ import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 public class WebDriverTestBase {
     protected final String baseUrl = "https://n2.chis.kiev.ua";
     public RemoteWebDriver driver;
-    private String runType = "docker";
+    protected String runType = "local";
 
     @Parameters({"browser"})
     @BeforeClass
@@ -26,7 +26,7 @@ public class WebDriverTestBase {
             case("local"):
                 Configuration.browser = browser;
                 if (browser==null){
-                    Configuration.browser ="firefox";
+                    Configuration.browser ="chrome";
                 }
                 Configuration.browserPosition="1980x0";
                 Configuration.browserSize="1800x1000";

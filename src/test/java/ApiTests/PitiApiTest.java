@@ -62,7 +62,7 @@ public class PitiApiTest extends ApiTestBase {
                 .expect().statusCode(200)
                 .when()
                 .post(baseURL+"users/sign-up")
-                .thenReturn().as(UserRS.class);
+                .thenReturn().as(UserRS.class); //response
 
         assertTrue(actualUser.isSuccess());
         token=actualUser.getResult().getAuth_token();
@@ -86,7 +86,7 @@ public class PitiApiTest extends ApiTestBase {
     @Test(dependsOnMethods = "singIn", priority = 4)
     @Description("invite sending")
     public void invite(){
-        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"invite messages", "1");
+        InviteRK inviteRK = new InviteRK(getProperty("user.gmail"),"invite messages", "3");
         InviteRS inviteRS = given()
                 .header("Content-Type","application/x-www-form-urlencoded")
                 .header("Authorization", "Bearer "+token)

@@ -16,7 +16,7 @@ public class AccountSettings {
     public SelenideElement passNewUser(){return $(By.xpath("(//input[@name='password'])[1]"));}
     public SelenideElement passNewUserConfirm(){return $(By.xpath("(//input[@name='passwordConfirm'])[1]"));}
     public SelenideElement phoneNewUser(){return $(By.xpath("(//input[@name='phone'])[1]"));}
-    public SelenideElement roleNewUser(){return $(By.xpath("(//span[@class='checkmark'])[6]"));}
+    public SelenideElement roleNewUser(){return $(By.xpath("(//span[@class='checkmark'])[14]"));}
     public SelenideElement acceptCreateNewUser(){return $(By.xpath("(//button[@class='addUser_accept'])[2]"));}
     //---------Created User
     public SelenideElement createdUserEmail(){return $(By.xpath("(//div[@class='user_info-mail'])[2]"));}
@@ -28,7 +28,7 @@ public class AccountSettings {
     public SelenideElement emailForImvite(){return $(By.xpath("(//input[@name='email'])[1]"));}
     public SelenideElement messageForInvite(){return $(By.xpath("//textarea"));}
     public SelenideElement acceptSendInvite(){return $(By.xpath("(//button[@class='inviteUser_accept'])[2]"));}
-    public SelenideElement simpleRoleInvite(){return $(By.xpath("(//span[@class='checkmark'])[3]"));}
+    public SelenideElement simpleRoleInvite(){return $(By.xpath("(//span[@class='checkmark'])[7]"));}
     //---------First User Info
     public SelenideElement firstUserName (){return $(By.xpath("(//div[@class='user_info-name'])[1]"));}
     public SelenideElement firstUserThreeDots(){return $(By.xpath("(//div[@class='droprown_btn'])[1]"));}
