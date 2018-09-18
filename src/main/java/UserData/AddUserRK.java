@@ -16,4 +16,9 @@ import lombok.NoArgsConstructor;
 public class AddUserRK extends InviteConfirmRK {
     private String role;
     private String email;
+
+/*    private String createdeleteusers;
+    private String addremovealldevice;
+    private String addremoveowndevice;*/
+    private String subunsubdevice;
 }

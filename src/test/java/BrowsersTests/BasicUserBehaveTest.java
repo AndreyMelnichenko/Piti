@@ -45,7 +45,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     private Multilang multilang = new Multilang();
 
 
-    @Test (description = "Login page")
+    @Test(description = "Login page")
     @Description("Login page")
     public void logo() {
         dbConnect.clearData();
@@ -56,7 +56,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "logo", description = "Sing-Up Error Messages")
     @Description("Sing-Up Error Messages Validation")
-    public void SingUpErrMessages(){
+    public void SingUpErrMessages() {
         login.login().setValue("qatest@email.my");
         login.password().setValue("123qwwedsa");
         login.enter().click();
@@ -66,49 +66,49 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "SingUpErrMessages", description = "Re-singIn")
     @Description("Re-singIn")
-    public void badRegistration(){
+    public void badRegistration() {
         open(baseUrl);
         login.registration().waitUntil(Condition.visible, 5000).click();
         registration.emailField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.email"));
         registration.passwordField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.password"));
         registration.passwordConfirmField().waitUntil(Condition.visible, 5000).setValue("1q2w3e4rRTfd");
         registration.buttonCreate().waitUntil(Condition.visible, 5000).click();
-        assertEquals(registration.errorMessageEmail().waitUntil(Condition.visible, 5000).getText(),"Значение «{value}» для «{attribute}» уже занято.");//"Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
-        assertEquals(registration.errorMessageTimeZone().waitUntil(Condition.visible,5000).getText(),"Необходимо заполнить «{attribute}».");//"Необходимо заполнить «Time Zone»."));
+        assertEquals(registration.errorMessageEmail().waitUntil(Condition.visible, 5000).getText(), "Значение «{value}» для «{attribute}» уже занято.");//"Значение «dima.laktionov5@gmail.com» для «Электронная почта» уже занято."));
+        assertEquals(registration.errorMessageTimeZone().waitUntil(Condition.visible, 5000).getText(), "Необходимо заполнить «{attribute}».");//"Необходимо заполнить «Time Zone»."));
     }
 
     @Test(dependsOnMethods = "badRegistration", description = "singIn")
     @Description("Sing In")
-    public void registration(){
+    public void registration() {
         open(baseUrl);
         pagesActions.checkRegistrationPage();
-        homePage.map().waitUntil(Condition.visible,10000);
+        homePage.map().waitUntil(Condition.visible, 10000);
         pagesActions.exitFromPersonalCabinet();
     }
 
     @Test(dependsOnMethods = "registration", description = "Recovery Password")
     @Description("Recovery Password")
-    public void recoveryPassword(){
+    public void recoveryPassword() {
         open(baseUrl);
 
         pagesActions.checkRecoverPage();
         recovery.emailField().waitUntil(Condition.visible, 5000).setValue(getProperty("user.gmail"));
         recovery.recoveryButton().waitUntil(Condition.visible, 5000).click();
-        recovery.textArea().waitUntil(Condition.visible,5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
+        recovery.textArea().waitUntil(Condition.visible, 5000).shouldHave(text("Данные для восстановления пароля были отправлены на почту "));
     }
 
-    @Test (dependsOnMethods = "recoveryPassword", description = "Sing Up")
+    @Test(dependsOnMethods = "recoveryPassword", description = "Sing Up")
     @Description("Sing-Up")
-    public void enterPersonalCabinet(){
+    public void enterPersonalCabinet() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
         homePage.map().waitUntil(Condition.visible, 5000);
     }
 
     @Test(dependsOnMethods = "enterPersonalCabinet", description = "404 page")
     @Description("404 page")
-    public void errorPage(){
-        open(baseUrl+"/eeuheirf");
+    public void errorPage() {
+        open(baseUrl + "/eeuheirf");
         AssertJUnit.assertEquals(errPage.errTitle().getText(), "404");
         $(By.xpath("//a")).click();
         homePage.map().waitUntil(Condition.visible, 5000);
@@ -116,7 +116,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "errorPage", description = "Add New User")
     @Description("Add New User")
-    public void addUser(){
+    public void addUser() {
         dbConnect.clearData();
         open(baseUrl);
         //pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
@@ -133,7 +133,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.acceptCreateNewUser().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(4000);
         //Selenide.refresh();
-        accountSettings.mainArea().waitUntil(Condition.visible,10000);
+        accountSettings.mainArea().waitUntil(Condition.visible, 10000);
         accountSettings.createdUserEmail().should(Condition.matchesText(getProperty("new.user.email")));
         accountSettings.createdUserName().should(Condition.matchesText(getProperty("new.user.fio")));
         accountSettings.createdUserPhone().should(Condition.matchesText(getProperty("new.user.phone")));
@@ -142,13 +142,13 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "addUser", description = "Send invite")
     @Description("Send invite")
-    public void invitetoUser(){
+    public void invitetoUser() {
         accountSettings.inviteButton().waitUntil(Condition.visible, 5000).click();
         accountSettings.emailForImvite().waitUntil(Condition.visible, 5000).setValue(getProperty("user.gmail"));
         accountSettings.messageForInvite().waitUntil(Condition.visible, 5000).setValue("Welcome to PIT Service");
         accountSettings.simpleRoleInvite().waitUntil(Condition.visible, 5000).click();
         accountSettings.acceptSendInvite().waitUntil(Condition.visible, 5000).click();
-        accountSettings.mainArea().waitUntil(Condition.visible,10000);
+        accountSettings.mainArea().waitUntil(Condition.visible, 10000);
         System.out.println("1");
         Selenide.sleep(4000);
         Selenide.refresh();
@@ -161,7 +161,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "invitetoUser", description = "User change info")
     @Description("User change info")
-    public void userChangeInfo(){
+    public void userChangeInfo() {
 /*        open(baseUrl);//
         pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
         homePage.menu().waitUntil(Condition.visible, 5000).click();
@@ -187,24 +187,24 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "userChangeInfo", description = "Add new Device TK-116")
     @Description("Add new Device TK-116")
-    public void addDevice(){
+    public void addDevice() {
         open(baseUrl);//
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));//
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));//
         pagesActions.goToUserSettings();//
 
-        dbConnect.setLang(1,getProperty("user.email"));
+        dbConnect.setLang(1, getProperty("user.email"));
         Selenide.refresh();
         accountSettings.devicesButton().waitUntil(Condition.visible, 3000).click();
         accountSettings.addDeviceButton().should(Condition.visible).click();
         System.out.println("1");
-        accountSettings.newDeviceName().setValue(dataProperty("data.properties","TK116.name"));
-        accountSettings.newDeviceImei().setValue(dataProperty("data.properties","TK116.imei"));
+        accountSettings.newDeviceName().setValue(dataProperty("data.properties", "TK116.name"));
+        accountSettings.newDeviceImei().setValue(dataProperty("data.properties", "TK116.imei"));
         Select selectDevice = new Select(accountSettings.newDeviceType());
         selectDevice.selectByIndex(4);
-        accountSettings.newDevicePhone().setValue(dataProperty("data.properties","TK116.sim"));
-        accountSettings.newDevicePass().setValue(dataProperty("data.properties","TK116.pass"));
+        accountSettings.newDevicePhone().setValue(dataProperty("data.properties", "TK116.sim"));
+        accountSettings.newDevicePass().setValue(dataProperty("data.properties", "TK116.pass"));
         accountSettings.newDeviceShowPass().click();
-        accountSettings.newDeviceApn().setValue(dataProperty("data.properties","TK116.apn"));
+        accountSettings.newDeviceApn().setValue(dataProperty("data.properties", "TK116.apn"));
         System.out.println("2");
         accountSettings.newDeviceHandSettings().waitUntil(Condition.visible, 5000).click();
         System.out.println("Custom option");
@@ -213,17 +213,17 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         Selenide.sleep(3000);
         Selenide.refresh();
         System.out.println("4");
-        accountSettings.newDeviceItem().waitUntil(Condition.visible,10000);
+        accountSettings.newDeviceItem().waitUntil(Condition.visible, 10000);
         System.out.println("5");
     }
 
     @Test(dependsOnMethods = "addDevice", description = "Remove device")
     @Description("Remove device")
-    public void removeDevice(){
+    public void removeDevice() {
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
-        accountSettings.removeNewDevice().waitUntil(Condition.visible,2000).click();
-        accountSettings.removeNewDeviceButton().waitUntil(Condition.visible,2000).click();
-        accountSettings.removeNewDeviceConfirm().waitUntil(Condition.visible,2000).click();
+        accountSettings.removeNewDevice().waitUntil(Condition.visible, 2000).click();
+        accountSettings.removeNewDeviceButton().waitUntil(Condition.visible, 2000).click();
+        accountSettings.removeNewDeviceConfirm().waitUntil(Condition.visible, 2000).click();
         accountSettings.mainArea().waitUntil(Condition.visible, 2000);
         System.out.println("1");
         Selenide.refresh();
@@ -239,12 +239,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "removeDevice", description = "Check device GT3101")
     @Description("Check device GT3101")
-    public void checkDevice(){
+    public void checkDevice() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         Selenide.sleep(200);
-        homePage.menu().waitUntil(Condition.visible,5000);
-        homePage.firstDeviceItem().should(Condition.visible).should(Condition.matchesText(dataProperty("data.properties","GT3101.name")));
+        homePage.menu().waitUntil(Condition.visible, 5000);
+        homePage.firstDeviceItem().should(Condition.visible).should(Condition.matchesText(dataProperty("data.properties", "GT3101.name")));
         Selenide.sleep(200);
         homePage.allarmPic().should(Condition.visible).hover();
         Selenide.sleep(200);
@@ -262,12 +262,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "checkDevice", description = "Check right widget")
     @Description("Check right widget")
-    public void checkRightWidget(){
+    public void checkRightWidget() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         //Selenide.refresh();
         System.out.println("2");
-        for(int i=0; i<7;i++) {
+        for (int i = 0; i < 7; i++) {
             homePage.firstActiveFilterRightWidget().waitUntil(Condition.visible, 5000).click();
             Selenide.sleep(200);
         }
@@ -276,14 +276,17 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "checkRightWidget", description = "Car on Map")
     @Description("Car on Map")
-    public void checkMapZoom(){
+    public void checkMapZoom() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         homePage.firstDeviceItem().waitUntil(Condition.visible, 5000).click();
         homePage.carOnMap().waitUntil(Condition.visible, 5000).hover();
         Selenide.sleep(500);
         homePage.carOnMapDescription().waitUntil(Condition.visible, 5000).shouldHave(exactText("Test Device GT3101"));
-        for(int i=0; i<10;i++) {homePage.mapZoomOut().waitUntil(Condition.visible, 5000).click();Selenide.sleep(200);}
+        for (int i = 0; i < 10; i++) {
+            homePage.mapZoomOut().waitUntil(Condition.visible, 5000).click();
+            Selenide.sleep(200);
+        }
         homePage.mapSettings().waitUntil(Condition.visible, 5000).click();
         pagesActions.exitFromPersonalCabinet();
         Selenide.sleep(1000);
@@ -291,31 +294,31 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "checkMapZoom", description = "Calendar")
     @Description("Calendar")
-    public void calendar(){
+    public void calendar() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
         homePage.calendarPeriod().waitUntil(Condition.visible, 5000).click();
         homePage.calendarHeadFirst().waitUntil(Condition.visible, 5000).shouldHave(exactText("None"));
         homePage.calendarHeadSecond().waitUntil(Condition.visible, 5000).shouldHave(exactText("None"));
-        homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
+        homePage.calendarPrev().waitUntil(Condition.visible, 3000).click();
         //Selenide.sleep(200);
-        homePage.calendarPrev().waitUntil(Condition.visible,3000).click();
-        homePage.startDate().waitUntil(Condition.visible,3000).click();
-        homePage.calendarHeadFirst().waitUntil(Condition.visible,3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
-        homePage.calendarHeadSecond().waitUntil(Condition.visible,3000).shouldHave(exactText("None"));
-        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        homePage.calendarPrev().waitUntil(Condition.visible, 3000).click();
+        homePage.startDate().waitUntil(Condition.visible, 3000).click();
+        homePage.calendarHeadFirst().waitUntil(Condition.visible, 3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().waitUntil(Condition.visible, 3000).shouldHave(exactText("None"));
+        homePage.calendarNext().waitUntil(Condition.visible, 3000).click();
         //Selenide.sleep(200);
-        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        homePage.calendarNext().waitUntil(Condition.visible, 3000).click();
         //Selenide.sleep(200);
-        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        homePage.calendarNext().waitUntil(Condition.visible, 3000).click();
         //Selenide.sleep(200);
-        homePage.calendarNext().waitUntil(Condition.visible,3000).click();
+        homePage.calendarNext().waitUntil(Condition.visible, 3000).click();
         //Selenide.sleep(200);
-        homePage.endDate().waitUntil(Condition.visible,3000).click();
-        homePage.calendarHeadFirst().waitUntil(Condition.visible,3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
-        homePage.calendarHeadSecond().waitUntil(Condition.visible,3000).shouldNotHave(exactText("None"));
-        homePage.applyPeriod().waitUntil(Condition.visible,3000).click();
-        homePage.chosedPeriod().waitUntil(Condition.visible,3000).shouldNot(exactText(""));
+        homePage.endDate().waitUntil(Condition.visible, 3000).click();
+        homePage.calendarHeadFirst().waitUntil(Condition.visible, 3000).shouldHave(exactText(homePage.calendarHeadFirst().getText()));
+        homePage.calendarHeadSecond().waitUntil(Condition.visible, 3000).shouldNotHave(exactText("None"));
+        homePage.applyPeriod().waitUntil(Condition.visible, 3000).click();
+        homePage.chosedPeriod().waitUntil(Condition.visible, 3000).shouldNot(exactText(""));
 
         pagesActions.exitFromPersonalCabinet();
     }
@@ -324,7 +327,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Add Device group")
     public void addGroup() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
 
         Selenide.sleep(1000);
         homePage.menu().waitUntil(Condition.visible, 5000);
@@ -336,16 +339,17 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
         pagesActions.exitFromPersonalCabinet();
     }
+
     @Test(dependsOnMethods = "addGroup", description = "Edit Device group")
     @Description("Edit Device group")
     public void editGroup() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
 
         Selenide.refresh();
         homePage.editGroup().waitUntil(Condition.visible, 5000).click();
         Selenide.sleep(2000);
-        homePage.inputNewGroupName().waitUntil(Condition.visible,5000).setValue("My Group");
+        homePage.inputNewGroupName().waitUntil(Condition.visible, 5000).setValue("My Group");
         Selenide.sleep(2000);
         homePage.acceptNewGroupName().waitUntil(Condition.visible, 5000).click();
         Selenide.refresh();
@@ -353,11 +357,12 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
         pagesActions.exitFromPersonalCabinet();
     }
+
     @Test(dependsOnMethods = "editGroup", description = "Delete Device group")
     @Description("Delete Device group")
-    public void deleteGroup(){
+    public void deleteGroup() {
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
 
         homePage.editGroup().waitUntil(Condition.visible, 5000).click();
         homePage.deleteNewGroupName().waitUntil(Condition.visible, 5000).click();
@@ -370,7 +375,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "deleteGroup", description = "Exit from personal cabinet")
     @Description("Exit from personal cabinet")
-    public void exitPersonalCabinet(){
+    public void exitPersonalCabinet() {
 /*        accountSettings.menuButton().should(Condition.visible).click();
         accountSettings.exitButton().waitUntil(Condition.visible, 5000).click();
         login.logo().waitUntil(Condition.visible, 2000);*/
@@ -378,11 +383,11 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "exitPersonalCabinet", description = "Change Device Icon")
     @Description("Change Device Icon")
-    public void setUpIcon(){
+    public void setUpIcon() {
         dbConnect.uncheckDevices(getProperty("user2.email"));
         open(baseUrl);
         clearBrowserCache();
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
         pagesActions.setViews();
         pagesActions.checkChangeIcon();
@@ -392,7 +397,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "setUpIcon", description = "Load Icon")
     @Description("Load Icon")
-    public void loadIcon(){// only local!!!
+    public void loadIcon() {// only local!!!
 /*        open(baseUrl);
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
@@ -405,10 +410,10 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "loadIcon", description = "Change Device Settings")
     @Description("Change Device Settings")
-    public void deviceSettings(){
+    public void deviceSettings() {
         open(baseUrl);
         dbConnect.uncheckDevices(getProperty("user2.email"));
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user2.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         pagesActions.goToSettingsPage(getWebDriver());
         pagesActions.setDevice();
         pagesActions.changeDeviceName();
@@ -420,23 +425,24 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Multilanguage scanner")
     public void multilanguage() throws FileNotFoundException {
         open(baseUrl);
-        if(runType.equals("local")){ //only local
+        if (runType.equals("local")) { //only local
             System.out.println(System.getProperty("os.name"));
             multilang.scanPage();
             Selenide.refresh();
-            pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user.password"));
+            pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user.password"));
             multilang.scanPage();
             pagesActions.goToUserSettings();
             multilang.scanPage();
             dbConnect.uncheckDevices(getProperty("user2.email"));
-            homePage.logo().waitUntil(Condition.visible,5000).click();
+            homePage.logo().waitUntil(Condition.visible, 5000).click();
             //Selenide.sleep(2000);
             pagesActions.goToSettingsPage(getWebDriver());
             multilang.scanPage();
             pagesActions.goUsersItem();
             multilang.scanPage();
             pagesActions.goOutSettingsPage(getWebDriver());
-            pagesActions.exitFromPersonalCabinet();}
+            pagesActions.exitFromPersonalCabinet();
+        }
     }
 
     @Test(dependsOnMethods = "multilanguage", description = "Time Zone checking")
@@ -446,8 +452,8 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         dbConnect.setTimeZone(getProperty("user2.email"));
         TimeCinvertor timeCinvertor = new TimeCinvertor();
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user.password"));
-        String beforeTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
+        pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user.password"));
+        String beforeTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible, 5000).getText();
         pagesActions.goToUserSettings();
         userSettings.chooseTimeZone();
         userSettings.saveSettings();
@@ -455,7 +461,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         userSettings.goMainPage();
         Selenide.sleep(3000);
         Selenide.refresh();
-        String afterTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible,5000).getText();
+        String afterTime = homePage.firstDeviceLastUpdate().waitUntil(Condition.visible, 5000).getText();
         int diff = timeCinvertor.getDiff(beforeTime, afterTime);
         assertEquals(diff, 1);
         pagesActions.exitFromPersonalCabinet();
@@ -463,11 +469,11 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "timeZone", description = "User Settings")
     @Description("User Settings")
-    public void userSettings(){
+    public void userSettings() {
         dbConnect.uncheckDevices();
 
         open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user.email"),getProperty("user.password"));
+        pagesActions.enterToPersonalCabinet(getProperty("user.email"), getProperty("user.password"));
 
         pagesActions.goToUserSettings();
         userSettings.setUserEmail();
@@ -476,13 +482,13 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         userSettings.goUsersItem();
         Selenide.sleep(2000);
         Selenide.refresh();
-        try{
-            String actualEmail = accountSettings.firstUserEmail().waitUntil(Condition.visible,5000).getText();
+        try {
+            String actualEmail = accountSettings.firstUserEmail().waitUntil(Condition.visible, 5000).getText();
             dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
-            assertEquals(actualEmail,1+getProperty("user.email"));
-        }catch (AssertionError error){
+            assertEquals(actualEmail, 1 + getProperty("user.email"));
+        } catch (AssertionError error) {
             System.out.println(error);
-        }finally {
+        } finally {
             dbConnect.emailReset(getProperty("user.email"), getProperty("user.id"));
         }
         pagesActions.exitFromPersonalCabinet();
@@ -490,23 +496,25 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
 
     @Test(dependsOnMethods = "userSettings", description = "Check point A and point B")
     @Description("Check point A and point B")
-    public void tripDisplaying(){
-        dbConnect.uncheckDevices(getProperty("user2.email"));
-        open(baseUrl);
-        pagesActions.enterToPersonalCabinet(getProperty("user2.email"),getProperty("user.password"));
-        pagesActions.tripDevice();
-        pagesActions.lastTripClick();
-        pagesActions.hoverPointA();
-        assertTrue(pagesActions.popUpPointA());
-        pagesActions.hoverPointB();
-        assertTrue(pagesActions.popUpPointB());
+    public void tripDisplaying() {
+        if (!runType.equals("docker")) {
+            dbConnect.uncheckDevices(getProperty("user2.email"));
+            open(baseUrl);
+            pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user.password"));
+            pagesActions.tripDevice();
+            pagesActions.lastTripClick();
+            pagesActions.hoverPointA();
+            assertTrue(pagesActions.popUpPointA());
+            pagesActions.hoverPointB();
+            assertTrue(pagesActions.popUpPointB());
+        }
     }
 
     @Test(dependsOnMethods = "tripDisplaying", description = "Check Email notification")
     @Description("Check Email notification")
-    public void singUpMail(){
+    public void singUpMail() {
         open(mailUrl);
-        if(runType.equals("docker")){
+        if (runType.equals("docker")) {
             mailActions.enterToMailBox();
             mailActions.checkConfirmRegisterLetter();
             mailActions.backToMainLetterList();

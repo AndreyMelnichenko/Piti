@@ -57,4 +57,15 @@ public class ApiTestBase {
                 .post(url)
                 .thenReturn().as(responseClass);
     }
+
+    protected <T> T postResource(String url, int statusCode, String token, Class<T> responseClass){
+        return RestAssured.given()
+                .header("Authorization", "Bearer "+token)
+                .spec(spec)
+                .expect()
+                .statusCode(statusCode)
+                .when()
+                .post(url)
+                .thenReturn().as(responseClass);
+    }
 }

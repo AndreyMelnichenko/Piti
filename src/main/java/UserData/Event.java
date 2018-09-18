@@ -17,4 +17,7 @@ public class Event {
     private String pin;
     private String deviceId;
     private String id;
+    private String message;
+    private String type;
+    private String view;
 }

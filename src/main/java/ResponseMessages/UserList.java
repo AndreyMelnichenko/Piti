@@ -21,5 +21,6 @@ public class UserList {
     private String time_zone;
     private String account;
     private String email;
+    private String role;
     private List<Devices> devices;
 }

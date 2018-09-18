@@ -11,4 +11,8 @@ public class InviteRK {
     private String email;
     private String message;
     private String access;
+
+    private String createdeleteusers;
+    private String addremovealldevice;
+    private String addremoveowndevice;
 }

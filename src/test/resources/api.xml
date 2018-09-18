@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Web Mobox" verbose="1" parallel="classes" thread-count="2">
-        <test name="UI Tests" preserve-order="false">
-            <classes>
-                <class name="BrowsersTests.BasicUserBehaveTest"/>
-            </classes>
-        </test>
-    <test name="API Tests" preserve-order="false">
+<suite name="API Mobox"  parallel="classes" thread-count="3" verbose="3">
+    <test name="API Tests">
         <classes>
             <class name="ApiTests.PitiApiTest"/>
             <class name="ApiTests.ApiDeviceTest"/>

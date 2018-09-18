@@ -18,4 +18,5 @@ public class InviteResult {
     private String pending_invite;
     private String invite_expiries;
     private String email;
+    private Access access;
 }
