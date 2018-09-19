@@ -241,6 +241,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Description("Check device GT3101")
     public void checkDevice() {
         open(baseUrl);
+        dbConnect.setLang(1, getProperty("user2.email"));
         pagesActions.enterToPersonalCabinet(getProperty("user2.email"), getProperty("user2.password"));
         Selenide.sleep(200);
         homePage.menu().waitUntil(Condition.visible, 5000);

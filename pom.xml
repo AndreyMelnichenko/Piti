@@ -82,6 +82,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/browsers.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <parallel>methods</parallel>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"

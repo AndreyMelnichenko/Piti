@@ -1,5 +1,6 @@
 package ResponseMessages;
 
+import UserData.Access;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class UserList {
     private String account;
     private String email;
     private String role;
+    private Access access;
     private List<Devices> devices;
 }
