@@ -198,7 +198,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
         accountSettings.addDeviceButton().should(Condition.visible).click();
         System.out.println("1");
         accountSettings.newDeviceName().setValue(dataProperty("data.properties", "TK116.name"));
-        accountSettings.newDeviceImei().setValue(dataProperty("data.properties", "TK116.imei"));
+        accountSettings.newDeviceImei().waitUntil(Condition.visible,5000).setValue(dataProperty("data.properties", "TK116.imei"));
         Select selectDevice = new Select(accountSettings.newDeviceType());
         selectDevice.selectByIndex(4);
         accountSettings.newDevicePhone().setValue(dataProperty("data.properties", "TK116.sim"));
