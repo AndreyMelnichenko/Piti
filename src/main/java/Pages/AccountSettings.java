@@ -52,7 +52,7 @@ public class AccountSettings {
     public SelenideElement newDevicePhone(){return $(By.xpath("//input[contains(@placeholder,'3806312345678')]"));}
     public SelenideElement newDevicePass(){return $(By.xpath("//input[contains(@placeholder,'access')]"));}
     public SelenideElement newDeviceShowPass(){return $(By.xpath("//div[@class='show_pass isVisible']"));}
-    public SelenideElement newDeviceApn(){return $(By.xpath("//input[contains(@placeholder,'Apn')]"));}
+    public SelenideElement newDeviceApn(){return $(By.xpath("//input[contains(@placeholder,'APN')]"));}
     public SelenideElement newDeviceAccept(){return $(By.xpath("//button[contains(text(),'ОТПРАВИТЬ')]"));}
     public SelenideElement newDeviceItem(){return $(By.xpath("(//div[@class='content_item'])[1]"));}
     public SelenideElement newDeviceHandSettings(){return $(By.xpath("//div[@class='checkbox_label' and contains(text(), 'Настроить вручную')]"));}
