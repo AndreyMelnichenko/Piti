@@ -6,12 +6,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.*;
 import utils.TestListener;
+import utils.dbConnect;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
+import static utils.PropertiesCache.getProperty;
 
 @Listeners({TestListener.class})
 public class WebDriverTestBase {
@@ -52,10 +54,10 @@ public class WebDriverTestBase {
 
     }
 
-//    @BeforeMethod
-//    public void dbCleaner(){
-//        dbConnect.getClean();
-//    }
+   @BeforeMethod
+   public void dbCleaner(){
+       dbConnect.setLang(1, getProperty("user.email"));
+    }
 
     @AfterClass
     public void tearDown(){

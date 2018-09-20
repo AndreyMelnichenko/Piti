@@ -143,6 +143,7 @@ public class BasicUserBehaveTest extends WebDriverTestBase {
     @Test(dependsOnMethods = "addUser", description = "Send invite")
     @Description("Send invite")
     public void invitetoUser() {
+        dbConnect.setLang(1, getProperty("user.email"));
         accountSettings.inviteButton().waitUntil(Condition.visible, 5000).click();
         accountSettings.emailForImvite().waitUntil(Condition.visible, 5000).setValue(getProperty("user.gmail"));
         accountSettings.messageForInvite().waitUntil(Condition.visible, 5000).setValue("Welcome to PIT Service");
