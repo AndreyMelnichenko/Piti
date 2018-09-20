@@ -49,7 +49,7 @@ public class AccountSettings {
     public SelenideElement newDeviceName(){return $(By.xpath("//input[contains(@placeholder,'Название устройства')]"));}
     public SelenideElement newDeviceImei(){return $(By.xpath("//input[contains(@placeholder,'IMEI устройства')]"));}
     public SelenideElement newDeviceType(){return $(By.xpath("//select[@formcontrolname='type']"));}
-    public SelenideElement newDevicePhone(){return $(By.xpath("//input[contains(@placeholder,'телефон')]"));}
+    public SelenideElement newDevicePhone(){return $(By.xpath("//input[contains(@placeholder,'3806312345678')]"));}
     public SelenideElement newDevicePass(){return $(By.xpath("//input[contains(@placeholder,'access')]"));}
     public SelenideElement newDeviceShowPass(){return $(By.xpath("//div[@class='show_pass isVisible']"));}
     public SelenideElement newDeviceApn(){return $(By.xpath("//input[contains(@placeholder,'Apn')]"));}
